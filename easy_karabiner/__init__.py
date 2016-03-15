@@ -23,26 +23,13 @@ from collections import OrderedDict
 from itertools import groupby
 from docopt import docopt
 from subprocess import call
+from . import lookup
+from .__version__ import __version__
 from .xml_base import XML_base
 from .generator import Generator
-from .__version__ import __version__
-from . import lookup
 from .define import *
 from .filter import *
 from .keymap import *
-
-__all__ = [
-    "__version__",
-    "gen_config",
-    # Def class
-    "DeviceVendor", "DeviceProduct", "WindowName",
-    "InputSource", "VKChangeInputSource", "VKOpenURL",
-    # Keymap class
-    "KeyToKey", "DoublePressModifier", "HoldingKeyToKey",
-    "KeyOverlaidModifier", "KeyDownUpToKey", "BlockUntilKeyUp",
-    "DropKeyAfterRemap", "PassThrough", "DropAllKeys",
-    "SimultaneousKeyPresses",
-]
 
 
 def gen_config(remaps, definitions=[]):
