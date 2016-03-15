@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import inspect
-from xml_base import XML_base
+from .xml_base import XML_base
 
 
 class Hashable(object):

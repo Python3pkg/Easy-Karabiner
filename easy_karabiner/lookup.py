@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import os
-import alias
-from xml_base import XML_base
-from def_filter_map import get_name_tag_by_def_tag, get_filter_by_def
+from . import alias
+from .xml_base import XML_base
+from .def_filter_map import get_name_tag_by_def_tag, get_filter_by_def
 
 # alias is case-insensitive
 def _get_alias(tblname, k, d=None):

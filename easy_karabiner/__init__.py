@@ -23,13 +23,13 @@ from collections import OrderedDict
 from itertools import groupby
 from docopt import docopt
 from subprocess import call
-from xml_base import XML_base
-from generator import Generator
-from __version__ import __version__
-import lookup
-from define import *
-from filter import *
-from keymap import *
+from .xml_base import XML_base
+from .generator import Generator
+from .__version__ import __version__
+from . import lookup
+from .define import *
+from .filter import *
+from .keymap import *
 
 __all__ = [
     "__version__",
@@ -84,7 +84,8 @@ def main():
 
     variables = {}
     if os.path.isfile(config_path):
-        execfile(config_path, {}, variables)
+        with open(config_path) as fp:
+            exec(compile(fp.read(), config_path, 'exec'), {}, variables)
     else:
         print("Can't find config file \"%s\"" % config_path)
         return

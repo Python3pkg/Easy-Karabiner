@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-import util
-from xml_base import XML_base
-from lookup import get_def_alias, DefQuery
-from def_filter_map import get_name_tag_by_def_tag
+from . import util
+from .xml_base import XML_base
+from .lookup import get_def_alias, DefQuery
+from .def_filter_map import get_name_tag_by_def_tag
 
 
 class BaseDef(XML_base):

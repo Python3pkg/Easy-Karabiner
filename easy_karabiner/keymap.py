@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-import util
-from lookup import get_keymap_alias
-from xml_base import XML_base
-from key import Key
+from . import util
+from .lookup import get_keymap_alias
+from .xml_base import XML_base
+from .key import Key
 
 
 class BaseKeyToKey(XML_base, util.Hashable):

@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 from collections import OrderedDict
 from itertools import groupby
-from xml_base import XML_base
-from define import parse_definition
-from filter import parse_filter
-from keymap import parse_keymap
-from lookup import UndefinedFilterException
-from __version__ import __version__
+from .xml_base import XML_base
+from .define import parse_definition
+from .filter import parse_filter
+from .keymap import parse_keymap
+from .lookup import UndefinedFilterException
+from .__version__ import __version__
 
 
 class Generator(XML_base):
@@ -56,7 +56,7 @@ class Generator(XML_base):
     def parse_definitions(self):
         definitions = []
 
-        for name, vals in self.definitions.iteritems():
+        for name, vals in self.definitions.items():
             if isinstance(vals, str):
                 vals = [vals]
             definition = parse_definition(name, vals)
