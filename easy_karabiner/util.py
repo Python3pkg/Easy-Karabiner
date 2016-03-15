@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import inspect
-from .xml_base import XML_base
+from easy_karabiner.xml_base import XML_base
 
 
 class Hashable(object):
@@ -24,10 +24,13 @@ def find_all_subclass_of(superclass, global_vars):
     return map(global_vars.get, names)
 
 
-# TODO: compare string with parse as xml tree, and strip spaces when compare text
-def compare_xml_with_xml(xml_tree1, xml_tree2):
-    pass
+def assert_xml_equal(xml_tree1, xml_tree2):
+    if isinstance(xml_tree1, (XML_base, str)):
+        xmlstr1 = str(xml_tree1)
+    if isinstance(xml_tree2, (XML_base, str)):
+        xmlstr2 = str(xml_tree2)
 
-def compare_xml_with_str(xml_tree, xml_str):
-    # XML_base.
-    pass
+    xmlstr1 = ''.join(xmlstr1.split())
+    xmlstr2 = ''.join(xmlstr2.split())
+
+    assert(xmlstr1 == xmlstr2)
