@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-from . import util
-from .lookup import get_keymap_alias
-from .xml_base import XML_base
-from .key import Key
+from easy_karabiner import util
+from easy_karabiner.lookup import get_keymap_alias
+from easy_karabiner.xml_base import XML_base
+from easy_karabiner.key import Key
 
 
 class BaseKeyToKey(XML_base, util.Hashable):

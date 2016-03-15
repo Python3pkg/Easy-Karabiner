@@ -23,13 +23,13 @@ from collections import OrderedDict
 from itertools import groupby
 from docopt import docopt
 from subprocess import call
-from . import lookup
-from .__version__ import __version__
-from .xml_base import XML_base
-from .generator import Generator
-from .define import *
-from .filter import *
-from .keymap import *
+from easy_karabiner import lookup
+from easy_karabiner.__version__ import __version__
+from easy_karabiner.xml_base import XML_base
+from easy_karabiner.generator import Generator
+from easy_karabiner.define import *
+from easy_karabiner.filter import *
+from easy_karabiner.keymap import *
 
 
 def gen_config(remaps, definitions=[]):

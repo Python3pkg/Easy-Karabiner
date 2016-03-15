@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 from collections import OrderedDict
 from itertools import groupby
-from .xml_base import XML_base
-from .define import parse_definition
-from .filter import parse_filter
-from .keymap import parse_keymap
-from .lookup import UndefinedFilterException
-from .__version__ import __version__
+from easy_karabiner import util
+from easy_karabiner.__version__ import __version__
+from easy_karabiner.xml_base import XML_base
+from easy_karabiner.define import parse_definition
+from easy_karabiner.filter import parse_filter
+from easy_karabiner.keymap import parse_keymap
+from easy_karabiner.lookup import UndefinedFilterException
 
 
 class Generator(XML_base):
-    # TODO: replace compare function to util.xxx
     """
     >>> s1 = Generator().generate()
     >>> s2 = '''
@@ -24,9 +24,7 @@ class Generator(XML_base):
     ...          </item>
     ...        </item>
     ...      </root>'''.format(version=__version__)
-    >>> tiny_str = lambda s: ' '.join(str(s).split())
-    >>> tiny_str(s1) == tiny_str(s2)
-    True
+    >>> util.assert_xml_equal(s1, s2)
     """
 
     ITEM_IDENTIFIER = 'private.easy_karabiner'

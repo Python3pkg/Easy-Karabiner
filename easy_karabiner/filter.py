@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from itertools import groupby
-from . import util
-from .lookup import DefQuery
-from .xml_base import XML_base
+from easy_karabiner import util
+from easy_karabiner.lookup import DefQuery
+from easy_karabiner.xml_base import XML_base
 
 
 class BaseFilter(XML_base, util.Hashable):

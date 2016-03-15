@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from .lookup import get_key_alias, KeyCodeQuery
+from easy_karabiner.lookup import get_key_alias, KeyCodeQuery
 
 class Key(object):
     """Convert space seperated string to Karabiner's favorite format

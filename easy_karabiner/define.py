@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-from . import util
-from .xml_base import XML_base
-from .lookup import get_def_alias, DefQuery
-from .def_filter_map import get_name_tag_by_def_tag
+from easy_karabiner import util
+from easy_karabiner.xml_base import XML_base
+from easy_karabiner.lookup import get_def_alias, DefQuery
+from easy_karabiner.def_filter_map import get_name_tag_by_def_tag
 
 
 class BaseDef(XML_base):
@@ -56,6 +56,16 @@ class BaseDef(XML_base):
 
 
 class App(BaseDef):
+    """
+    >>> d = App('BILIBILI', 'com.typcn.Bilibili')
+    >>> s = '''
+    ...    <appdef>
+    ...      <appname>BILIBILI</appname>
+    ...      <equal>com.typcn.Bilibili</equal>
+    ...    </appdef>'''
+    >>> util.assert_xml_equal(d, s)
+    """
+
     def get_tag_val_pair(self, val):
         if len(val) == 0:
             return ()
@@ -85,7 +95,7 @@ class DeviceProduct(BaseDef):
 class InputSource(BaseDef):
     def is_host(self, val):
         parts = val.split('.')
-        return len(parts) > 3 and all(map(len, parts))
+        return len(parts) >= 3 and all(map(len, parts))
 
     def get_tag_val_pair(self, val):
         if len(val) == 0:

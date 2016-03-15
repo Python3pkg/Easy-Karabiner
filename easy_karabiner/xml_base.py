@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import xml.etree.ElementTree as ElementTree
-from xml.sax.saxutils import unescape
 import xmlformatter
+from xml.sax.saxutils import unescape
 
 
 class XML_base(object):
