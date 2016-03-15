@@ -18,5 +18,17 @@ setup(
     entry_points='''
         [console_scripts]
         easy_karabiner=easy_karabiner:main
-    '''
+    ''',
+    license='MIT',
+    classifiers=[
+        'Development Status :: 4 - Beta',
+        'License :: OSI Approved :: MIT License',
+        'Intended Audience :: Developers',
+        'Intended Audience :: End Users/Desktop',
+        'Operating System :: MacOS',
+        'Programming Language :: Python',
+        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 3',
+        'Topic :: Utilities',
+    ]
 )
