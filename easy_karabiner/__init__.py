@@ -6,7 +6,7 @@ Usage:
 
 Examples:
     easy_karabiner
-    easy_karabiner -s "~/.easy_karabiner.conf"
+    easy_karabiner -s "~/.easy_karabiner.py"
     easy_karabiner -o "~/Library/Application Support/Karabiner/private.xml"
 
 Options:
@@ -15,7 +15,7 @@ Options:
     -s --string              output as string
     -o PATH --output=PATH    specify output file path
     -r --reload              reload Karabiner
-    -e --edit                edit "~/.easy_karabiner.conf"
+    -e --edit                edit "~/.easy_karabiner.py"
 """
 import os
 from hashlib import sha1
@@ -52,10 +52,11 @@ def backup_file(filepath):
 def reload_karabiner():
     call(['karabiner', 'enable', 'private.easy_karabiner'])
     call(['karabiner', 'reloadxml'])
+    print("Reload Karabiner config xml file.")
 
 def main():
-    DEFAULT_CONFIG = "~/.easy_karabiner.conf"
-    DEFAULT_OUTPUT = "~/Library/Application Support/Karabiner/private.xml"
+    DEFAULT_CONFIG = os.path.expanduser("~/.easy_karabiner.py")
+    DEFAULT_OUTPUT = os.path.expanduser("~/Library/Application Support/Karabiner/private.xml")
 
     args = docopt(__doc__)
     config_path = os.path.expanduser(args['FILE'] or DEFAULT_CONFIG)
@@ -95,7 +96,7 @@ def main():
         with open(output_path, 'wb') as fp:
             fp.write(xml_str)
 
-        if need_reload or output_path == DEFAULT_OUTPUT:
+        if need_reload or (output_path == DEFAULT_OUTPUT):
             reload_karabiner()
 
 
