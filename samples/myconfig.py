@@ -4,9 +4,9 @@ DEFINITIONS = {
     'KINDLE'   : 'com.amazon.Kindle',
     'DeviceVendor::CHERRY' : '0x046a',
     'DeviceProduct::3494'  : '0x0011',
-    '{{EMACS_IGNORE_APP}}' : ('ECLIPSE', 'EMACS', 'TERMINAL',
+    '{{EMACS_IGNORE_APP}}' : ['ECLIPSE', 'EMACS', 'TERMINAL',
                               'REMOTEDESKTOPCONNECTION', 'VI', 'X11',
-                              'VIRTUALMACHINE', 'TERMINAL', 'SUBLIMETEXT'),
+                              'VIRTUALMACHINE', 'TERMINAL', 'SUBLIMETEXT'],
 }
 
 REMAPS = [
@@ -22,6 +22,7 @@ REMAPS = [
     ['cmd J', 'down ' * 30         , ['GOOGLE_CHROME']],
     ['alt L', 'ctrl_r tab'         , ['GOOGLE_CHROME']],
     ['alt H', 'ctrl_r shift_r tab' , ['GOOGLE_CHROME']],
+    ['ctrl l', 'cmd_r l'           , ['GOOGLE_CHROME']],
 
     ['ctrl P'      , 'up '   * 6 , ['SKIM']],
     ['ctrl N'      , 'down ' * 6 , ['SKIM']],
@@ -57,11 +58,27 @@ REMAPS = [
     ['alt D'  , 'alt_r fdel'  , ['!{{EMACS_IGNORE_APP}}']],
     ['ctrl U' , 'cmd_r right cmd_r shift_r left del del norepeat', ['!{{EMACS_IGNORE_APP}}']],
 
-    ['cmd D'     , 'cmd_r D'      , ('VIRTUALMACHINE', 'X11')],
-    ['alt E'     , 'cmd_r E'      , ('VIRTUALMACHINE', 'X11')],
+    ['ctrl cmd F' , 'cmd_r return'                   , ['TERMINAL']],
+    ['ctrl cmd F' , 'cmd_r shift_r F cmd_r shift_r -', ('SKIM', 'KINDLE')],
+    ['ctrl cmd F' , 'cmd F'                          , ['VIRTUALMACHINE']],
+
+    ['alt R' , 'cmd_r R' , ('VIRTUALMACHINE', 'X11')],
+    ['alt E' , 'cmd_r E' , ('VIRTUALMACHINE', 'X11')],
+    ['cmd D' , 'cmd_r D' , ('VIRTUALMACHINE', 'X11')],
+
+    ['ctrl H'  , 'del'                               , ('VIRTUALMACHINE', 'X11')],
+    ['ctrl D'  , 'fdel'                              , ('VIRTUALMACHINE', 'X11')],
+    ['ctrl U'  , 'end shift home del del norepeat'   , ('VIRTUALMACHINE', 'X11')],
+
+    ['ctrl alt del' , 'ctrl_r del'   , ('VIRTUALMACHINE', 'X11')],
+    ['ctrl alt D'   , 'ctrl_r fdel'  , ('VIRTUALMACHINE', 'X11')],
+    ['ctrl alt F'   , 'ctrl_r right' , ('VIRTUALMACHINE', 'X11')],
+    ['ctrl alt B'   , 'ctrl_r left'  , ('VIRTUALMACHINE', 'X11')],
+
     ['cmd Q'     , 'alt_r F4'     , ('VIRTUALMACHINE', 'X11')],
     ['cmd R'     , 'ctrl_r R'     , ('VIRTUALMACHINE', 'X11')],
     ['cmd L'     , 'ctrl_r L'     , ('VIRTUALMACHINE', 'X11')],
+    ['cmd C'     , 'ctrl_r C'     , ('VIRTUALMACHINE', 'X11')],
     ['cmd V'     , 'ctrl_r V'     , ('VIRTUALMACHINE', 'X11')],
     ['cmd X'     , 'ctrl_r X'     , ('VIRTUALMACHINE', 'X11')],
     ['cmd Z'     , 'ctrl_r Z'     , ('VIRTUALMACHINE', 'X11')],
@@ -78,19 +95,6 @@ REMAPS = [
     ['ctrl N'    , 'down'         , ('VIRTUALMACHINE', 'X11')],
     ['ctrl F'    , 'right'        , ('VIRTUALMACHINE', 'X11')],
     ['ctrl B'    , 'left'         , ('VIRTUALMACHINE', 'X11')],
-    ['alt F'     , 'ctrl_r right' , ('VIRTUALMACHINE', 'X11')],
-    ['alt B'     , 'ctrl_r left'  , ('VIRTUALMACHINE', 'X11')],
-
-    ['ctrl H'  , 'del'                               , ('VIRTUALMACHINE', 'X11')],
-    ['ctrl D'  , 'fdel'                              , ('VIRTUALMACHINE', 'X11')],
-    ['alt del' , 'ctrl_r del'                        , ('VIRTUALMACHINE', 'X11')],
-    ['alt D'   , 'ctrl_r fdel'                       , ('VIRTUALMACHINE', 'X11')],
-    ['alt R'   , 'cmd_r R'                           , ('VIRTUALMACHINE', 'X11')],
-    ['ctrl U'  , 'end shift_r home del del norepeat' , ('VIRTUALMACHINE', 'X11')],
-
-    ['ctrl cmd F' , 'cmd_r F'                        , ['VIRTUALMACHINE']],
-    ['ctrl cmd F' , 'cmd_r return'                   , ['TERMINAL']],
-    ['ctrl cmd F' , 'cmd_r shift_r F cmd_r shift_r -', ('SKIM', 'KINDLE')],
 
     ['ctrl shift tab', 'cmd_r alt_r left', ['BILIBILI']],
     ['ctrl shift tab', 'cmd_r alt_r left', ['BILIBILI']],
