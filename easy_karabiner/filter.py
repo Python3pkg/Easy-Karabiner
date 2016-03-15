@@ -38,9 +38,9 @@ class BaseFilter(XML_base, util.Hashable):
 
 class Filter(BaseFilter):
     '''
-    >>> print Filter('SKIM')
+    >>> print(Filter('SKIM'))
     <only>SKIM</only>
-    >>> print Filter('SKIM', type='not')
+    >>> print(Filter('SKIM', type='not'))
     <not>SKIM</not>
     '''
 

@@ -82,10 +82,10 @@ class BaseQuery(object):
 class KeyCodeQuery(BaseQuery):
     ''' Query header of key
 
-    >>> print KeyCodeQuery.query('A')
+    >>> print(KeyCodeQuery.query('A'))
     KeyCode
 
-    >>> print KeyCodeQuery.query('NOREPEAT')
+    >>> print(KeyCodeQuery.query('NOREPEAT'))
     Option
     '''
 
@@ -124,16 +124,16 @@ class UndefinedFilterException(Exception):
 class DefQuery(BaseQuery):
     ''' Query definition type of value
 
-    >>> print DefQuery.query('EMACS_MODE_IGNORE_APPS')
+    >>> print(DefQuery.query('EMACS_MODE_IGNORE_APPS'))
     replacementdef
 
-    >>> print DefQuery.query('VIRTUALMACHINE')
+    >>> print(DefQuery.query('VIRTUALMACHINE'))
     appdef
 
-    >>> print DefQuery.query('KeyCode::VK_OPEN_URL_WEB_google')
+    >>> print(DefQuery.query('KeyCode::VK_OPEN_URL_WEB_google'))
     vkopenurldef
 
-    >>> print DefQuery.query_filter('EMACS_MODE_IGNORE_APPS')
+    >>> print(DefQuery.query_filter('EMACS_MODE_IGNORE_APPS'))
     Filter
     '''
 

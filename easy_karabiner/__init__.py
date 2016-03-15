@@ -86,7 +86,7 @@ def main():
     if os.path.isfile(config_path):
         execfile(config_path, {}, variables)
     else:
-        print "Can't find config file \"%s\"" % config_path
+        print("Can't find config file \"%s\"" % config_path)
         return
 
     remaps = variables.get('REMAPS', [])
@@ -100,7 +100,7 @@ def main():
     xml_str = gen_config(remaps=remaps, definitions=definitions)
 
     if output_as_str:
-        print xml_str
+        print(xml_str)
     else:
         if is_original_config(output_path):
             backup_file(output_path)

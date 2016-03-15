@@ -4,7 +4,7 @@ from lookup import get_key_alias, KeyCodeQuery
 class Key(object):
     """Convert space seperated string to Karabiner's favorite format
 
-    >>> print Key('shift_l Cmd')
+    >>> print(Key('shift_l Cmd'))
     KeyCode::SHIFT_L, ModifierFlag::COMMAND_L
     """
 

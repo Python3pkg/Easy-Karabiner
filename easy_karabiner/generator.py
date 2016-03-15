@@ -93,7 +93,7 @@ class Generator(XML_base):
             try:
                 filters = parse_filter(*remap[-1])
             except UndefinedFilterException as e:
-                print e
+                print(e)
                 exit(1)
         else:
             keyargs = remap

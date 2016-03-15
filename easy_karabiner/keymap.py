@@ -62,7 +62,7 @@ class _ZeroKeyEvent(BaseKeyToKey):
 
 class KeyToKey(BaseKeyToKey):
     '''
-    >>> print KeyToKey('alt', 'cmd')
+    >>> print(KeyToKey('alt', 'cmd'))
     <autogen>__KeyToKey__ KeyCode::OPTION_L, KeyCode::COMMAND_L</autogen>
     '''
 
