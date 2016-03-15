@@ -89,7 +89,7 @@ class Generator(XML_base):
         if self.is_list_or_tuple(remap[-1]):
             keyargs = remap[:-1]
             try:
-                filters = parse_filter(*remap[-1])
+                filters = parse_filter(remap[-1])
             except UndefinedFilterException as e:
                 print(e)
                 exit(1)
@@ -104,7 +104,7 @@ class Generator(XML_base):
         else:
             command = 'KeyToKey'
 
-        keymap = parse_keymap(command, *keyargs)
+        keymap = parse_keymap(command, keyargs)
         return (keymap, filters)
 
     def is_list_or_tuple(self, obj):

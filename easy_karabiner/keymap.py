@@ -120,8 +120,8 @@ class DropAllKeys(BaseKeyToKey):
             return from_key.to_str()
         else:
             options = Key(options, keep_first_keycode=True)
-            return KEYS_FMT.format(from_key=from_key.to_str(),
-                                   options=options.to_str())
+            return self.KEYS_FMT.format(from_key=from_key.to_str(),
+                                        options=options.to_str())
 
 
 class SimultaneousKeyPresses(BaseKeyToKey):
@@ -142,7 +142,7 @@ class SimultaneousKeyPresses(BaseKeyToKey):
 
 _CLASSES = util.find_all_subclass_of(BaseKeyToKey, globals())
 
-def parse_keymap(command, *keys):
+def parse_keymap(command, keys):
     clsname = get_keymap_alias(command, command.strip('_'))
 
     for cls in _CLASSES:

@@ -93,7 +93,7 @@ def split_type_and_val(val):
     return (type, val)
 
 # @return [Filter]
-def parse_filter(*vals):
+def parse_filter(vals):
     type_val_pairs = map(split_type_and_val, vals)
 
     # create filters
