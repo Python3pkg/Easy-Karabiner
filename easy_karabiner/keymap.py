@@ -142,8 +142,16 @@ class SimultaneousKeyPresses(BaseKeyToKey):
 
 _CLASSES = util.find_all_subclass_of(BaseKeyToKey, globals())
 
+def get_ground_truth_vals(clsname, vals):
+    def replace_vkopenurl_start(val):
+        return util.replace_startswith_to(val, 'Open::', 'KeyCode::VK_OPEN_URL_')
+
+    vals = map(replace_vkopenurl_start, vals)
+    return vals
+
 def parse_keymap(command, keys):
     clsname = get_keymap_alias(command, command.strip('_'))
+    keys = get_ground_truth_vals(clsname, keys)
 
     for cls in _CLASSES:
         if clsname == cls.__name__:

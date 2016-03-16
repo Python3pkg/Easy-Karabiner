@@ -144,7 +144,7 @@ def test_zerokeyevent():
 
 
 def test_parse_keymap():
-    k = parse_keymap('double', ['cmd K', 'up ' * 6]),
+    k = parse_keymap('double', ['cmd K', 'up ' * 6])
     s = '''
         <autogen> __DoublePressModifier__
           KeyCode::K, ModifierFlag::COMMAND_L, ModifierFlag::NONE,
@@ -158,9 +158,9 @@ def test_parse_keymap():
           KeyCode::CURSOR_UP, KeyCode::CURSOR_UP, KeyCode::CURSOR_UP
           @end
         </autogen>'''
-    util.assert_xml_equal(k[0], s)
+    util.assert_xml_equal(k, s)
 
-    k = parse_keymap('__DoublePressModifier__', ['cmd J', 'down ' * 6]),
+    k = parse_keymap('__DoublePressModifier__', ['cmd J', 'down ' * 6])
     s = '''
         <autogen> __DoublePressModifier__
           KeyCode::J, ModifierFlag::COMMAND_L, ModifierFlag::NONE,
@@ -174,4 +174,12 @@ def test_parse_keymap():
           KeyCode::CURSOR_DOWN, KeyCode::CURSOR_DOWN, KeyCode::CURSOR_DOWN
           @end
         </autogen>'''
-    util.assert_xml_equal(k[0], s)
+    util.assert_xml_equal(k, s)
+
+    k = parse_keymap('', ['alt E', 'Open::FINDER'])
+    s = '''
+        <autogen> __KeyToKey__
+            KeyCode::E, ModifierFlag::OPTION_L, ModifierFlag::NONE,
+            KeyCode::VK_OPEN_URL_FINDER
+        </autogen>'''
+    util.assert_xml_equal(k, s)

@@ -152,30 +152,57 @@ class UIElementRole(BaseDef):
 
 _CLASSES = util.find_all_subclass_of(BaseDef, globals())
 
+def is_vkopenurl_format(name):
+    parts = name.split(':', 2)
+    return parts[0].lower() == 'open' or name.startswith('KeyCode::VK_OPEN_URL_')
+
+def get_vkopenurl_defname(name):
+    # VKOpenURL defname must start with 'KeyCode::VK_OPEN_URL_'
+    if name.startswith('KeyCode::VK_OPEN_URL_'):
+        defname = name
+    else:
+        defname = 'KeyCode::VK_OPEN_URL_%s' % name.split(':', 2)[-1]
+
+    return defname
+
+def is_replacement_format(name):
+    return name.startswith('{{') and name.endswith('}}')
+
+def get_replacement_defname(name):
+    return name[2:-2]
+
 def split_clsname_defname(name):
     parts = name.split(':', 2)
 
-    if name.startswith('KeyCode::VK_OPEN_URL_'):
+    # Open::defname
+    # KeyCode::VK_OPEN_URL_defname
+    if is_vkopenurl_format(name):
         clsname = 'VKOpenURL'
-        defname = name
+        defname = get_vkopenurl_defname(name)
+    # {{defname}}
+    elif is_replacement_format(name):
+        clsname = 'Replacement'
+        defname = get_replacement_defname(name)
     # clsname::defname
     elif len(parts) > 2:
         clsname = get_def_alias(parts[0], parts[0])
         defname = parts[-1]
-    # {{defname}}
-    elif name.startswith('{{') and name.endswith('}}'):
-        clsname = 'Replacement'
-        defname = name[2:-2]
     # defname
     else:
         clsname = 'App'
         defname = name
 
-    return (clsname.strip(), defname.strip())
+    return (clsname, defname)
+
+def get_ground_truth_vals(clsname, vals):
+    if clsname == 'VKOpenURL':
+        vals = map(lambda val: util.get_apppath(val, val), vals)
+    return vals
 
 def parse_definition(name, vals):
     definition = None
     clsname, defname = split_clsname_defname(name)
+    vals = get_ground_truth_vals(clsname, vals)
 
     for cls in _CLASSES:
         if clsname == cls.__name__:

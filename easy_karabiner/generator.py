@@ -51,6 +51,19 @@ class Generator(XML_base):
         subitem_tag.append(identifier_tag)
         return subitem_tag
 
+    def generate(self):
+        item_tag = self.init_xml_tree()
+
+        definitions = self.parse_definitions()
+        for d in definitions:
+            item_tag.append(d.to_xml())
+
+        blocks = self.parse_remaps()
+        subitem_tag = self.init_subitem_tag(item_tag)
+        map(lambda block: subitem_tag.append(block.to_xml()), blocks)
+
+        return str(self)
+
     def parse_definitions(self):
         definitions = []
 
@@ -115,19 +128,6 @@ class Generator(XML_base):
 
     def get_command_value(self, s):
         return s[1:-1]
-
-    def generate(self):
-        item_tag = self.init_xml_tree()
-
-        definitions = self.parse_definitions()
-        for d in definitions:
-            item_tag.append(d.to_xml())
-
-        blocks = self.parse_remaps()
-        subitem_tag = self.init_subitem_tag(item_tag)
-        map(lambda block: subitem_tag.append(block.to_xml()), blocks)
-
-        return str(self)
 
     def to_xml(self):
         return self.xml_tree
