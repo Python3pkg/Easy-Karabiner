@@ -123,8 +123,8 @@ REMAPS = [
     ['ctrl F'    , 'right'        , ['VIRTUALMACHINE', 'X11']],
     ['ctrl B'    , 'left'         , ['VIRTUALMACHINE', 'X11']],
 
-    ['ctrl shift tab', 'cmd_r alt_r left', ['BILIBILI']],
-    ['ctrl shift tab', 'cmd_r alt_r left', ['BILIBILI']],
+    ['ctrl tab'      , 'cmd_r alt_r right', ['BILIBILI']],
+    ['ctrl shift tab', 'cmd_r alt_r left' , ['BILIBILI']],
 
     ['left' , 'cmd_r left' , ['XEE']],
     ['up'   , 'cmd_r left' , ['XEE']],
