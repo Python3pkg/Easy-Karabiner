@@ -1,2 +1,2 @@
-recursive-include easy_karabiner/data *.data
+recursive-include easy_karabiner/data *
 recursive-exclude tests *
