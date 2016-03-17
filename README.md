@@ -11,7 +11,7 @@ Or you can install manually
 ```bash
 git clone https://github.com/loggerhead/Easy-Karabiner.git
 cd Easy-Karabiner
-pip install -e .
+python setup.py install
 ```
 
 #Usage
