@@ -17,7 +17,7 @@ setup(
     ],
     entry_points='''
         [console_scripts]
-        easy_karabiner=easy_karabiner:main
+        easy_karabiner=easy_karabiner.__main__:main
     ''',
     license='MIT',
     classifiers=[
