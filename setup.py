@@ -1,5 +1,5 @@
 from setuptools import setup, find_packages
-from __version__ import __version__
+from easy_karabiner import __version__
 
 setup(
     name='easy_karabiner',
