@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from __future__ import print_function
+
 import os
 from easy_karabiner import alias
 from easy_karabiner.xml_base import XML_base

@@ -17,6 +17,8 @@ Options:
     -r --reload              reload Karabiner
     -e --edit                edit "~/.easy_karabiner.py"
 """
+from __future__ import print_function
+
 import os
 from hashlib import sha1
 from collections import OrderedDict

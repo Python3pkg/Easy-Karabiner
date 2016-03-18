@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from __future__ import print_function
+
 from itertools import groupby
 from easy_karabiner import util
 from easy_karabiner.lookup import DefQuery

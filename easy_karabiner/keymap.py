@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from __future__ import print_function
+
 from easy_karabiner import util
 from easy_karabiner.lookup import get_keymap_alias
 from easy_karabiner.xml_base import XML_base
