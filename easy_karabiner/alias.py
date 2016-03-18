@@ -7,6 +7,7 @@ DEF_ALIAS = {
 KEYMAP_ALIAS = {
    'double':  'DoublePressModifier',
    'holding': 'HoldingKeyToKey',
+   'press_modifier': 'KeyOverlaidModifier',
 }
 
 KEY_ALIAS = {
@@ -57,4 +58,11 @@ KEY_ALIAS = {
     ","          : "COMMA",
     "."          : "DOT",
     "/"          : "SLASH",
+
+    "mouse_left"  : "PointingButton::LEFT",
+    "mouse_right" : "PointingButton::RIGHT",
+    "mouse_middle": "PointingButton::MIDDLE",
+    "mouse1"      : "PointingButton::LEFT",
+    "mouse2"      : "PointingButton::RIGHT",
+    "mouse3"      : "PointingButton::MIDDLE",
 }
