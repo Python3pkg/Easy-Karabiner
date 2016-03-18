@@ -95,7 +95,7 @@ def test_keytomultikeys():
         </autogen>'''
     util.assert_xml_equal(k, s)
 
-    k = KeyOverlaidModifier('caps', 'ctrl', 'esc')
+    k = KeyOverlaidModifier('caps', 'esc', 'ctrl')
     s = '''
         <autogen> __KeyOverlaidModifier__
           KeyCode::CAPSLOCK,
@@ -176,10 +176,18 @@ def test_parse_keymap():
         </autogen>'''
     util.assert_xml_equal(k, s)
 
-    k = parse_keymap('', ['alt E', 'Open::FINDER'])
+    k = parse_keymap('KeyToKey', ['alt E', 'Open::FINDER'])
     s = '''
         <autogen> __KeyToKey__
             KeyCode::E, ModifierFlag::OPTION_L, ModifierFlag::NONE,
             KeyCode::VK_OPEN_URL_FINDER
+        </autogen>'''
+    util.assert_xml_equal(k, s)
+
+    k = parse_keymap('__FlipScrollWheel__', ['FLIPSCROLLWHEEL_HORIZONTAL', 'FLIPSCROLLWHEEL_VERTICAL'])
+    s = '''
+        <autogen> __FlipScrollWheel__
+          Option::FLIPSCROLLWHEEL_HORIZONTAL,
+          Option::FLIPSCROLLWHEEL_VERTICAL
         </autogen>'''
     util.assert_xml_equal(k, s)
