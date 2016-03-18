@@ -27,6 +27,7 @@ REMAPS = [
     ['alt mouse_left', 'Open::COPY_FINDER_PATH'],
 
     ['brightness_down'   , 'F1'],
+    ['brightness_up'     , 'F2'],
     ['dashboard'         , 'F3'],
     ['mission_control'   , 'F3'],
     ['launchpad'         , 'F4'],
