@@ -1,6 +1,6 @@
 sudo: true
-os: osx
 language: python
+cache: pip
 python:
   - "2.6"
   - "2.7"
