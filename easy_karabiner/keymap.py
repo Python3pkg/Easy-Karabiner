@@ -85,10 +85,7 @@ class HoldingKeyToKey(_KeyToMultiKeys):
 
 
 class KeyOverlaidModifier(_KeyToMultiKeys):
-    def parse(self, from_key, to_key, pressed_alone_key):
-        return super(KeyOverlaidModifier, self).parse(from_key,
-                                                      pressed_alone_key,
-                                                      to_key)
+    pass
 
 
 class KeyDownUpToKey(_KeyToMultiKeys):
@@ -140,6 +137,22 @@ class SimultaneousKeyPresses(BaseKeyToKey):
                                     to_key=to_key.to_str())
 
 
+class UniversalKeyToKey(BaseKeyToKey):
+    def __init__(self, type, *keys, **kwargs):
+        self.type = type
+        super(UniversalKeyToKey, self).__init__(*keys, **kwargs)
+
+    def get_type(self):
+        return self.type
+
+    def parse(self, *keys, **kwargs):
+        toKey = lambda k: Key(k, keep_first_keycode=True, has_modifier_none=False)
+        keys = map(toKey, keys)
+        keys = map(str, keys)
+
+        return ',\n'.join(keys)
+
+
 _CLASSES = util.find_all_subclass_of(BaseKeyToKey, globals())
 
 def get_ground_truth_vals(clsname, vals):
@@ -149,6 +162,8 @@ def get_ground_truth_vals(clsname, vals):
     vals = map(replace_vkopenurl_start, vals)
     return vals
 
+
+
 def parse_keymap(command, keys):
     clsname = get_keymap_alias(command, command.strip('_'))
     keys = get_ground_truth_vals(clsname, keys)
@@ -156,7 +171,7 @@ def parse_keymap(command, keys):
     for cls in _CLASSES:
         if clsname == cls.__name__:
             return cls(*keys)
-    return KeyToKey(*keys)
+    return UniversalKeyToKey(command, *keys)
 
 
 if __name__ == "__main__":
