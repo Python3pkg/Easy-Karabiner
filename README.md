@@ -1,4 +1,6 @@
 #Easy-Karabiner
+[![Travis Build Status](https://travis-ci.org/loggerhead/Easy-Karabiner.svg)](https://travis-ci.org/loggerhead/Easy-Karabiner)
+
 [Karabiner](https://pqrs.org/osx/karabiner/index.html.en) is a great tool and I love it! But it's configuration is too complicated for newbies. For making life simpler, I have invented Easy-Karabiner, which is a tool to generate xml configuration for Karabiner from simple python script.
 
 #Installation
