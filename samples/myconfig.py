@@ -18,10 +18,13 @@ DEFINITIONS = {
 }
 
 REMAPS = [
-    ['(holding)' , 'esc'          , 'cmd_r ctrl_r alt_r shift_r'],
-    ['(double)'  , 'fn'           , 'F12'],
-    ['(double)'  , 'fn'           , 'cmd alt I', ['GOOGLE_CHROME']],
-    ['(double)'  , 'brightness_up', 'Open::COPY_FINDER_PATH', 'F2'],
+    ['(__FlipScrollWheel__)', 'flipscrollwheel_vertical', ['!APPLE_COMPUTER', '!ANY']],
+    ['(holding)', 'esc', 'cmd_r ctrl_r alt_r shift_r'],
+    ['(double)' , 'fn' , 'F12'],
+    ['(double)' , 'fn' , 'cmd alt I', ['GOOGLE_CHROME']],
+    ['(press_modifier)', 'ctrl', 'esc'],
+
+    ['alt mouse_left', 'Open::COPY_FINDER_PATH'],
 
     ['brightness_down'   , 'F1'],
     ['dashboard'         , 'F3'],
