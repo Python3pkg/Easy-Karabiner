@@ -190,10 +190,11 @@ def test_parse_definition():
         </vkopenurldef>'''
     util.assert_xml_equal(d, s)
 
-    d = parse_definition('Open::FINDER', ['Finder.app'])
-    s = '''
-        <vkopenurldef>
-          <name>KeyCode::VK_OPEN_URL_FINDER</name>
-          <url type="file">/System/Library/CoreServices/Finder.app</url>
-        </vkopenurldef>'''
-    util.assert_xml_equal(d, s)
+    if util.is_execuable_exist('mdfind'):
+      d = parse_definition('Open::FINDER', ['Finder.app'])
+      s = '''
+          <vkopenurldef>
+            <name>KeyCode::VK_OPEN_URL_FINDER</name>
+            <url type="file">/System/Library/CoreServices/Finder.app</url>
+          </vkopenurldef>'''
+      util.assert_xml_equal(d, s)

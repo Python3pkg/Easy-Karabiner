@@ -37,14 +37,20 @@ def assert_xml_equal(xml_tree1, xml_tree2):
 
     assert(xmlstr1 == xmlstr2)
 
+def is_execuable_exist(cmdname):
+    with open(os.devnull, "w") as f:
+        return subprocess.call(['which', cmdname], stdout=f, stderr=f) == 0
+    return False
 
 def get_apppath(appname, default=None):
     if not hasattr(get_apppath, '_apps'):
         cmd = ['mdfind', 'kMDItemContentType==com.apple.application-bundle']
         proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
-        apppaths = filter(lambda path: len(path.strip()) > 0,
-                          proc.stdout.read().split('\n'))
+        output = proc.stdout.read()
+
+        apppaths = filter(lambda path: len(path.strip()) > 0, output.split('\n'))
         appnames = map(os.path.basename, apppaths)
+
         get_apppath._apps = dict(zip(appnames, apppaths))
 
     return get_apppath._apps.get(appname, default)
