@@ -1,8 +1,8 @@
 #Easy-Karabiner
 [![Travis Build Status](https://travis-ci.org/loggerhead/Easy-Karabiner.svg)](https://travis-ci.org/loggerhead/Easy-Karabiner)
-[![Code Health](https://landscape.io/github/loggerhead/Easy-Karabiner/master/landscape.svg?style=flat)](https://landscape.io/github/loggerhead/Easy-Karabiner/master)
-[![Coverage Status](https://coveralls.io/repos/github/loggerhead/Easy-Karabiner/badge.svg?branch=master)](https://coveralls.io/github/loggerhead/Easy-Karabiner?branch=master)
-[![PyPI version](https://badge.fury.io/py/easy_karabiner.svg)](https://badge.fury.io/py/easy_karabiner)
+[![Code Health](https://landscape.io/github/loggerhead/Easy-Karabiner/master/landscape.svg)](https://landscape.io/github/loggerhead/Easy-Karabiner/master)
+[![Coverage Status](https://coveralls.io/repos/github/loggerhead/Easy-Karabiner/badge.svg)](https://coveralls.io/github/loggerhead/Easy-Karabiner)
+[![PyPI version](https://img.shields.io/pypi/v/easy_karabiner.svg)](https://pypi.python.org/pypi/easy_karabiner)
 
 [Karabiner](https://pqrs.org/osx/karabiner/index.html.en) is a great tool and I love it! But it's configuration is too complicated for newbies. For making life simpler, I have invented Easy-Karabiner, which is a tool to generate xml configuration for Karabiner from simple python script.
 
