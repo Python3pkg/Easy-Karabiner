@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-import xml.etree.ElementTree as ElementTree
-import xmlformatter
-from xml.sax.saxutils import unescape
+import lxml.etree as etree
+import xml.dom.minidom as minidom
 
 
 class XML_base(object):
@@ -19,8 +18,12 @@ class XML_base(object):
         return formatter.format_string(rough_string)
 
     @staticmethod
-    def parse_file(xml_file):
-        return ElementTree.parse(xml_file).getroot()
+    def parse(filepath):
+        return etree.parse(filepath).getroot()
+
+    @staticmethod
+    def parse_string(xmlstr):
+        return etree.fromstring(xmlstr)
 
     def to_xml(self):
         raise Exception('Need override')
