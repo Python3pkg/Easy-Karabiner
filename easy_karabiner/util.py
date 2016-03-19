@@ -42,7 +42,7 @@ def is_xml_element_equal(node1, node2):
 
 def is_xml_tree_equal(tree1, tree2):
     if is_xml_element_equal(tree1, tree2):
-        for i in xrange(len(tree1)):
+        for i in range(len(tree1)):
             if not is_xml_tree_equal(tree1[i], tree2[i]):
                 return False
         return True

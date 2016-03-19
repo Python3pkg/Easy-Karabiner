@@ -46,7 +46,7 @@ class Key(object):
         tmp = []
         last = 0
 
-        for i in xrange(len(keys)):
+        for i in range(len(keys)):
             if not self.is_modifier_key(keys[i]):
                 tmp.append(keys[i])
                 while last < i:
