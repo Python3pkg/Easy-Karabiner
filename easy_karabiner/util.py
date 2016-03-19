@@ -65,7 +65,6 @@ def assert_xml_equal(xml_tree1, xml_tree2):
 def has_execuable(cmdname):
     with open(os.devnull, "w") as f:
         return subprocess.call(['which', cmdname], stdout=f, stderr=f) == 0
-    return False
 
 def get_apppath(appname, default=None):
     if not hasattr(get_apppath, '_apps'):
