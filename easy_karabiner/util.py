@@ -25,17 +25,42 @@ def find_all_subclass_of(superclass, global_vars):
     names = filter(lambda name: issubclass(global_vars[name], superclass), names)
     return map(global_vars.get, names)
 
+def remove_all_space(s):
+    return ''.join(s.split())
+
+def is_xml_element_equal(node1, node2):
+    if len(node1) != len(node2):
+        return False
+    if node1.tag != node2.tag:
+        return False
+    if node1.attrib != node2.attrib:
+        return False
+
+    text1 = '' if node1.text is None else remove_all_space(node1.text)
+    text2 = '' if node2.text is None else remove_all_space(node2.text)
+    return text1 == text2
+
+def is_xml_tree_equal(tree1, tree2):
+    if is_xml_element_equal(tree1, tree2):
+        for i in xrange(len(tree1)):
+            if not is_xml_tree_equal(tree1[i], tree2[i]):
+                return False
+        return True
+    else:
+        return False
 
 def assert_xml_equal(xml_tree1, xml_tree2):
-    if isinstance(xml_tree1, (XML_base, str)):
-        xmlstr1 = str(xml_tree1)
-    if isinstance(xml_tree2, (XML_base, str)):
-        xmlstr2 = str(xml_tree2)
+    if isinstance(xml_tree1, str):
+        xml_tree1 = XML_base.parse_string(xml_tree1)
+    else:
+        xml_tree1 = xml_tree1.to_xml()
 
-    xmlstr1 = ''.join(xmlstr1.split())
-    xmlstr2 = ''.join(xmlstr2.split())
+    if isinstance(xml_tree2, str):
+        xml_tree2 = XML_base.parse_string(xml_tree2)
+    else:
+        xml_tree2 = xml_tree2.to_xml()
 
-    assert(xmlstr1 == xmlstr2)
+    assert(is_xml_tree_equal(xml_tree1, xml_tree2))
 
 def has_execuable(cmdname):
     with open(os.devnull, "w") as f:

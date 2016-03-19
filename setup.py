@@ -12,7 +12,7 @@ setup(
     packages=find_packages(exclude=("tests",)),
     include_package_data=True,
     install_requires=[
-        'xmlformatter >= 0.1.1',
+        'lxml',
         'docopt >= 0.6.1',
     ],
     entry_points='''

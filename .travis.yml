@@ -8,6 +8,6 @@ python:
   - "3.3"
   - "3.4"
   - "3.5"
-install: sudo -H pip install nose xmlformatter docopt
+install: sudo -H pip install nose lxml docopt
 before_script: python setup.py install
 script: nosetests
