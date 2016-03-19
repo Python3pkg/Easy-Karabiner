@@ -42,8 +42,11 @@ def is_xml_element_equal(node1, node2):
 
 def is_xml_tree_equal(tree1, tree2):
     if is_xml_element_equal(tree1, tree2):
-        for i in range(len(tree1)):
-            if not is_xml_tree_equal(tree1[i], tree2[i]):
+        elems1 = sorted(list(tree1), key=lambda e: (e.tag, e.attrib, e.text))
+        elems2 = sorted(list(tree2), key=lambda e: (e.tag, e.attrib, e.text))
+
+        for i in range(len(elems1)):
+            if not is_xml_tree_equal(elems1[i], elems2[i]):
                 return False
         return True
     else:
