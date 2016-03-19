@@ -21,8 +21,6 @@ from __future__ import print_function
 
 import os
 from hashlib import sha1
-from collections import OrderedDict
-from itertools import groupby
 from subprocess import call
 from docopt import docopt
 from easy_karabiner import lookup
@@ -31,8 +29,8 @@ from easy_karabiner.xml_base import XML_base
 from easy_karabiner.generator import Generator
 
 
-def gen_config(remaps, definitions=[]):
-    return Generator(remaps=remaps, definitions=definitions).generate()
+def gen_config(remaps, definitions=None):
+    return Generator(remaps=remaps, definitions=(definitions or [])).generate()
 
 def is_original_config(filepath):
     try:

@@ -31,9 +31,10 @@ class BaseDef(XML_base):
 
         if len(name_parts) > 1:
             # transform `key="value"` to `(key, value)`
-            def to_pair(s, del_chars=['"', "'"]):
+            def to_pair(s, del_chars=('"', "'")):
                 cleaned = filter(lambda c: c not in del_chars, s)
                 return ''.join(cleaned).split('=')
+
             tag_attrs = dict(map(to_pair, name_parts[1:]))
         else:
             tag_attrs = {}

@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
-
 from collections import OrderedDict
-from itertools import groupby
-from easy_karabiner import util
 from easy_karabiner import __version__
 from easy_karabiner.xml_base import XML_base
 from easy_karabiner.define import parse_definition
@@ -14,6 +11,7 @@ from easy_karabiner.lookup import UndefinedFilterException
 
 class Generator(XML_base):
     """
+    >>> from easy_karabiner import util
     >>> s1 = Generator().generate()
     >>> s2 = '''
     ...      <root>
@@ -31,9 +29,9 @@ class Generator(XML_base):
 
     ITEM_IDENTIFIER = 'private.easy_karabiner'
 
-    def __init__(self, remaps=[], definitions={}):
-        self.remaps = remaps
-        self.definitions = definitions
+    def __init__(self, remaps=None, definitions=None):
+        self.remaps = remaps or []
+        self.definitions = definitions or dict()
 
     def init_xml_tree(self):
         version_tag = XML_base.create_tag('Easy-Karabiner', __version__)
@@ -136,9 +134,9 @@ class Generator(XML_base):
 
 
 class Block(XML_base):
-    def __init__(self, keymaps, filters=[]):
+    def __init__(self, keymaps, filters=None):
         self.keymaps = keymaps
-        self.filters = filters
+        self.filters = filters or []
 
     def to_xml(self):
         xml_tree = self.create_tag('block')

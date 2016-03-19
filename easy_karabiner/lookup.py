@@ -64,8 +64,8 @@ class BaseQuery(object):
         else:
             return None
 
-    def get(self, k, default=[]):
-        return self.data.get(k, default)
+    def get(self, k, default=None):
+        return self.data.get(k, default or [])
 
     def load_data(self):
         for type in self.QUERY_ORDER:
