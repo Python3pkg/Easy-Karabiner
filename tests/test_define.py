@@ -105,7 +105,7 @@ def test_vkopenurldef():
         <vkopenurldef>
           <name>KeyCode::VK_OPEN_URL_FINDER</name>
           <url type="file">/Applications/Finder.app</url>
-          <background></background>
+          <background/>
         </vkopenurldef>'''
     util.assert_xml_equal(d, s)
 

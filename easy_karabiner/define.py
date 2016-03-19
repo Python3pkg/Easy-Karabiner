@@ -47,7 +47,7 @@ class BaseDef(XML_base):
         tag_val_pairs = self.get_tag_val_pairs(self.tag_vals)
 
         for tag_name, tag_val in tag_val_pairs:
-            if len(tag_name) > 0 and len(tag_val) > 0:
+            if len(tag_name) > 0:
                 tag_name, tag_attrs = self.split_name_and_attrs(tag_name)
                 tag = self.create_tag(tag_name, tag_val, attrib=tag_attrs)
                 xml_tree.append(tag)
@@ -113,8 +113,6 @@ class VKChangeInputSource(InputSource):
 
 
 class VKOpenURL(BaseDef):
-    SCRIPT_FMT = '<![CDATA[\n{script}\n]]>'
-
     def get_tag_val_pair(self, val):
         if len(val) == 0:
             return ()
@@ -123,7 +121,7 @@ class VKOpenURL(BaseDef):
         elif val.startswith('#!'):
             if val.startswith('#! '):
                 val = val[3:]
-            script = self.SCRIPT_FMT.format(script=val)
+            script = self.create_cdata_text(val)
             return ('url type="shell"', script)
         else:
             return ('url', val)

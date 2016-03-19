@@ -153,7 +153,7 @@ class DefQuery(BaseQuery):
                    'vkchangeinputsourcedef',]
 
     def get_data(self, type):
-        xml_tree = XML_base.parse_file(self.get_datapath(type))
+        xml_tree = XML_base.parse(self.get_datapath(type))
         name_val = get_name_tag_by_def_tag(type)
 
         if name_val == '':

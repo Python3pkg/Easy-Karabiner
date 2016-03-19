@@ -64,7 +64,7 @@ class Generator(XML_base):
         subitem_tag = self.init_subitem_tag(item_tag)
         map(lambda block: subitem_tag.append(block.to_xml()), blocks)
 
-        return str(self)
+        return self.to_str()
 
     def parse_definitions(self):
         definitions = []

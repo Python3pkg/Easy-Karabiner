@@ -36,7 +36,7 @@ def gen_config(remaps, definitions=[]):
 
 def is_original_config(filepath):
     try:
-        tag = XML_base.parse_file(filepath).find('Easy-Karabiner')
+        tag = XML_base.parse(filepath).find('Easy-Karabiner')
         return tag is None
     except:
         return True
