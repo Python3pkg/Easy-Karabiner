@@ -23,7 +23,7 @@ def find_all_subclass_of(superclass, global_vars):
     names = filter(lambda name: inspect.isclass(global_vars[name]), names)
     # remove class name which is not a subclass of superclass
     names = filter(lambda name: issubclass(global_vars[name], superclass), names)
-    return map(global_vars.get, names)
+    return list(map(global_vars.get, names))
 
 def remove_all_space(s):
     return ''.join(s.split())
@@ -50,15 +50,15 @@ def is_xml_tree_equal(tree1, tree2):
         return False
 
 def assert_xml_equal(xml_tree1, xml_tree2):
-    if isinstance(xml_tree1, str):
-        xml_tree1 = XML_base.parse_string(xml_tree1)
-    else:
+    if isinstance(xml_tree1, XML_base):
         xml_tree1 = xml_tree1.to_xml()
-
-    if isinstance(xml_tree2, str):
-        xml_tree2 = XML_base.parse_string(xml_tree2)
     else:
+        xml_tree1 = XML_base.parse_string(xml_tree1)
+
+    if isinstance(xml_tree2, XML_base):
         xml_tree2 = xml_tree2.to_xml()
+    else:
+        xml_tree2 = XML_base.parse_string(xml_tree2)
 
     assert(is_xml_tree_equal(xml_tree1, xml_tree2))
 
@@ -75,7 +75,7 @@ def get_apppath(appname, default=None):
             output = proc.stdout.read()
 
             apppaths = filter(lambda path: len(path.strip()) > 0, output.split('\n'))
-            appnames = map(os.path.basename, apppaths)
+            appnames = list(map(os.path.basename, apppaths))
 
             get_apppath._apps = dict(zip(appnames, apppaths))
         else:

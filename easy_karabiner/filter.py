@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
-
+from functools import reduce
 from itertools import groupby
 from easy_karabiner import util
 from easy_karabiner.lookup import DefQuery
@@ -117,7 +117,7 @@ def parse_filter(vals):
                 break
 
     filters_lists = [list(v) for k, v in groupby(filters, lambda f: f.get_tag_name())]
-    filters = map(lambda fs: reduce(lambda x, y: x + y, fs), filters_lists)
+    filters = list(map(lambda fs: reduce(lambda x, y: x + y, fs), filters_lists))
     return filters
 
 

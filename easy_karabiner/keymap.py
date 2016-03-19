@@ -161,7 +161,7 @@ def get_ground_truth_vals(clsname, vals):
     def replace_vkopenurl_start(val):
         return util.replace_startswith_to(val, 'Open::', 'KeyCode::VK_OPEN_URL_')
 
-    vals = map(replace_vkopenurl_start, vals)
+    vals = list(map(replace_vkopenurl_start, vals))
     return vals
 
 

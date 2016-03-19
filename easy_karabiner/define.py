@@ -24,14 +24,16 @@ class BaseDef(XML_base):
         raise Exception("Need override")
 
     def get_tag_val_pairs(self, tag_vals):
-        return map(self.get_tag_val_pair, tag_vals)
+        return list(map(self.get_tag_val_pair, tag_vals))
 
     def split_name_and_attrs(self, tag_name):
         name_parts = tag_name.split()
 
         if len(name_parts) > 1:
             # transform `key="value"` to `(key, value)`
-            to_pair = lambda a: a.translate(None, '"\'').split('=')
+            def to_pair(s, del_chars=['"', "'"]):
+                cleaned = filter(lambda c: c not in del_chars, s)
+                return ''.join(cleaned).split('=')
             tag_attrs = dict(map(to_pair, name_parts[1:]))
         else:
             tag_attrs = {}
@@ -194,7 +196,10 @@ def split_clsname_defname(name):
 
 def get_ground_truth_vals(clsname, vals):
     if clsname == 'VKOpenURL':
-        vals = map(lambda val: val if val.startswith('/') else util.get_apppath(val, val), vals)
+        def get_apppath(v):
+            return v if v.startswith('/') else util.get_apppath(v, v)
+
+        vals = list(map(get_apppath, vals))
     return vals
 
 def parse_definition(name, vals):

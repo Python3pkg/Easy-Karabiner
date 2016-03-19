@@ -24,7 +24,7 @@ class Key(object):
         keys = map(self.add_key_header, keys)
         # we need adjust position of keys, because
         # the first key can't be modifier key in most case
-        keys = self.rearrange_keys(keys)
+        keys = self.rearrange_keys(list(keys))
 
         if len(keys) > 0:
             if not self.keep_first_keycode and self.is_modifier_key(keys[0]):

@@ -113,7 +113,7 @@ class KeyCodeQuery(BaseQuery):
             # remove comment line and whitespace line
             lines = filter(lambda l: not l.startswith('//') and not l.isspace(), lines)
             lines = map(lambda l: l.strip(), lines)
-            data = map(lambda l: l.split()[0], lines)
+            data = list(map(lambda l: l.split()[0], lines))
 
         return data
 
@@ -161,7 +161,7 @@ class DefQuery(BaseQuery):
         else:
             tags = xml_tree.findall('%s/%s' % (type, name_val))
 
-        return map(lambda tag: tag.text, tags)
+        return list(map(lambda tag: tag.text, tags))
 
     @classmethod
     def add_def(cls, definition):
