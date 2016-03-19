@@ -5,6 +5,16 @@ import xml.dom.minidom as minidom
 
 class XML_base(object):
     @staticmethod
+    def is_cdata_text(elem):
+        return elem.text.startswith('<![CDATA[') and elem.text.endswith(']]>')
+
+    @staticmethod
+    def remove_cdata(elem):
+        return elem.text[len('<![CDATA['):-len(']]>')]
+
+    @staticmethod
+    def create_cdata_text(text):
+        return etree.CDATA(text)
 
     @staticmethod
     def create_tag(name, text=None, **kwargs):
