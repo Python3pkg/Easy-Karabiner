@@ -71,9 +71,9 @@ def get_apppath(appname, default=None):
         if has_execuable('mdfind'):
             cmd = ['mdfind', 'kMDItemContentType==com.apple.application-bundle']
             proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
-            output = proc.stdout.read()
+            output = proc.stdout.read().decode('utf-8')
 
-            apppaths = filter(lambda path: len(path.strip()) > 0, output.split('\n'))
+            apppaths = list(filter(lambda s: len(s.strip()) > 0, output.split('\n')))
             appnames = list(map(os.path.basename, apppaths))
 
             get_apppath._apps = dict(zip(appnames, apppaths))
