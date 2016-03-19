@@ -190,7 +190,7 @@ def test_parse_definition():
         </vkopenurldef>'''
     util.assert_xml_equal(d, s)
 
-    if util.is_execuable_exist('mdfind'):
+    if util.has_execuable('mdfind'):
       d = parse_definition('Open::FINDER', ['Finder.app'])
       s = '''
           <vkopenurldef>

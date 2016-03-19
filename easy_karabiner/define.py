@@ -196,7 +196,7 @@ def split_clsname_defname(name):
 
 def get_ground_truth_vals(clsname, vals):
     if clsname == 'VKOpenURL':
-        vals = map(lambda val: util.get_apppath(val, val), vals)
+        vals = map(lambda val: val if val.startswith('/') else util.get_apppath(val, val), vals)
     return vals
 
 def parse_definition(name, vals):
