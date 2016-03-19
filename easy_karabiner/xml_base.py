@@ -5,17 +5,21 @@ import xml.dom.minidom as minidom
 
 class XML_base(object):
     @staticmethod
-    def create_tag(name, text='', **kwargs):
-        et = ElementTree.Element(name, **kwargs)
+
+    @staticmethod
+    def create_tag(name, text=None, **kwargs):
+        et = etree.Element(name, **kwargs)
         et.text = text
         return et
 
     @staticmethod
-    def to_format_str(xml_tree):
-        formatter = xmlformatter.Formatter()
-        rough_string = ElementTree.tostring(xml_tree, 'UTF-8')
-        rough_string = unescape(rough_string)
-        return formatter.format_string(rough_string)
+    def to_format_str(xml_tree, pretty_text=True):
+        indent = "  "
+        if pretty_text:
+            XML_base.pretty_text(xml_tree, indent=indent)
+        xml_string = etree.tostring(xml_tree)
+        xml_string = minidom.parseString(xml_string).toprettyxml(indent=indent)
+        return xml_string
 
     @staticmethod
     def parse(filepath):
@@ -25,12 +29,36 @@ class XML_base(object):
     def parse_string(xmlstr):
         return etree.fromstring(xmlstr)
 
+    @staticmethod
+    def pretty_text(elem, indent="  ", level=0):
+        i = "\n" + level * indent
+
+        if len(elem) == 0:
+            if elem.text is not None:
+                lines = elem.text.split('\n')
+                if len(lines) > 1:
+                    if not lines[0].startswith(' '):
+                        lines[0] = (i + indent) + lines[0]
+                    if lines[-1].strip() == '':
+                        lines.pop()
+                    elem.text = (i + indent).join(lines) + i
+        else:
+            for subelem in elem:
+                XML_base.pretty_text(subelem, indent, level + 1)
+
+        return elem
+
     def to_xml(self):
         raise Exception('Need override')
 
-    def to_str(self):
-        return self.to_format_str(self.to_xml())
+    def to_str(self, pretty_text=True, remove_first_line=False):
+        xmlstr = self.to_format_str(self.to_xml(), pretty_text=pretty_text)
+        if remove_first_line:
+            lines = self.to_str().split('\n')[1:]
+            return '\n'.join(lines)
+        else:
+            return xmlstr
 
     def __str__(self):
-        lines = self.to_str().split('\n')
-        return '\n'.join(lines[1:])
+        # remove version tag
+        return self.to_str(remove_first_line=True)
