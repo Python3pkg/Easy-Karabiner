@@ -1,6 +1,4 @@
-sudo: true
 language: python
-cache: pip
 python:
   - "2.6"
   - "2.7"
@@ -8,6 +6,9 @@ python:
   - "3.3"
   - "3.4"
   - "3.5"
-install: sudo -H pip install nose lxml docopt
+install: pip install lxml docopt
 before_script: python setup.py install
 script: nosetests
+cache:
+  directories:
+    - $HOME/.cache/pip
