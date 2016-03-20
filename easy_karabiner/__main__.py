@@ -11,6 +11,7 @@ import click
 from hashlib import sha1
 from subprocess import call
 from easy_karabiner import lookup
+from easy_karabiner import __version__
 from easy_karabiner.xml_base import XML_base
 from easy_karabiner.generator import Generator
 
@@ -23,10 +24,11 @@ DEFAULT_OUTPUT_PATH = os.path.expanduser(DEFAULT_OUTPUT_PATH)
 
 
 @click.command()
-@click.version_option()
+@click.help_option('--help', '-h')
+@click.version_option(__version__, '--version', '-v', message='%(version)s')
 @click.argument('inpath', default=DEFAULT_CONFIG_PATH, type=click.Path())
 @click.argument('outpath', default=DEFAULT_OUTPUT_PATH, type=click.Path())
-@click.option('--verbose', '-v', help='Print more text.', is_flag=True)
+@click.option('--verbose', '-V', help='Print more text.', is_flag=True)
 @click.option('--string', '-s', help='Output as string.', is_flag=True)
 @click.option('--reload', '-r', help='Reload Karabiner.', is_flag=True)
 @click.option('--edit', '-e', help='Edit default config file.', is_flag=True)
@@ -42,6 +44,7 @@ def main(inpath, outpath, **options):
 
     if options.get('edit'):
         edit_config_file()
+        return 0
 
     try:
         configs = read_config_file(inpath)
