@@ -27,6 +27,21 @@ class BaseKeyToKey(XML_base, util.Hashable):
     def _id(self):
         return (self.get_type(), self.keys_str)
 
+class UniversalKeyToKey(BaseKeyToKey):
+    def __init__(self, type, *keys, **kwargs):
+        self.type = type
+        super(UniversalKeyToKey, self).__init__(*keys, **kwargs)
+
+    def get_type(self):
+        return self.type
+
+    def parse(self, *keys, **kwargs):
+        toKey = lambda k: Key(k, keep_first_keycode=True, has_modifier_none=False)
+        keys = map(toKey, keys)
+        keys = map(str, keys)
+
+        return ',\n'.join(keys)
+
 
 class _KeyToMultiKeys(BaseKeyToKey):
     KEYS_FMT = ('{from_key},\n'
@@ -50,15 +65,20 @@ class _KeyToMultiKeys(BaseKeyToKey):
                                     to_key=to_key.to_str(),
                                     additional_key=additional_key.to_str())
 
-
 class _OneKeyEvent(BaseKeyToKey):
     def parse(self, key, has_modifier_none=False):
         return Key(key, has_modifier_none).to_str()
 
-
 class _ZeroKeyEvent(BaseKeyToKey):
     def parse(self):
         return ''
+
+class _MultiKeys(UniversalKeyToKey):
+    def __init__(self, *keys, **kwargs):
+        super(_MultiKeys, self).__init__(self.get_type(), *keys, **kwargs)
+
+    def get_type(self):
+        return '__%s__' % self.__class__.__name__
 
 
 class KeyToKey(BaseKeyToKey):
@@ -76,38 +96,6 @@ class KeyToKey(BaseKeyToKey):
         return self.KEYS_FMT.format(from_key=from_key.to_str(),
                                     to_key=to_key.to_str())
 
-
-class DoublePressModifier(_KeyToMultiKeys):
-    pass
-
-
-class HoldingKeyToKey(_KeyToMultiKeys):
-    pass
-
-
-class KeyOverlaidModifier(_KeyToMultiKeys):
-    pass
-
-
-class KeyDownUpToKey(_KeyToMultiKeys):
-    def parse(self, from_key, immediately_key, interrupted_key):
-        return super(KeyDownUpToKey, self).parse(from_key,
-                                                 interrupted_key,
-                                                 immediately_key)
-
-
-class BlockUntilKeyUp(_OneKeyEvent):
-    pass
-
-
-class DropKeyAfterRemap(_OneKeyEvent):
-    pass
-
-
-class PassThrough(_ZeroKeyEvent):
-    pass
-
-
 class DropAllKeys(BaseKeyToKey):
     KEYS_FMT = '{from_key},\n{options}'
 
@@ -120,7 +108,6 @@ class DropAllKeys(BaseKeyToKey):
             options = Key(options, keep_first_keycode=True)
             return self.KEYS_FMT.format(from_key=from_key.to_str(),
                                         options=options.to_str())
-
 
 class SimultaneousKeyPresses(BaseKeyToKey):
     KEYS_FMT = ('@begin\n'
@@ -138,20 +125,74 @@ class SimultaneousKeyPresses(BaseKeyToKey):
                                     to_key=to_key.to_str())
 
 
-class UniversalKeyToKey(BaseKeyToKey):
-    def __init__(self, type, *keys, **kwargs):
-        self.type = type
-        super(UniversalKeyToKey, self).__init__(*keys, **kwargs)
+class DoublePressModifier(_KeyToMultiKeys):
+    pass
 
-    def get_type(self):
-        return self.type
+class HoldingKeyToKey(_KeyToMultiKeys):
+    pass
 
+class KeyOverlaidModifier(_KeyToMultiKeys):
+    pass
+
+class KeyDownUpToKey(_KeyToMultiKeys):
+    def parse(self, from_key, immediately_key, interrupted_key):
+        return super(KeyDownUpToKey, self).parse(from_key,
+                                                 interrupted_key,
+                                                 immediately_key)
+
+
+class BlockUntilKeyUp(_OneKeyEvent):
+    pass
+
+class DropKeyAfterRemap(_OneKeyEvent):
+    pass
+
+
+class PassThrough(_ZeroKeyEvent):
+    pass
+
+class DropPointingRelativeCursorMove(_ZeroKeyEvent):
+    pass
+
+
+# NOTICE: because below `autogen` command not yet documented,
+#         so those implements maybe changed in future
+class DropScrollWheel(_MultiKeys):
+    pass
+
+class FlipPointingRelative(_MultiKeys):
+    pass
+
+class FlipScrollWheel(_MultiKeys):
+    pass
+
+class IgnoreMultipleSameKeyPress(_MultiKeys):
+    pass
+
+class StripModifierFromScrollWheel(_MultiKeys):
+    pass
+
+class ScrollWheelToScrollWheel(_MultiKeys):
+    pass
+
+class ScrollWheelToKey(_MultiKeys):
+    pass
+
+class PointingRelativeToScroll(_MultiKeys):
+    pass
+
+class PointingRelativeToKey(_MultiKeys):
+    pass
+
+class ForceNumLockOn(_MultiKeys):
+    pass
+
+class ShowStatusMessage(BaseKeyToKey):
     def parse(self, *keys, **kwargs):
-        toKey = lambda k: Key(k, keep_first_keycode=True, has_modifier_none=False)
-        keys = map(toKey, keys)
-        keys = map(str, keys)
+        return ' '.join(keys)
 
-        return ',\n'.join(keys)
+class SetKeyboardType(_OneKeyEvent):
+    pass
 
 
 _CLASSES = util.find_all_subclass_of(BaseKeyToKey, globals())
