@@ -98,9 +98,11 @@ def gen_config(configs):
     # user may define it's own alias table
     if VERBOSE:
         print("Update alias database")
-    lookup.update_key_alias(configs.get('KEY_ALIAS', {}))
-    lookup.update_def_alias(configs.get('DEF_ALIAS', {}))
-    lookup.update_keymap_alias(configs.get('KEYMAP_ALIAS', {}))
+
+    alias_names = filter(lambda k: k.endswith('_ALIAS'), configs.keys())
+    for alias_name in alias_names:
+        lookup.update_alias(configs[alias_name])
+
     if VERBOSE:
         print("Generate XML configuration string")
     return Generator(remaps=remaps, definitions=definitions).generate()

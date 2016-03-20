@@ -10,6 +10,27 @@ KEYMAP_ALIAS = {
    'press_modifier': 'KeyOverlaidModifier',
 }
 
+MODIFIER_ALIAS = {
+    "shift"   : "SHIFT_L",
+    "shift_l" : "SHIFT_L",
+    "shift_r" : "SHIFT_R",
+    "cmd"     : "COMMAND_L",
+    "command" : "COMMAND_L",
+    "cmd_l"   : "COMMAND_L",
+    "cmd_r"   : "COMMAND_R",
+    "opt"     : "OPTION_L",
+    "option"  : "OPTION_L",
+    "opt_l"   : "OPTION_L",
+    "opt_r"   : "OPTION_R",
+    "alt"     : "OPTION_L",
+    "alt_l"   : "OPTION_L",
+    "alt_r"   : "OPTION_R",
+    "ctrl"    : "CONTROL_L",
+    "control" : "CONTROL_L",
+    "ctrl_l"  : "CONTROL_L",
+    "ctrl_r"  : "CONTROL_R",
+}
+
 KEY_ALIAS = {
     "whitespace" : "SPACE",
     "sp"         : "SPACE",
@@ -17,22 +38,6 @@ KEY_ALIAS = {
     "fdel"       : "FORWARD_DELETE",
     "esc"        : "ESCAPE",
     "caps"       : "CAPSLOCK",
-    "shift"      : "SHIFT_L",
-    "cmd"        : "COMMAND_L",
-    "command"    : "COMMAND_L",
-    "cmd_l"      : "COMMAND_L",
-    "cmd_r"      : "COMMAND_R",
-    "opt"        : "OPTION_L",
-    "option"     : "OPTION_L",
-    "opt_l"      : "OPTION_L",
-    "opt_r"      : "OPTION_R",
-    "alt"        : "OPTION_L",
-    "alt_l"      : "OPTION_L",
-    "alt_r"      : "OPTION_R",
-    "ctrl"       : "CONTROL_L",
-    "ctrl_l"     : "CONTROL_L",
-    "ctrl_r"     : "CONTROL_R",
-    "control"    : "CONTROL_L",
     "left"       : "CURSOR_LEFT",
     "right"      : "CURSOR_RIGHT",
     "down"       : "CURSOR_DOWN",
@@ -66,3 +71,5 @@ KEY_ALIAS = {
     "mouse2"      : "PointingButton::RIGHT",
     "mouse3"      : "PointingButton::MIDDLE",
 }
+
+KEY_ALIAS.update(MODIFIER_ALIAS)

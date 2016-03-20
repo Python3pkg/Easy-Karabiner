@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
-
-from easy_karabiner.lookup import get_key_alias, KeyCodeQuery
+from easy_karabiner import lookup
 
 class Key(object):
     """Convert space seperated string to Karabiner's favorite format
@@ -19,7 +18,7 @@ class Key(object):
         # remove multiple whitespaces and convert to raw value
         keys = " ".join(keys.split()).split()
         # if no alias find, then return the original value
-        keys = map(get_key_alias, keys)
+        keys = map(lambda k: lookup.get_alias('KEY_ALIAS', k, k), keys)
         # if no key header find, then return the original value
         keys = map(self.add_key_header, keys)
         # we need adjust position of keys, because
@@ -36,7 +35,7 @@ class Key(object):
         return keys
 
     def add_key_header(self, key):
-        header = KeyCodeQuery.query(key.upper())
+        header = lookup.KeyCodeQuery.query(key.upper())
         if header is None:
             return key
         else:

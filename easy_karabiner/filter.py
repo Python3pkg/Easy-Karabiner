@@ -80,6 +80,12 @@ class InputSourceFilter(BaseFilter):
     pass
 
 
+class ModifierFilter(BaseFilter):
+    def get_tag_name(self):
+        tag_name = 'modifier_%s' % self.type
+        return tag_name
+
+
 _CLASSES = util.find_all_subclass_of(BaseFilter, globals())
 
 def split_type_and_val(val):
@@ -109,6 +115,8 @@ def parse_filter(vals):
             val = 'DeviceProduct::%s' % val
         elif clsname == 'DeviceVendorFilter':
             val = 'DeviceVendor::%s' % val
+        elif clsname == 'ModifierFilter':
+            val = 'ModifierFlag::%s' % val
 
         for cls in _CLASSES:
             if clsname == cls.__name__:

@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
-
 from easy_karabiner import util
-from easy_karabiner.lookup import get_keymap_alias
+from easy_karabiner import lookup
 from easy_karabiner.xml_base import XML_base
 from easy_karabiner.key import Key
 
@@ -165,9 +164,8 @@ def get_ground_truth_vals(clsname, vals):
     return vals
 
 
-
 def parse_keymap(command, keys):
-    clsname = get_keymap_alias(command, command.strip('_'))
+    clsname = lookup.get_alias('KEYMAP_ALIAS', command, command.strip('_'))
     keys = get_ground_truth_vals(clsname, keys)
 
     for cls in _CLASSES:

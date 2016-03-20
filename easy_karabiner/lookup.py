@@ -1,35 +1,19 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
-
 import os
 from easy_karabiner import alias
 from easy_karabiner.xml_base import XML_base
 from easy_karabiner.def_filter_map import get_name_tag_by_def_tag, get_filter_by_def
 
+
 # alias is case-insensitive
-def _get_alias(tblname, k, d=None):
-    return alias.__dict__[tblname].get(k.lower(), k if d is None else d)
+def get_alias(tblname, k, d=None):
+    return alias.__dict__[tblname].get(k.lower(), d)
 
-def _update_alias(tblname, aliases):
-    alias.__dict__[tblname].update(aliases)
-
-def get_key_alias(k, d=None):
-    return _get_alias('KEY_ALIAS', k, d)
-
-def get_def_alias(k, d=None):
-    return _get_alias('DEF_ALIAS', k, d)
-
-def get_keymap_alias(k, d=None):
-    return _get_alias('KEYMAP_ALIAS', k, d)
-
-def update_key_alias(aliases):
-    _update_alias('KEY_ALIAS', aliases)
-
-def update_def_alias(aliases):
-    _update_alias('DEF_ALIAS', aliases)
-
-def update_keymap_alias(aliases):
-    _update_alias('KEYMAP_ALIAS', aliases)
+def update_alias(tblname, aliases):
+    alias.__dict__.setdefault(tblname, {}).update(aliases)
+    if tblname == 'MODIFIER_ALIAS':
+        alias.KEY_ALIAS.update(alias.MODIFIER_ALIAS)
 
 
 class BaseQuery(object):
@@ -51,11 +35,11 @@ class BaseQuery(object):
             return cls._instance
 
     @classmethod
-    def query(cls, value):
+    def query(cls, value, default=None):
         for k in cls.QUERY_ORDER:
             if cls.is_in(k, value):
                 return k
-        return None
+        return default
 
     @classmethod
     def is_in(cls, k, value):
@@ -110,9 +94,11 @@ class KeyCodeQuery(BaseQuery):
 
         with open(self.get_datapath(type), 'r') as fp:
             lines = fp.readlines()
+            need_keep = lambda l: not l.startswith('//') and not l.isspace()
             # remove comment line and whitespace line
-            lines = filter(lambda l: not l.startswith('//') and not l.isspace(), lines)
+            lines = filter(need_keep, lines)
             lines = map(lambda l: l.strip(), lines)
+            # keep first part
             data = list(map(lambda l: l.split()[0], lines))
 
         return data
@@ -144,6 +130,7 @@ class DefQuery(BaseQuery):
 
     QUERY_ORDER = ['appdef',
                    'replacementdef',
+                   'modifierdef',
                    'devicevendordef',
                    'deviceproductdef',
                    'uielementroledef',
@@ -171,13 +158,16 @@ class DefQuery(BaseQuery):
         self.data[type].add(defname)
 
     @classmethod
-    def query_filter(cls, value):
-        result = cls.query(value)
-
-        if result is None:
-            raise UndefinedFilterException('Undefined filter `%s`' % value)
+    def query_filter(cls, def_val):
+        if get_alias('MODIFIER_ALIAS', def_val.lower()):
+            def_type = 'modifierdef'
         else:
-            return get_filter_by_def(result.lower())
+            def_type = cls.query(def_val)
+
+        if def_type is None:
+            raise UndefinedFilterException('Undefined filter `%s`' % def_val)
+        else:
+            return get_filter_by_def(def_type.lower())
 
 
 if __name__ == '__main__':

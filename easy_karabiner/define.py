@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from easy_karabiner import util
+from easy_karabiner import lookup
 from easy_karabiner.xml_base import XML_base
-from easy_karabiner.lookup import get_def_alias, DefQuery
 from easy_karabiner.def_filter_map import get_name_tag_by_def_tag
 
 
@@ -186,7 +186,7 @@ def split_clsname_defname(name):
         defname = get_replacement_defname(name)
     # clsname::defname
     elif len(parts) > 2:
-        clsname = get_def_alias(parts[0], parts[0])
+        clsname = lookup.get_alias('DEF_ALIAS', parts[0], parts[0])
         defname = parts[-1]
     # defname
     else:
@@ -216,7 +216,7 @@ def parse_definition(name, vals):
     if definition is None:
         raise Exception('Unsupport definition type')
 
-    DefQuery.add_def(definition)
+    lookup.DefQuery.add_def(definition)
     return definition
 
 
