@@ -2,104 +2,120 @@
 """A tool to generate key remap configuration for Karabiner
 
 Usage:
-    easy_karabiner [-r] [-h | -v | -e | -s | -o PATH] [FILE]
-
-Examples:
-    easy_karabiner
-    easy_karabiner -s "~/.easy_karabiner.py"
-    easy_karabiner -o "~/Library/Application Support/Karabiner/private.xml"
-
-Options:
-    -h --help
-    -v --version             Show version
-    -s --string              output as string
-    -o PATH --output=PATH    specify output file path
-    -r --reload              reload Karabiner
-    -e --edit                edit "~/.easy_karabiner.py"
+    easy_karabiner [-evr] [SOURCE] [TARGET | --string]
+    easy_karabiner [--help | --version]
 """
 from __future__ import print_function
-
 import os
+import click
 from hashlib import sha1
 from subprocess import call
-from docopt import docopt
 from easy_karabiner import lookup
-from easy_karabiner import __version__
 from easy_karabiner.xml_base import XML_base
 from easy_karabiner.generator import Generator
 
 
-def gen_config(remaps, definitions=None):
-    return Generator(remaps=remaps, definitions=(definitions or [])).generate()
+DEFAULT_CONFIG_PATH = '~/.easy_karabiner.py'
+DEFAULT_OUTPUT_PATH = '~/Library/Application Support/Karabiner/private.xml'
 
-def is_original_config(filepath):
+DEFAULT_CONFIG_PATH = os.path.expanduser(DEFAULT_CONFIG_PATH)
+DEFAULT_OUTPUT_PATH = os.path.expanduser(DEFAULT_OUTPUT_PATH)
+
+
+@click.command()
+@click.version_option()
+@click.argument('inpath', default=DEFAULT_CONFIG_PATH, type=click.Path())
+@click.argument('outpath', default=DEFAULT_OUTPUT_PATH, type=click.Path())
+@click.option('--verbose', '-v', help='Print more text.', is_flag=True)
+@click.option('--string', '-s', help='Output as string.', is_flag=True)
+@click.option('--reload', '-r', help='Reload Karabiner.', is_flag=True)
+@click.option('--edit', '-e', help='Edit default config file.', is_flag=True)
+def main(inpath, outpath, **options):
+    """
+    \b
+    $ easy_karabiner
+    $ easy_karabiner input.py output.xml
+    $ easy_karabiner input.py --string
+    """
+    global VERBOSE
+    VERBOSE = options.get('verbose')
+
+    if options.get('edit'):
+        edit_config_file()
+
     try:
-        tag = XML_base.parse(filepath).find('Easy-Karabiner')
-        return tag is None
-    except:
-        return True
+        configs = read_config_file(inpath)
+        xml_str = gen_config(configs)
 
-def backup_file(filepath):
-    checksum = sha1(open(filepath, 'rb').read()).hexdigest()[:7]
-    parts = os.path.basename(filepath).split('.')
-    parts.insert(-1, checksum)
-    newname = os.path.join(os.path.dirname(filepath), '.'.join(parts))
-    os.rename(filepath, newname)
+        if options.get('string'):
+            print(xml_str)
+            return 0
 
-def reload_karabiner():
-    call(['karabiner', 'enable', 'private.easy_karabiner'])
-    call(['karabiner', 'reloadxml'])
-    print("Reload Karabiner config xml file.")
+        try:
+            if not is_generated_by_easy_karabiner(outpath):
+                backup_file(outpath)
+        except IOError:
+            pass
 
-def main():
-    DEFAULT_CONFIG = os.path.expanduser("~/.easy_karabiner.py")
-    DEFAULT_OUTPUT = os.path.expanduser("~/Library/Application Support/Karabiner/private.xml")
+        write_generated_xml(outpath, xml_str)
 
-    args = docopt(__doc__)
-    config_path = os.path.expanduser(args['FILE'] or DEFAULT_CONFIG)
-    output_path = os.path.expanduser(args['--output'] or DEFAULT_OUTPUT)
-    output_as_str = args['--string']
-    need_reload = args['--reload']
-    need_edit = args['--edit']
-    show_version = args['--version']
-
-    if show_version:
-        print(__version__)
-        return
-    elif need_edit:
-        editor = os.environ.get('EDITOR', 'vi')
-        call([editor, os.path.expanduser(DEFAULT_CONFIG)])
-        return
-
-    variables = {}
-    if os.path.isfile(config_path):
-        with open(config_path) as fp:
-            exec(compile(fp.read(), config_path, 'exec'), {}, variables)
-    else:
-        print("Can't find config file \"%s\"" % config_path)
-        return
-
-    remaps = variables.get('REMAPS', [])
-    definitions = variables.get('DEFINITIONS', [])
-
-    # user may define it's own alias table
-    lookup.update_key_alias(variables.get('KEY_ALIAS', {}))
-    lookup.update_def_alias(variables.get('DEF_ALIAS', {}))
-    lookup.update_keymap_alias(variables.get('KEYMAP_ALIAS', {}))
-
-    xml_str = gen_config(remaps=remaps, definitions=definitions)
-
-    if output_as_str:
-        print(xml_str)
-    else:
-        if is_original_config(output_path):
-            backup_file(output_path)
-        with open(output_path, 'wb') as fp:
-            fp.write(xml_str)
-
-        if need_reload or (output_path == DEFAULT_OUTPUT):
+        if options.get('reload') or (outpath == DEFAULT_OUTPUT_PATH):
             reload_karabiner()
 
+        return 0
+    except IOError:
+        print("%s not exist" % inpath)
+        return 1
 
-if __name__ == "__main__":
-    main()
+
+def read_config_file(config_path):
+    configs = {}
+    with open(config_path, 'rb') as fp:
+        if VERBOSE:
+            print("Execute %s" % config_path)
+        exec(compile(fp.read(), config_path, 'exec'), {}, configs)
+    return configs
+
+def write_generated_xml(outpath, content):
+    with open(outpath, 'wb') as fp:
+        if VERBOSE:
+            print("Write generated XML config to %s" % outpath)
+        fp.write(content)
+
+def edit_config_file():
+    editor = os.environ.get('EDITOR', 'vi')
+    call([editor, DEFAULT_CONFIG_PATH])
+
+def reload_karabiner():
+    if VERBOSE:
+        print("Reload Karabiner config")
+    call(['karabiner', 'enable', 'private.easy_karabiner'])
+    call(['karabiner', 'reloadxml'])
+
+def gen_config(configs):
+    remaps = configs.get('REMAPS', [])
+    definitions = configs.get('DEFINITIONS', [])
+    # user may define it's own alias table
+    if VERBOSE:
+        print("Update alias database")
+    lookup.update_key_alias(configs.get('KEY_ALIAS', {}))
+    lookup.update_def_alias(configs.get('DEF_ALIAS', {}))
+    lookup.update_keymap_alias(configs.get('KEYMAP_ALIAS', {}))
+    if VERBOSE:
+        print("Generate XML configuration string")
+    return Generator(remaps=remaps, definitions=definitions).generate()
+
+def is_generated_by_easy_karabiner(filepath):
+    tag = XML_base.parse(filepath).find('Easy-Karabiner')
+    return tag is not None
+
+def backup_file(filepath):
+    with open(filepath, 'rb') as fp:
+        checksum = sha1(fp.read()).hexdigest()[:7]
+        parts = os.path.basename(filepath).split('.')
+        parts.insert(-1, checksum)
+        newname = os.path.join(os.path.dirname(filepath), '.'.join(parts))
+        if VERBOSE:
+            print("Backup original XML config file")
+        # private.xml -> private.941f123.xml
+        os.rename(filepath, newname)

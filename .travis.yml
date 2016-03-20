@@ -6,7 +6,7 @@ python:
   - "3.5"
 install:
   - pip install coveralls
-  - pip install lxml docopt
+  - pip install lxml click
 cache:
   directories:
     - $HOME/.cache/pip
