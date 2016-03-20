@@ -92,17 +92,18 @@ def reload_karabiner():
     call(['karabiner', 'enable', 'private.easy_karabiner'])
     call(['karabiner', 'reloadxml'])
 
-def gen_config(configs):
-    remaps = configs.get('REMAPS', [])
-    definitions = configs.get('DEFINITIONS', [])
-    # user may define it's own alias table
+def update_aliases(configs):
     if VERBOSE:
         print("Update alias database")
-
+    # user may define it's own alias table
     alias_names = filter(lambda k: k.endswith('_ALIAS'), configs.keys())
     for alias_name in alias_names:
         lookup.update_alias(configs[alias_name])
 
+def gen_config(configs):
+    remaps = configs.get('REMAPS', [])
+    definitions = configs.get('DEFINITIONS', [])
+    update_aliases(configs)
     if VERBOSE:
         print("Generate XML configuration string")
     return Generator(remaps=remaps, definitions=definitions).generate()
