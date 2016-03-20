@@ -64,12 +64,17 @@ KEY_ALIAS = {
     "."          : "DOT",
     "/"          : "SLASH",
 
-    "mouse_left"  : "PointingButton::LEFT",
-    "mouse_right" : "PointingButton::RIGHT",
-    "mouse_middle": "PointingButton::MIDDLE",
-    "mouse1"      : "PointingButton::LEFT",
-    "mouse2"      : "PointingButton::RIGHT",
-    "mouse3"      : "PointingButton::MIDDLE",
+    "mouse_left"   : "PointingButton::LEFT",
+    "mouse_right"  : "PointingButton::RIGHT",
+    "mouse_middle" : "PointingButton::MIDDLE",
+    "mouse1"       : "PointingButton::LEFT",
+    "mouse2"       : "PointingButton::RIGHT",
+    "mouse3"       : "PointingButton::MIDDLE",
+
+    "scroll_up"    : "ScrollWheel::UP",
+    "scroll_down"  : "ScrollWheel::DOWN",
+    "scroll_left"  : "ScrollWheel::left",
+    "scroll_right" : "ScrollWheel::right",
 }
 
 KEY_ALIAS.update(MODIFIER_ALIAS)
