@@ -44,7 +44,7 @@ def main(inpath, outpath, **options):
 
     if options.get('edit'):
         edit_config_file()
-        return 0
+        exit(0)
 
     try:
         configs = read_config_file(inpath)
@@ -52,7 +52,7 @@ def main(inpath, outpath, **options):
 
         if options.get('string'):
             print(xml_str)
-            return 0
+            exit(0)
 
         try:
             if not is_generated_by_easy_karabiner(outpath):
@@ -65,10 +65,10 @@ def main(inpath, outpath, **options):
         if options.get('reload') or (outpath == DEFAULT_OUTPUT_PATH):
             reload_karabiner()
 
-        return 0
+        exit(0)
     except IOError:
         print("%s not exist" % inpath)
-        return 1
+        exit(1)
 
 
 def read_config_file(config_path):
