@@ -59,6 +59,9 @@ class XML_base(object):
 
         return elem
 
+    def get_clsname(self):
+        return self.__class__.__name__
+
     def to_xml(self):
         raise exception.NeedOverrideError()
 

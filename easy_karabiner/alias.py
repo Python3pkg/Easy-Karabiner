@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+'''Define aliases here. Alias is a dict with lowercase key.
+
+NOTICE: `MODIFIER_ALIAS` is used in both `modifier_only/modifier_not` filter
+        and `keymap`, so update `KEY_ALIAS` whenever `MODIFIER_ALIAS` updated.
+'''
+
 DEF_ALIAS = {
    'window':  'WindowName',
    'open': 'VKOpenURL',
@@ -77,4 +84,15 @@ KEY_ALIAS = {
     "scroll_right" : "ScrollWheel::right",
 }
 
+
 KEY_ALIAS.update(MODIFIER_ALIAS)
+_ALIASES = dict((k, globals()[k]) for k in globals().keys() if k.endswith('_ALIAS'))
+
+# alias is case-insensitive
+def get_alias(tblname, k, d=None):
+    return _ALIASES[tblname].get(k.lower(), d)
+
+def update_alias(tblname, aliases):
+    _ALIASES.setdefault(tblname, {}).update(aliases)
+    if tblname == 'MODIFIER_ALIAS':
+        _ALIASES.update(alias.MODIFIER_ALIAS)

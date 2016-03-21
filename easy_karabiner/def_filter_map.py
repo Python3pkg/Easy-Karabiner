@@ -23,7 +23,7 @@ _DEFTAG_NAMETAG_MAP = {
 }
 
 def get_name_tag_by_def_tag(defname, d=None):
-    return _DEFTAG_NAMETAG_MAP.get(defname, d)
+    return _DEFTAG_NAMETAG_MAP.get(defname.lower(), d)
 
 def get_filter_by_def(defname, d=None):
-    return _DEF_FILTER_MAP.get(defname, d)
+    return _DEF_FILTER_MAP.get(defname.lower(), d)

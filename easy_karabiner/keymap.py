@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
 from easy_karabiner import util
-from easy_karabiner import lookup
+from easy_karabiner import alias
 from easy_karabiner import exception
 from easy_karabiner.xml_base import XML_base
 from easy_karabiner.key import Key
@@ -18,7 +18,7 @@ class BaseKeyToKey(XML_base, util.Hashable):
         raise exception.NeedOverrideError()
 
     def get_type(self):
-        return '__%s__' % self.__class__.__name__
+        return '__%s__' % self.get_clsname()
 
     def to_xml(self):
         text = self.AUTOGEN_FMT.format(type=self.get_type(),
@@ -79,7 +79,7 @@ class _MultiKeys(UniversalKeyToKey):
         super(_MultiKeys, self).__init__(self.get_type(), *keys, **kwargs)
 
     def get_type(self):
-        return '__%s__' % self.__class__.__name__
+        return '__%s__' % self.get_clsname()
 
 
 class KeyToKey(BaseKeyToKey):
@@ -216,7 +216,7 @@ def parse_keymap(command, keys):
     '''
     Parse `[(command), key1, key2, ...]` and return relative keymap
     '''
-    clsname = lookup.get_alias('KEYMAP_ALIAS', command, command.strip('_'))
+    clsname = alias.get_alias('KEYMAP_ALIAS', command, command.strip('_'))
     keys = get_ground_truth_vals(clsname, keys)
     keymap = create_keymap(clsname, keys)
     return keymap

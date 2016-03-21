@@ -18,7 +18,7 @@ class BaseFilter(XML_base, util.Hashable):
         return self.vals
 
     def get_tag_name(self):
-        header = self.__class__.__name__.lower().rsplit('filter', 1)[0]
+        header = self.get_clsname().lower().rsplit('filter', 1)[0]
         tag_name = '%s_%s' % (header, self.type)
         return tag_name
 

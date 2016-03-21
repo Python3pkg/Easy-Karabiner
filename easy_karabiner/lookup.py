@@ -1,20 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
 import os
-from easy_karabiner import exception
 from easy_karabiner import alias
+from easy_karabiner import exception
+from easy_karabiner import def_filter_map
 from easy_karabiner.xml_base import XML_base
-from easy_karabiner.def_filter_map import get_name_tag_by_def_tag, get_filter_by_def
-
-
-# alias is case-insensitive
-def get_alias(tblname, k, d=None):
-    return alias.__dict__[tblname].get(k.lower(), d)
-
-def update_alias(tblname, aliases):
-    alias.__dict__.setdefault(tblname, {}).update(aliases)
-    if tblname == 'MODIFIER_ALIAS':
-        alias.KEY_ALIAS.update(alias.MODIFIER_ALIAS)
 
 
 class BaseQuery(object):
@@ -142,7 +132,7 @@ class DefQuery(BaseQuery):
 
     def get_data(self, type):
         xml_tree = XML_base.parse(self.get_datapath(type))
-        name_val = get_name_tag_by_def_tag(type)
+        name_val = def_filter_map.get_name_tag_by_def_tag(type)
 
         if name_val == '':
             tags = xml_tree.findall(type)
@@ -160,7 +150,7 @@ class DefQuery(BaseQuery):
 
     @classmethod
     def query_filter(cls, def_val):
-        if get_alias('MODIFIER_ALIAS', def_val.lower()):
+        if alias.get_alias('MODIFIER_ALIAS', def_val):
             def_type = 'modifierdef'
         else:
             def_type = cls.query(def_val)
@@ -168,7 +158,7 @@ class DefQuery(BaseQuery):
         if def_type is None:
             raise exception.UndefinedFilterException('Undefined filter `%s`' % def_val)
         else:
-            return get_filter_by_def(def_type.lower())
+            return def_filter_map.get_filter_by_def(def_type)
 
 
 if __name__ == '__main__':

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
+from easy_karabiner import alias
 from easy_karabiner import lookup
 
 class Key(object):
@@ -18,7 +19,7 @@ class Key(object):
         # remove multiple whitespaces and convert to raw value
         keys = " ".join(keys.split()).split()
         # if no alias find, then return the original value
-        keys = map(lambda k: lookup.get_alias('KEY_ALIAS', k, k), keys)
+        keys = map(lambda k: alias.get_alias('KEY_ALIAS', k, k), keys)
         # if no key header find, then return the original value
         keys = map(self.add_key_header, keys)
         # we need adjust position of keys, because

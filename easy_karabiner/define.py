@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from easy_karabiner import util
+from easy_karabiner import alias
 from easy_karabiner import lookup
 from easy_karabiner import exception
 from easy_karabiner.xml_base import XML_base
@@ -16,7 +17,7 @@ class BaseDef(XML_base):
         return self.name
 
     def get_def_tag_name(self):
-        return '%sdef' % self.__class__.__name__.lower()
+        return '%sdef' % self.get_clsname().lower()
 
     def get_name_tag_name(self):
         return get_name_tag_by_def_tag(self.get_def_tag_name())
@@ -187,7 +188,7 @@ def split_clsname_defname(name):
         defname = get_replacement_defname(name)
     # clsname::defname
     elif len(parts) > 2:
-        clsname = lookup.get_alias('DEF_ALIAS', parts[0], parts[0])
+        clsname = alias.get_alias('DEF_ALIAS', parts[0], parts[0])
         defname = parts[-1]
     # defname
     else:
