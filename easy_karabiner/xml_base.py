@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import lxml.etree as etree
 import xml.dom.minidom as minidom
+from easy_karabiner import exception
 
 
 class XML_base(object):
@@ -59,7 +60,7 @@ class XML_base(object):
         return elem
 
     def to_xml(self):
-        raise Exception('Need override')
+        raise exception.NeedOverrideError()
 
     def to_str(self, pretty_text=True, remove_first_line=False):
         xmlstr = self.to_format_str(self.to_xml(), pretty_text=pretty_text)

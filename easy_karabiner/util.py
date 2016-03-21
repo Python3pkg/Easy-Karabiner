@@ -2,12 +2,13 @@
 import os
 import inspect
 import subprocess
+from easy_karabiner import exception
 from easy_karabiner.xml_base import XML_base
 
 
 class Hashable(object):
     def _id(self):
-        raise Exception('Need override')
+        raise exception.NeedOverrideError()
 
     def __hash__(self):
         return hash(self._id())

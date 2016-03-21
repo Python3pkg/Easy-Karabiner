@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from easy_karabiner import util
 from easy_karabiner import lookup
+from easy_karabiner import exception
 from easy_karabiner.xml_base import XML_base
 from easy_karabiner.def_filter_map import get_name_tag_by_def_tag
 
@@ -21,7 +22,7 @@ class BaseDef(XML_base):
         return get_name_tag_by_def_tag(self.get_def_tag_name())
 
     def get_tag_val_pair(self, val):
-        raise Exception("Need override")
+        raise exception.NeedOverrideError()
 
     def get_tag_val_pairs(self, tag_vals):
         return list(map(self.get_tag_val_pair, tag_vals))
@@ -214,7 +215,7 @@ def parse_definition(name, vals):
             break
 
     if definition is None:
-        raise Exception('Unsupport definition type')
+        raise exception.UnsupportDefType(defname)
 
     lookup.DefQuery.add_def(definition)
     return definition

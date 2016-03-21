@@ -2,6 +2,7 @@
 from __future__ import print_function
 from easy_karabiner import util
 from easy_karabiner import lookup
+from easy_karabiner import exception
 from easy_karabiner.xml_base import XML_base
 from easy_karabiner.key import Key
 
@@ -14,7 +15,7 @@ class BaseKeyToKey(XML_base, util.Hashable):
         self.keys_str = self.parse(*keys, **kwargs)
 
     def parse(self, *keys, **kwargs):
-        raise Exception("Need override")
+        raise exception.NeedOverrideError()
 
     def get_type(self):
         return '__%s__' % self.__class__.__name__

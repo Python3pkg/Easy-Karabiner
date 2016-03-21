@@ -31,8 +31,10 @@ class BaseFilter(XML_base, util.Hashable):
             self.vals += another.vals
             return self
         else:
-            msg = "Can't add %s with %s" % (self.get_tag_name(), another.get_tag_name())
-            raise Exception(msg)
+            tagname1 = self.get_tag_name()
+            tagname2 = another.get_tag_name()
+            errmsg = "Can't add %s with %s" % (tagname1, tagname2)
+            raise TypeError(errmsg)
 
     def _id(self):
         return (self.get_tag_name(), tuple(self.get_vals()))

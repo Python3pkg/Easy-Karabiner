@@ -2,11 +2,11 @@
 from __future__ import print_function
 from collections import OrderedDict
 from easy_karabiner import __version__
+from easy_karabiner import exception
 from easy_karabiner.xml_base import XML_base
 from easy_karabiner.define import parse_definition
 from easy_karabiner.filter import parse_filter
 from easy_karabiner.keymap import parse_keymap
-from easy_karabiner.lookup import UndefinedFilterException
 
 
 class Generator(XML_base):
@@ -97,7 +97,7 @@ class Generator(XML_base):
     # return (KeyToKey, [Filter])
     def parse_remap(self, remap):
         if not self.is_list_or_tuple(remap) or len(remap) == 0:
-            raise Exception('Wrong format')
+            raise exception.ConfigError('Remap must be a list or tuple')
 
         if self.is_list_or_tuple(remap[-1]):
             keyargs = remap[:-1]

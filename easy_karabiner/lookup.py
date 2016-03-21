@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
 import os
+from easy_karabiner import exception
 from easy_karabiner import alias
 from easy_karabiner.xml_base import XML_base
 from easy_karabiner.def_filter_map import get_name_tag_by_def_tag, get_filter_by_def
@@ -61,7 +62,7 @@ class BaseQuery(object):
         return os.path.join(os.path.dirname(__file__), self.DATA_DIR, basename)
 
     def get_data(self, type):
-        raise Exception("Need override")
+        raise exception.NeedOverrideError()
 
 
 # Data file come from https://github.com/tekezo/Karabiner/tree/master/src/bridge/generator/keycode/data
@@ -165,7 +166,7 @@ class DefQuery(BaseQuery):
             def_type = cls.query(def_val)
 
         if def_type is None:
-            raise UndefinedFilterException('Undefined filter `%s`' % def_val)
+            raise exception.UndefinedFilterException('Undefined filter `%s`' % def_val)
         else:
             return get_filter_by_def(def_type.lower())
 
