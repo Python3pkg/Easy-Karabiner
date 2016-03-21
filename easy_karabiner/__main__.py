@@ -8,6 +8,7 @@ Usage:
 from __future__ import print_function
 import os
 import click
+import lxml
 from hashlib import sha1
 from subprocess import call
 from easy_karabiner import lookup
@@ -80,7 +81,7 @@ def read_config_file(config_path):
     return configs
 
 def write_generated_xml(outpath, content):
-    with open(outpath, 'wb') as fp:
+    with open(outpath, 'w') as fp:
         if VERBOSE:
             print('Write XML to "%s"' % outpath)
         fp.write(content)
@@ -96,8 +97,6 @@ def reload_karabiner():
     call(['karabiner', 'reloadxml'])
 
 def update_aliases(configs):
-    if VERBOSE:
-        print("Update alias database")
     # user may define it's own alias table
     alias_names = filter(lambda k: k.endswith('_ALIAS'), configs.keys())
     for alias_name in alias_names:
@@ -109,11 +108,14 @@ def gen_config(configs):
     update_aliases(configs)
     if VERBOSE:
         print("Generate XML configuration string")
-    return Generator(remaps=remaps, definitions=definitions).generate()
+    return Generator(remaps=remaps, definitions=definitions).to_str()
 
 def is_generated_by_easy_karabiner(filepath):
-    tag = XML_base.parse(filepath).find('Easy-Karabiner')
-    return tag is not None
+    try:
+        tag = XML_base.parse(filepath).find('Easy-Karabiner')
+        return tag is not None
+    except lxml.etree.XMLSyntaxError:
+        return False
 
 def backup_file(filepath):
     with open(filepath, 'rb') as fp:
