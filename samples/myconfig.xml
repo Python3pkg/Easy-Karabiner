@@ -1,0 +1,555 @@
+<?xml version="1.0" ?>
+<root>
+  <Easy-Karabiner>0.3.0</Easy-Karabiner>
+  <item>
+    <name>Easy-Karabiner</name>
+    <vkopenurldef>
+      <name>KeyCode::VK_OPEN_URL_MONITOR</name>
+      <url type="file">/Applications/Utilities/Activity Monitor.app</url>
+    </vkopenurldef>
+    <vkopenurldef>
+      <name>KeyCode::VK_OPEN_URL_CHROME</name>
+      <url type="file">/Applications/Google Chrome.app</url>
+    </vkopenurldef>
+    <deviceproductdef>
+      <productname>3494</productname>
+      <productid>0x0011</productid>
+    </deviceproductdef>
+    <devicevendordef>
+      <vendorname>CHERRY</vendorname>
+      <vendorid>0x046a</vendorid>
+    </devicevendordef>
+    <vkopenurldef>
+      <name>KeyCode::VK_OPEN_URL_SUBLIME</name>
+      <url type="file">/Applications/Sublime Text.app</url>
+    </vkopenurldef>
+    <appdef>
+      <appname>XEE</appname>
+      <equal>cx.c3.Xee3</equal>
+    </appdef>
+    <vkopenurldef>
+      <name>KeyCode::VK_OPEN_URL_PREFERENCES</name>
+      <url type="file">/Applications/System Preferences.app</url>
+    </vkopenurldef>
+    <vkopenurldef>
+      <name>KeyCode::VK_OPEN_URL_COPY_FINDER_PATH</name>
+      <url type="shell">
+<![CDATA[osascript /usr/local/bin/copy_finder_path]]>      </url>
+    </vkopenurldef>
+    <appdef>
+      <appname>BILIBILI</appname>
+      <equal>com.typcn.Bilibili</equal>
+    </appdef>
+    <replacementdef>
+      <replacementname>EMACS_IGNORE_APP</replacementname>
+      <replacementvalue>ECLIPSE, EMACS, TERMINAL, REMOTEDESKTOPCONNECTION, VI, X11, VIRTUALMACHINE, TERMINAL, SUBLIMETEXT</replacementvalue>
+    </replacementdef>
+    <vkopenurldef>
+      <name>KeyCode::VK_OPEN_URL_ITERM</name>
+      <url type="file">/Applications/iTerm.app</url>
+    </vkopenurldef>
+    <vkopenurldef>
+      <name>KeyCode::VK_OPEN_URL_FINDER</name>
+      <url type="file">/System/Library/CoreServices/Finder.app</url>
+    </vkopenurldef>
+    <appdef>
+      <appname>KINDLE</appname>
+      <equal>com.amazon.Kindle</equal>
+    </appdef>
+    <item>
+      <name>Enable</name>
+      <identifier>private.easy_karabiner</identifier>
+      <block>
+        <device_not>
+          DeviceVendor::APPLE_COMPUTER,
+          DeviceProduct::ANY
+        </device_not>
+        <autogen> __FlipScrollWheel__
+          Option::FLIPSCROLLWHEEL_VERTICAL
+        </autogen>
+      </block>
+      <block>
+        <autogen> __HoldingKeyToKey__
+          KeyCode::ESCAPE,
+          @begin
+          KeyCode::ESCAPE
+          @end
+          @begin
+          KeyCode::COMMAND_R, ModifierFlag::CONTROL_R, ModifierFlag::OPTION_R, ModifierFlag::SHIFT_R
+          @end
+        </autogen>
+        <autogen> __DoublePressModifier__
+          KeyCode::FN,
+          @begin
+          KeyCode::FN
+          @end
+          @begin
+          KeyCode::F12
+          @end
+        </autogen>
+        <autogen> __KeyOverlaidModifier__
+          KeyCode::CONTROL_L,
+          @begin
+          KeyCode::CONTROL_L
+          @end
+          @begin
+          KeyCode::ESCAPE
+          @end
+        </autogen>
+        <autogen> __KeyToKey__
+          PointingButton::LEFT, ModifierFlag::OPTION_L, ModifierFlag::NONE,
+          KeyCode::VK_OPEN_URL_COPY_FINDER_PATH
+        </autogen>
+        <autogen> __KeyToKey__
+          ConsumerKeyCode::BRIGHTNESS_DOWN,
+          KeyCode::F1
+        </autogen>
+        <autogen> __KeyToKey__
+          ConsumerKeyCode::BRIGHTNESS_UP,
+          KeyCode::F2
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::DASHBOARD,
+          KeyCode::F3
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::MISSION_CONTROL,
+          KeyCode::F3
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::LAUNCHPAD,
+          KeyCode::F4
+        </autogen>
+        <autogen> __KeyToKey__
+          ConsumerKeyCode::KEYBOARDLIGHT_LOW,
+          ConsumerKeyCode::BRIGHTNESS_DOWN
+        </autogen>
+        <autogen> __KeyToKey__
+          ConsumerKeyCode::KEYBOARDLIGHT_HIGH,
+          ConsumerKeyCode::BRIGHTNESS_UP
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::A, ModifierFlag::OPTION_L, ModifierFlag::NONE,
+          KeyCode::VK_OPEN_URL_ITERM
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::E, ModifierFlag::OPTION_L, ModifierFlag::NONE,
+          KeyCode::VK_OPEN_URL_FINDER
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::C, ModifierFlag::OPTION_L, ModifierFlag::NONE,
+          KeyCode::VK_OPEN_URL_CHROME
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::S, ModifierFlag::OPTION_L, ModifierFlag::NONE,
+          KeyCode::VK_OPEN_URL_SUBLIME
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::DELETE, ModifierFlag::CONTROL_L, ModifierFlag::COMMAND_L, ModifierFlag::NONE,
+          KeyCode::VK_OPEN_URL_MONITOR
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::COMMA, ModifierFlag::CONTROL_L, ModifierFlag::COMMAND_L, ModifierFlag::NONE,
+          KeyCode::VK_OPEN_URL_PREFERENCES
+        </autogen>
+      </block>
+      <block>
+        <only>GOOGLE_CHROME</only>
+        <autogen> __DoublePressModifier__
+          KeyCode::FN,
+          @begin
+          KeyCode::FN
+          @end
+          @begin
+          KeyCode::I, ModifierFlag::COMMAND_L, ModifierFlag::OPTION_L
+          @end
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::K, ModifierFlag::COMMAND_L, ModifierFlag::NONE,
+          KeyCode::CURSOR_UP, KeyCode::CURSOR_UP, KeyCode::CURSOR_UP, KeyCode::CURSOR_UP, KeyCode::CURSOR_UP, KeyCode::CURSOR_UP, KeyCode::CURSOR_UP, KeyCode::CURSOR_UP, KeyCode::CURSOR_UP, KeyCode::CURSOR_UP, KeyCode::CURSOR_UP, KeyCode::CURSOR_UP, KeyCode::CURSOR_UP, KeyCode::CURSOR_UP, KeyCode::CURSOR_UP, KeyCode::CURSOR_UP, KeyCode::CURSOR_UP, KeyCode::CURSOR_UP, KeyCode::CURSOR_UP, KeyCode::CURSOR_UP, KeyCode::CURSOR_UP, KeyCode::CURSOR_UP, KeyCode::CURSOR_UP, KeyCode::CURSOR_UP, KeyCode::CURSOR_UP, KeyCode::CURSOR_UP, KeyCode::CURSOR_UP, KeyCode::CURSOR_UP, KeyCode::CURSOR_UP, KeyCode::CURSOR_UP
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::J, ModifierFlag::COMMAND_L, ModifierFlag::NONE,
+          KeyCode::CURSOR_DOWN, KeyCode::CURSOR_DOWN, KeyCode::CURSOR_DOWN, KeyCode::CURSOR_DOWN, KeyCode::CURSOR_DOWN, KeyCode::CURSOR_DOWN, KeyCode::CURSOR_DOWN, KeyCode::CURSOR_DOWN, KeyCode::CURSOR_DOWN, KeyCode::CURSOR_DOWN, KeyCode::CURSOR_DOWN, KeyCode::CURSOR_DOWN, KeyCode::CURSOR_DOWN, KeyCode::CURSOR_DOWN, KeyCode::CURSOR_DOWN, KeyCode::CURSOR_DOWN, KeyCode::CURSOR_DOWN, KeyCode::CURSOR_DOWN, KeyCode::CURSOR_DOWN, KeyCode::CURSOR_DOWN, KeyCode::CURSOR_DOWN, KeyCode::CURSOR_DOWN, KeyCode::CURSOR_DOWN, KeyCode::CURSOR_DOWN, KeyCode::CURSOR_DOWN, KeyCode::CURSOR_DOWN, KeyCode::CURSOR_DOWN, KeyCode::CURSOR_DOWN, KeyCode::CURSOR_DOWN, KeyCode::CURSOR_DOWN
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::L, ModifierFlag::OPTION_L, ModifierFlag::NONE,
+          KeyCode::TAB, ModifierFlag::CONTROL_R
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::H, ModifierFlag::OPTION_L, ModifierFlag::NONE,
+          KeyCode::TAB, ModifierFlag::CONTROL_R, ModifierFlag::SHIFT_R
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::L, ModifierFlag::CONTROL_L, ModifierFlag::NONE,
+          KeyCode::L, ModifierFlag::COMMAND_R
+        </autogen>
+      </block>
+      <block>
+        <device_only>
+          DeviceVendor::CHERRY,
+          DeviceProduct::3494
+        </device_only>
+        <autogen> __KeyToKey__
+          KeyCode::OPTION_L,
+          KeyCode::COMMAND_L
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::COMMAND_L,
+          KeyCode::OPTION_L
+        </autogen>
+      </block>
+      <block>
+        <only>SKIM</only>
+        <autogen> __KeyToKey__
+          KeyCode::K, ModifierFlag::COMMAND_L, ModifierFlag::NONE,
+          KeyCode::CURSOR_UP, KeyCode::CURSOR_UP, KeyCode::CURSOR_UP, KeyCode::CURSOR_UP, KeyCode::CURSOR_UP, KeyCode::CURSOR_UP
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::J, ModifierFlag::COMMAND_L, ModifierFlag::NONE,
+          KeyCode::CURSOR_DOWN, KeyCode::CURSOR_DOWN, KeyCode::CURSOR_DOWN, KeyCode::CURSOR_DOWN, KeyCode::CURSOR_DOWN, KeyCode::CURSOR_DOWN
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::L, ModifierFlag::OPTION_L, ModifierFlag::NONE,
+          KeyCode::TAB, ModifierFlag::CONTROL_R
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::H, ModifierFlag::OPTION_L, ModifierFlag::NONE,
+          KeyCode::TAB, ModifierFlag::CONTROL_R, ModifierFlag::SHIFT_R
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::P, ModifierFlag::CONTROL_L, ModifierFlag::NONE,
+          KeyCode::CURSOR_UP, KeyCode::CURSOR_UP, KeyCode::CURSOR_UP, KeyCode::CURSOR_UP, KeyCode::CURSOR_UP, KeyCode::CURSOR_UP
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::N, ModifierFlag::CONTROL_L, ModifierFlag::NONE,
+          KeyCode::CURSOR_DOWN, KeyCode::CURSOR_DOWN, KeyCode::CURSOR_DOWN, KeyCode::CURSOR_DOWN, KeyCode::CURSOR_DOWN, KeyCode::CURSOR_DOWN
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::COMMA, ModifierFlag::OPTION_L, ModifierFlag::SHIFT_L, ModifierFlag::NONE,
+          KeyCode::CURSOR_LEFT, ModifierFlag::FN
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::DOT, ModifierFlag::OPTION_L, ModifierFlag::SHIFT_L, ModifierFlag::NONE,
+          KeyCode::CURSOR_RIGHT, ModifierFlag::FN
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::P, ModifierFlag::COMMAND_L, ModifierFlag::NONE,
+          KeyCode::G, ModifierFlag::COMMAND_R, ModifierFlag::OPTION_R
+        </autogen>
+      </block>
+      <block>
+        <only>XEE</only>
+        <autogen> __KeyToKey__
+          KeyCode::D, ModifierFlag::CONTROL_L, ModifierFlag::NONE,
+          KeyCode::DELETE, ModifierFlag::COMMAND_R
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::P, ModifierFlag::CONTROL_L, ModifierFlag::NONE,
+          KeyCode::CURSOR_LEFT, ModifierFlag::COMMAND_R
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::N, ModifierFlag::CONTROL_L, ModifierFlag::NONE,
+          KeyCode::CURSOR_RIGHT, ModifierFlag::COMMAND_R
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::CURSOR_LEFT,
+          KeyCode::CURSOR_LEFT, ModifierFlag::COMMAND_R
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::CURSOR_UP,
+          KeyCode::CURSOR_LEFT, ModifierFlag::COMMAND_R
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::H,
+          KeyCode::CURSOR_LEFT, ModifierFlag::COMMAND_R
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::K,
+          KeyCode::CURSOR_LEFT, ModifierFlag::COMMAND_R
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::CURSOR_RIGHT,
+          KeyCode::CURSOR_RIGHT, ModifierFlag::COMMAND_R
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::CURSOR_DOWN,
+          KeyCode::CURSOR_RIGHT, ModifierFlag::COMMAND_R
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::J,
+          KeyCode::CURSOR_RIGHT, ModifierFlag::COMMAND_R
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::L,
+          KeyCode::CURSOR_RIGHT, ModifierFlag::COMMAND_R
+        </autogen>
+      </block>
+      <block>
+        <only>FINDER</only>
+        <autogen> __KeyToKey__
+          KeyCode::COMMA, ModifierFlag::OPTION_L, ModifierFlag::SHIFT_L, ModifierFlag::NONE,
+          KeyCode::CURSOR_UP, ModifierFlag::OPTION_R
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::DOT, ModifierFlag::OPTION_L, ModifierFlag::SHIFT_L, ModifierFlag::NONE,
+          KeyCode::CURSOR_DOWN, ModifierFlag::OPTION_R
+        </autogen>
+      </block>
+      <block>
+        <only>SUBLIMETEXT</only>
+        <autogen> __KeyToKey__
+          KeyCode::COMMA, ModifierFlag::OPTION_L, ModifierFlag::SHIFT_L, ModifierFlag::NONE,
+          KeyCode::CURSOR_UP, ModifierFlag::COMMAND_R
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::DOT, ModifierFlag::OPTION_L, ModifierFlag::SHIFT_L, ModifierFlag::NONE,
+          KeyCode::CURSOR_DOWN, ModifierFlag::COMMAND_R
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::P, ModifierFlag::CONTROL_L, ModifierFlag::NONE,
+          KeyCode::CURSOR_UP
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::N, ModifierFlag::CONTROL_L, ModifierFlag::NONE,
+          KeyCode::CURSOR_DOWN
+        </autogen>
+      </block>
+      <block>
+        <not>
+          {{EMACS_IGNORE_APP}},
+          SKIM,
+          XEE
+        </not>
+        <autogen> __KeyToKey__
+          KeyCode::P, ModifierFlag::CONTROL_L, ModifierFlag::NONE,
+          KeyCode::CURSOR_UP
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::N, ModifierFlag::CONTROL_L, ModifierFlag::NONE,
+          KeyCode::CURSOR_DOWN
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::D, ModifierFlag::CONTROL_L, ModifierFlag::NONE,
+          KeyCode::FORWARD_DELETE
+        </autogen>
+      </block>
+      <block>
+        <not>
+          {{EMACS_IGNORE_APP}},
+          SKIM,
+          FINDER,
+          SUBLIMETEXT
+        </not>
+        <autogen> __KeyToKey__
+          KeyCode::COMMA, ModifierFlag::OPTION_L, ModifierFlag::SHIFT_L, ModifierFlag::NONE,
+          KeyCode::CURSOR_UP, ModifierFlag::COMMAND_R
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::DOT, ModifierFlag::OPTION_L, ModifierFlag::SHIFT_L, ModifierFlag::NONE,
+          KeyCode::CURSOR_DOWN, ModifierFlag::COMMAND_R
+        </autogen>
+      </block>
+      <block>
+        <not>{{EMACS_IGNORE_APP}}</not>
+        <autogen> __KeyToKey__
+          KeyCode::B, ModifierFlag::CONTROL_L, ModifierFlag::NONE,
+          KeyCode::CURSOR_LEFT
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::F, ModifierFlag::CONTROL_L, ModifierFlag::NONE,
+          KeyCode::CURSOR_RIGHT
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::B, ModifierFlag::OPTION_L, ModifierFlag::NONE,
+          KeyCode::CURSOR_LEFT, ModifierFlag::OPTION_R
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::F, ModifierFlag::OPTION_L, ModifierFlag::NONE,
+          KeyCode::CURSOR_RIGHT, ModifierFlag::OPTION_R
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::A, ModifierFlag::CONTROL_L, ModifierFlag::NONE,
+          KeyCode::CURSOR_LEFT, ModifierFlag::COMMAND_R
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::E, ModifierFlag::CONTROL_L, ModifierFlag::NONE,
+          KeyCode::CURSOR_RIGHT, ModifierFlag::COMMAND_R
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::H, ModifierFlag::CONTROL_L, ModifierFlag::NONE,
+          KeyCode::DELETE
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::D, ModifierFlag::OPTION_L, ModifierFlag::NONE,
+          KeyCode::FORWARD_DELETE, ModifierFlag::OPTION_R
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::U, ModifierFlag::CONTROL_L, ModifierFlag::NONE,
+          KeyCode::CURSOR_RIGHT, ModifierFlag::COMMAND_R, KeyCode::CURSOR_LEFT, ModifierFlag::COMMAND_R, ModifierFlag::SHIFT_R, KeyCode::DELETE, KeyCode::DELETE, Option::NOREPEAT
+        </autogen>
+      </block>
+      <block>
+        <only>TERMINAL</only>
+        <autogen> __KeyToKey__
+          KeyCode::F, ModifierFlag::CONTROL_L, ModifierFlag::COMMAND_L, ModifierFlag::NONE,
+          KeyCode::RETURN, ModifierFlag::COMMAND_R
+        </autogen>
+      </block>
+      <block>
+        <only>
+          SKIM,
+          KINDLE
+        </only>
+        <autogen> __KeyToKey__
+          KeyCode::F, ModifierFlag::CONTROL_L, ModifierFlag::COMMAND_L, ModifierFlag::NONE,
+          KeyCode::F, ModifierFlag::COMMAND_R, ModifierFlag::SHIFT_R, KeyCode::MINUS, ModifierFlag::COMMAND_R, ModifierFlag::SHIFT_R
+        </autogen>
+      </block>
+      <block>
+        <only>VIRTUALMACHINE</only>
+        <autogen> __KeyToKey__
+          KeyCode::F, ModifierFlag::CONTROL_L, ModifierFlag::COMMAND_L, ModifierFlag::NONE,
+          KeyCode::F, ModifierFlag::COMMAND_L
+        </autogen>
+      </block>
+      <block>
+        <only>
+          VIRTUALMACHINE,
+          X11
+        </only>
+        <autogen> __KeyToKey__
+          KeyCode::R, ModifierFlag::OPTION_L, ModifierFlag::NONE,
+          KeyCode::R, ModifierFlag::COMMAND_R
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::E, ModifierFlag::OPTION_L, ModifierFlag::NONE,
+          KeyCode::E, ModifierFlag::COMMAND_R
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::D, ModifierFlag::COMMAND_L, ModifierFlag::NONE,
+          KeyCode::D, ModifierFlag::COMMAND_R
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::H, ModifierFlag::CONTROL_L, ModifierFlag::NONE,
+          KeyCode::DELETE
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::D, ModifierFlag::CONTROL_L, ModifierFlag::NONE,
+          KeyCode::FORWARD_DELETE
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::U, ModifierFlag::CONTROL_L, ModifierFlag::NONE,
+          KeyCode::END, KeyCode::HOME, ModifierFlag::SHIFT_L, KeyCode::DELETE, KeyCode::DELETE, Option::NOREPEAT
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::DELETE, ModifierFlag::CONTROL_L, ModifierFlag::OPTION_L, ModifierFlag::NONE,
+          KeyCode::DELETE, ModifierFlag::CONTROL_R
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::D, ModifierFlag::CONTROL_L, ModifierFlag::OPTION_L, ModifierFlag::NONE,
+          KeyCode::FORWARD_DELETE, ModifierFlag::CONTROL_R
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::F, ModifierFlag::CONTROL_L, ModifierFlag::OPTION_L, ModifierFlag::NONE,
+          KeyCode::CURSOR_RIGHT, ModifierFlag::CONTROL_R
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::B, ModifierFlag::CONTROL_L, ModifierFlag::OPTION_L, ModifierFlag::NONE,
+          KeyCode::CURSOR_LEFT, ModifierFlag::CONTROL_R
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::Q, ModifierFlag::COMMAND_L, ModifierFlag::NONE,
+          KeyCode::F4, ModifierFlag::OPTION_R
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::R, ModifierFlag::COMMAND_L, ModifierFlag::NONE,
+          KeyCode::R, ModifierFlag::CONTROL_R
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::L, ModifierFlag::COMMAND_L, ModifierFlag::NONE,
+          KeyCode::L, ModifierFlag::CONTROL_R
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::C, ModifierFlag::COMMAND_L, ModifierFlag::NONE,
+          KeyCode::C, ModifierFlag::CONTROL_R
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::V, ModifierFlag::COMMAND_L, ModifierFlag::NONE,
+          KeyCode::V, ModifierFlag::CONTROL_R
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::X, ModifierFlag::COMMAND_L, ModifierFlag::NONE,
+          KeyCode::X, ModifierFlag::CONTROL_R
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::Z, ModifierFlag::COMMAND_L, ModifierFlag::NONE,
+          KeyCode::Z, ModifierFlag::CONTROL_R
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::A, ModifierFlag::COMMAND_L, ModifierFlag::NONE,
+          KeyCode::A, ModifierFlag::CONTROL_R
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::F, ModifierFlag::COMMAND_L, ModifierFlag::NONE,
+          KeyCode::F, ModifierFlag::CONTROL_R
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::S, ModifierFlag::COMMAND_L, ModifierFlag::NONE,
+          KeyCode::S, ModifierFlag::CONTROL_R
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::W, ModifierFlag::COMMAND_L, ModifierFlag::NONE,
+          KeyCode::W, ModifierFlag::CONTROL_R
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::T, ModifierFlag::COMMAND_L, ModifierFlag::NONE,
+          KeyCode::T, ModifierFlag::CONTROL_R
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::A, ModifierFlag::CONTROL_L, ModifierFlag::NONE,
+          KeyCode::HOME
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::CURSOR_LEFT, ModifierFlag::COMMAND_L, ModifierFlag::NONE,
+          KeyCode::HOME
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::E, ModifierFlag::CONTROL_L, ModifierFlag::NONE,
+          KeyCode::END
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::CURSOR_RIGHT, ModifierFlag::COMMAND_L, ModifierFlag::NONE,
+          KeyCode::END
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::P, ModifierFlag::CONTROL_L, ModifierFlag::NONE,
+          KeyCode::CURSOR_UP
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::N, ModifierFlag::CONTROL_L, ModifierFlag::NONE,
+          KeyCode::CURSOR_DOWN
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::F, ModifierFlag::CONTROL_L, ModifierFlag::NONE,
+          KeyCode::CURSOR_RIGHT
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::B, ModifierFlag::CONTROL_L, ModifierFlag::NONE,
+          KeyCode::CURSOR_LEFT
+        </autogen>
+      </block>
+      <block>
+        <only>BILIBILI</only>
+        <autogen> __KeyToKey__
+          KeyCode::TAB, ModifierFlag::CONTROL_L, ModifierFlag::NONE,
+          KeyCode::CURSOR_RIGHT, ModifierFlag::COMMAND_R, ModifierFlag::OPTION_R
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::TAB, ModifierFlag::CONTROL_L, ModifierFlag::SHIFT_L, ModifierFlag::NONE,
+          KeyCode::CURSOR_LEFT, ModifierFlag::COMMAND_R, ModifierFlag::OPTION_R
+        </autogen>
+      </block>
+    </item>
+  </item>
+</root>

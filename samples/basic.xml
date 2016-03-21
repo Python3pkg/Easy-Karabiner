@@ -1,0 +1,68 @@
+<?xml version="1.0" ?>
+<root>
+  <Easy-Karabiner>0.3.0</Easy-Karabiner>
+  <item>
+    <name>Easy-Karabiner</name>
+    <replacementdef>
+      <replacementname>EMACS_IGNORE_APP</replacementname>
+      <replacementvalue>X11, GOOGLE_CHROME</replacementvalue>
+    </replacementdef>
+    <item>
+      <name>Enable</name>
+      <identifier>private.easy_karabiner</identifier>
+      <block>
+        <not>{{EMACS_IGNORE_APP}}</not>
+        <autogen> __KeyToKey__
+          KeyCode::B, ModifierFlag::CONTROL_L, ModifierFlag::NONE,
+          KeyCode::CURSOR_LEFT
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::B, ModifierFlag::CONTROL_L, ModifierFlag::NONE,
+          KeyCode::CURSOR_LEFT
+        </autogen>
+      </block>
+      <block>
+        <only>
+          VIRTUALMACHINE,
+          X11
+        </only>
+        <autogen> __KeyToKey__
+          KeyCode::D, ModifierFlag::COMMAND_L, ModifierFlag::NONE,
+          KeyCode::D, ModifierFlag::COMMAND_R
+        </autogen>
+      </block>
+      <block>
+        <autogen> __DoublePressModifier__
+          KeyCode::FN,
+          @begin
+          KeyCode::FN
+          @end
+          @begin
+          KeyCode::F12
+          @end
+        </autogen>
+      </block>
+      <block>
+        <only>GOOGLE_CHROME</only>
+        <autogen> __DoublePressModifier__
+          KeyCode::FN,
+          @begin
+          KeyCode::FN
+          @end
+          @begin
+          KeyCode::I, ModifierFlag::COMMAND_L, ModifierFlag::OPTION_L
+          @end
+        </autogen>
+        <autogen> __HoldingKeyToKey__
+          KeyCode::ESCAPE,
+          @begin
+          KeyCode::ESCAPE
+          @end
+          @begin
+          KeyCode::COMMAND_R, ModifierFlag::CONTROL_R, ModifierFlag::OPTION_R, ModifierFlag::SHIFT_R
+          @end
+        </autogen>
+      </block>
+    </item>
+  </item>
+</root>

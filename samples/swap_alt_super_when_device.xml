@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<root>
+  <Easy-Karabiner>0.3.0</Easy-Karabiner>
+  <item>
+    <name>Easy-Karabiner</name>
+    <deviceproductdef>
+      <productname>3494</productname>
+      <productid>0x0011</productid>
+    </deviceproductdef>
+    <devicevendordef>
+      <vendorname>CHERRY</vendorname>
+      <vendorid>0x046a</vendorid>
+    </devicevendordef>
+    <item>
+      <name>Enable</name>
+      <identifier>private.easy_karabiner</identifier>
+      <block>
+        <device_only>
+          DeviceVendor::CHERRY,
+          DeviceProduct::3494
+        </device_only>
+        <autogen> __KeyToKey__
+          KeyCode::OPTION_L,
+          KeyCode::COMMAND_L
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::COMMAND_L,
+          KeyCode::OPTION_L
+        </autogen>
+      </block>
+    </item>
+  </item>
+</root>
