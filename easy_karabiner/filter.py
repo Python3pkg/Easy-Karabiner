@@ -4,6 +4,7 @@ from operator import add
 from functools import reduce
 from itertools import groupby
 from easy_karabiner import util
+from easy_karabiner import exception
 from easy_karabiner.lookup import DefQuery
 from easy_karabiner.xml_base import XML_base
 
@@ -135,7 +136,11 @@ def parse_filter(vals):
     # create filters
     filters = []
     for type, val in type_val_pairs:
-        clsname = DefQuery.query_filter(val) or 'Filter'
+        clsname = DefQuery.query_filter(val)
+        if clsname is None:
+            errmsg = "%s" % (vals)
+            raise exception.UndefinedFilterException(errmsg)
+
         val = get_ground_truth_val(clsname, val)
         filter = create_filter(clsname, val, type)
         filters.append(filter)

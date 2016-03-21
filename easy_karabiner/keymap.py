@@ -205,7 +205,7 @@ def get_ground_truth_vals(clsname, vals):
     vals = list(map(replace_vkopenurl_start, vals))
     return vals
 
-def create_keymap(clsname, keys):
+def create_keymap(clsname, command, keys):
     for cls in _CLASSES:
         if clsname == cls.__name__:
             return cls(*keys)
@@ -218,7 +218,7 @@ def parse_keymap(command, keys):
     '''
     clsname = alias.get_alias('KEYMAP_ALIAS', command, command.strip('_'))
     keys = get_ground_truth_vals(clsname, keys)
-    keymap = create_keymap(clsname, keys)
+    keymap = create_keymap(clsname, command, keys)
     return keymap
 
 

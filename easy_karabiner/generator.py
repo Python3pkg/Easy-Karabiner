@@ -72,7 +72,12 @@ class Generator(XML_base):
             if not self.is_list_or_tuple(vals):
                 vals = [vals]
 
-            defs.append(parse_definition(name, vals))
+            try:
+                definition = parse_definition(name, vals)
+                defs.append(definition)
+            except exception.UnsupportDefinitionType as e:
+                errmsg = "Invalid definition:\n\t%s" % e
+                raise exception.UnsupportDefinitionType(errmsg)
 
         return defs
 
@@ -85,7 +90,8 @@ class Generator(XML_base):
                 keymap, filters = self.parse_remap(remap)
                 filters_keymaps_tbl.setdefault(filters, []).append(keymap)
             else:
-                raise exception.ConfigError('Remap must be a list or tuple')
+                errmsg = 'Remap must be a list or tuple:\n\t%s' % remap.__repr__()
+                raise exception.ConfigError(errmsg)
 
         blocks = []
         for filters in filters_keymaps_tbl:
@@ -98,12 +104,12 @@ class Generator(XML_base):
     def parse_remap(self, remap):
         # last element in remap is [Filter]?
         if self.is_list_or_tuple(remap[-1]):
+            keyargs = remap[:-1]
             try:
-                keyargs = remap[:-1]
                 filters = parse_filter(remap[-1])
-            except UndefinedFilterException as e:
-                print(e)
-                exit(1)
+            except exception.UndefinedFilterException as e:
+                errmsg = "Undefined filters:\n\t%s" % e
+                raise exception.UnsupportDefinitionType(errmsg)
         else:
             keyargs = remap
             filters = []

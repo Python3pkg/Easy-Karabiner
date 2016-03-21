@@ -13,6 +13,7 @@ from hashlib import sha1
 from subprocess import call
 from easy_karabiner import lookup
 from easy_karabiner import __version__
+from easy_karabiner import exception
 from easy_karabiner.xml_base import XML_base
 from easy_karabiner.generator import Generator
 
@@ -51,7 +52,9 @@ def main(inpath, outpath, **options):
         configs = read_config_file(inpath)
         xml_str = gen_config(configs)
 
-        if options.get('string'):
+        if xml_str is None:
+            exit(1)
+        elif options.get('string'):
             print(xml_str)
             exit(0)
 
@@ -108,7 +111,12 @@ def gen_config(configs):
     update_aliases(configs)
     if VERBOSE:
         print("Generate XML configuration string")
-    return Generator(remaps=remaps, definitions=definitions).to_str()
+
+    try:
+        return Generator(remaps=remaps, definitions=definitions).to_str()
+    except exception.ConfigError as e:
+        print(e)
+        return None
 
 def is_generated_by_easy_karabiner(filepath):
     try:

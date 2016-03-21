@@ -156,7 +156,7 @@ class DefQuery(BaseQuery):
             def_type = cls.query(def_val)
 
         if def_type is None:
-            raise exception.UndefinedFilterException('Undefined filter `%s`' % def_val)
+            return def_type
         else:
             return def_filter_map.get_filter_by_def(def_type)
 

@@ -8,7 +8,7 @@ class NeedOverrideError(NotImplementedError):
 class ConfigError(Exception):
     pass
 
-class UnsupportDefType(ConfigError):
+class UnsupportDefinitionType(ConfigError):
     pass
 
 class UndefinedFilterException(ConfigError):

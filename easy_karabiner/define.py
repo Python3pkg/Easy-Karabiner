@@ -227,7 +227,8 @@ def parse_definition(name, vals):
     definition = create_definition(clsname, defname, vals)
 
     if definition is None:
-        raise exception.UnsupportDefType(defname)
+        errmsg = "'%s': %s" % (name, vals)
+        raise exception.UnsupportDefinitionType(errmsg)
     else:
         lookup.DefQuery.add_def(definition)
         return definition
