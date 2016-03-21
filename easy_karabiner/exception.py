@@ -3,7 +3,7 @@
 class NeedOverrideError(NotImplementedError):
     def __init__(self):
         errmsg = 'You need override this method'
-        super(NotImplementedError, self).__init__(self, errmsg)
+        super(NeedOverrideError, self).__init__(self, errmsg)
 
 class ConfigError(Exception):
     pass

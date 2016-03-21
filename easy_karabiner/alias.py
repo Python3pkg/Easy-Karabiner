@@ -95,4 +95,4 @@ def get_alias(tblname, k, d=None):
 def update_alias(tblname, aliases):
     _ALIASES.setdefault(tblname, {}).update(aliases)
     if tblname == 'MODIFIER_ALIAS':
-        _ALIASES.update(alias.MODIFIER_ALIAS)
+        _ALIASES['KEY_ALIAS'].update(_ALIASES['MODIFIER_ALIAS'])
