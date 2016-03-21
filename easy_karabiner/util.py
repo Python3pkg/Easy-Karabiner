@@ -44,8 +44,8 @@ def is_xml_element_equal(node1, node2):
 
 def is_xml_tree_equal(tree1, tree2):
     if is_xml_element_equal(tree1, tree2):
-        elems1 = sorted(list(tree1), key=lambda e: (e.tag, e.attrib, e.text))
-        elems2 = sorted(list(tree2), key=lambda e: (e.tag, e.attrib, e.text))
+        elems1 = list(tree1)
+        elems2 = list(tree2)
 
         for i in range(len(elems1)):
             if not is_xml_tree_equal(elems1[i], elems2[i]):
@@ -82,6 +82,7 @@ def get_apppath(appname, default=None):
             appnames = list(map(os.path.basename, apppaths))
 
             get_apppath.apps = dict(zip(appnames, apppaths))
+        # just for test on Linux
         else:
             get_apppath.apps = dict()
 
