@@ -1,16 +1,12 @@
 <?xml version="1.0" ?>
 <root>
-  <Easy-Karabiner>0.3.0</Easy-Karabiner>
+  <Easy-Karabiner>0.4.0</Easy-Karabiner>
   <item>
     <name>Easy-Karabiner</name>
-    <vkopenurldef>
-      <name>KeyCode::VK_OPEN_URL_MONITOR</name>
-      <url type="file">/Applications/Utilities/Activity Monitor.app</url>
-    </vkopenurldef>
-    <vkopenurldef>
-      <name>KeyCode::VK_OPEN_URL_CHROME</name>
-      <url type="file">/Applications/Google Chrome.app</url>
-    </vkopenurldef>
+    <appdef>
+      <appname>BILIBILI</appname>
+      <equal>com.typcn.Bilibili</equal>
+    </appdef>
     <deviceproductdef>
       <productname>3494</productname>
       <productid>0x0011</productid>
@@ -19,6 +15,35 @@
       <vendorname>CHERRY</vendorname>
       <vendorid>0x046a</vendorid>
     </devicevendordef>
+    <appdef>
+      <appname>KINDLE</appname>
+      <equal>com.amazon.Kindle</equal>
+    </appdef>
+    <vkopenurldef>
+      <name>KeyCode::VK_OPEN_URL_CHROME</name>
+      <url type="file">/Applications/Google Chrome.app</url>
+    </vkopenurldef>
+    <vkopenurldef>
+      <name>KeyCode::VK_OPEN_URL_COPY_FINDER_PATH</name>
+      <url type="shell">
+<![CDATA[osascript /usr/local/bin/copy_finder_path]]>      </url>
+    </vkopenurldef>
+    <vkopenurldef>
+      <name>KeyCode::VK_OPEN_URL_FINDER</name>
+      <url type="file">/System/Library/CoreServices/Finder.app</url>
+    </vkopenurldef>
+    <vkopenurldef>
+      <name>KeyCode::VK_OPEN_URL_ITERM</name>
+      <url type="file">/Applications/iTerm.app</url>
+    </vkopenurldef>
+    <vkopenurldef>
+      <name>KeyCode::VK_OPEN_URL_MONITOR</name>
+      <url type="file">/Applications/Utilities/Activity Monitor.app</url>
+    </vkopenurldef>
+    <vkopenurldef>
+      <name>KeyCode::VK_OPEN_URL_PREFERENCES</name>
+      <url type="file">/Applications/System Preferences.app</url>
+    </vkopenurldef>
     <vkopenurldef>
       <name>KeyCode::VK_OPEN_URL_SUBLIME</name>
       <url type="file">/Applications/Sublime Text.app</url>
@@ -27,35 +52,10 @@
       <appname>XEE</appname>
       <equal>cx.c3.Xee3</equal>
     </appdef>
-    <vkopenurldef>
-      <name>KeyCode::VK_OPEN_URL_PREFERENCES</name>
-      <url type="file">/Applications/System Preferences.app</url>
-    </vkopenurldef>
-    <vkopenurldef>
-      <name>KeyCode::VK_OPEN_URL_COPY_FINDER_PATH</name>
-      <url type="shell">
-<![CDATA[osascript /usr/local/bin/copy_finder_path]]>      </url>
-    </vkopenurldef>
-    <appdef>
-      <appname>BILIBILI</appname>
-      <equal>com.typcn.Bilibili</equal>
-    </appdef>
     <replacementdef>
       <replacementname>EMACS_IGNORE_APP</replacementname>
       <replacementvalue>ECLIPSE, EMACS, TERMINAL, REMOTEDESKTOPCONNECTION, VI, X11, VIRTUALMACHINE, TERMINAL, SUBLIMETEXT</replacementvalue>
     </replacementdef>
-    <vkopenurldef>
-      <name>KeyCode::VK_OPEN_URL_ITERM</name>
-      <url type="file">/Applications/iTerm.app</url>
-    </vkopenurldef>
-    <vkopenurldef>
-      <name>KeyCode::VK_OPEN_URL_FINDER</name>
-      <url type="file">/System/Library/CoreServices/Finder.app</url>
-    </vkopenurldef>
-    <appdef>
-      <appname>KINDLE</appname>
-      <equal>com.amazon.Kindle</equal>
-    </appdef>
     <item>
       <name>Enable</name>
       <identifier>private.easy_karabiner</identifier>

@@ -42,19 +42,21 @@ def is_xml_element_equal(node1, node2):
     text2 = '' if node2.text is None else remove_all_space(node2.text)
     return text1 == text2
 
-def is_xml_tree_equal(tree1, tree2):
-    if is_xml_element_equal(tree1, tree2):
+def is_xml_tree_equal(tree1, tree2, ignore_tags=tuple()):
+    if tree1.tag == tree2.tag and tree1.tag in ignore_tags:
+        return True
+    elif is_xml_element_equal(tree1, tree2):
         elems1 = list(tree1)
         elems2 = list(tree2)
 
         for i in range(len(elems1)):
-            if not is_xml_tree_equal(elems1[i], elems2[i]):
+            if not is_xml_tree_equal(elems1[i], elems2[i], ignore_tags=ignore_tags):
                 return False
         return True
     else:
         return False
 
-def assert_xml_equal(xml_tree1, xml_tree2):
+def assert_xml_equal(xml_tree1, xml_tree2, ignore_tags=tuple()):
     if isinstance(xml_tree1, XML_base):
         xml_tree1 = xml_tree1.to_xml()
     else:
@@ -65,7 +67,7 @@ def assert_xml_equal(xml_tree1, xml_tree2):
     else:
         xml_tree2 = XML_base.parse_string(xml_tree2)
 
-    assert(is_xml_tree_equal(xml_tree1, xml_tree2))
+    assert(is_xml_tree_equal(xml_tree1, xml_tree2, ignore_tags=ignore_tags))
 
 def has_execuable(cmdname):
     with open(os.devnull, "w") as f:

@@ -15,7 +15,7 @@ def test_main():
 
     xml_str = gen_config(configs)
     with open(outpath, 'r') as fp:
-        assert(fp.read() == xml_str)
+        util.assert_xml_equal(fp.read(), xml_str, ignore_tags=['Easy-Karabiner'])
 
     write_generated_xml(outpath, xml_str)
     newpath = backup_file(outpath)
