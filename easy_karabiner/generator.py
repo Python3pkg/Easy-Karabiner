@@ -31,7 +31,8 @@ class Generator(XML_base):
 
     def __init__(self, remaps=None, definitions=None):
         self.remaps = remaps or []
-        self.definitions = definitions or dict()
+        self.definitions = definitions or {}
+        self.xml_tree = None
 
     def init_xml_tree(self):
         version_tag = XML_base.create_tag('Easy-Karabiner', __version__)
@@ -50,19 +51,6 @@ class Generator(XML_base):
         subitem_tag.append(name_tag)
         subitem_tag.append(identifier_tag)
         return subitem_tag
-
-    def generate(self):
-        item_tag = self.init_xml_tree()
-
-        definitions = self.parse_definitions()
-        for d in definitions:
-            item_tag.append(d.to_xml())
-
-        blocks = self.parse_remaps()
-        subitem_tag = self.init_subitem_tag(item_tag)
-        list(map(lambda block: subitem_tag.append(block.to_xml()), blocks))
-
-        return self.to_str()
 
     def parse_definitions(self):
         definitions = []
@@ -130,6 +118,17 @@ class Generator(XML_base):
         return s[1:-1]
 
     def to_xml(self):
+        item_tag = self.init_xml_tree()
+
+        definitions = self.parse_definitions()
+        for d in definitions:
+            item_tag.append(d.to_xml())
+        blocks = self.parse_remaps()
+
+        subitem_tag = self.init_subitem_tag(item_tag)
+        for block in blocks:
+            subitem_tag.append(block.to_xml())
+
         return self.xml_tree
 
 

@@ -39,4 +39,4 @@ def test_generator():
           </item>
         </root>
         '''.format(version=__version__)
-    util.assert_xml_equal(g.generate(), s)
+    util.assert_xml_equal(g, s)
