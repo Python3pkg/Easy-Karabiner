@@ -82,14 +82,8 @@ def test_generator():
               <identifier>private.easy_karabiner</identifier>
               <block>
                 <modifier_only>ModifierFlag::fn</modifier_only>
-                <autogen> __KeyToKey__
-                  KeyCode::OPTION_L,
-                  KeyCode::COMMAND_L
-                </autogen>
-                <autogen> __KeyToKey__
-                  KeyCode::COMMAND_L,
-                  KeyCode::OPTION_L
-                </autogen>
+                <autogen> __KeyToKey__ KeyCode::OPTION_L, KeyCode::COMMAND_L </autogen>
+                <autogen> __KeyToKey__ KeyCode::COMMAND_L, KeyCode::OPTION_L </autogen>
               </block>
               <block>
                 <modifier_not>ModifierFlag::fn</modifier_not>

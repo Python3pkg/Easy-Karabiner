@@ -32,7 +32,7 @@ class Generator(XML_base):
     def __init__(self, remaps=None, definitions=None):
         self.remaps = remaps or []
         self.definitions = definitions or {}
-        self.xml_tree = XML_base.create_tag('root')
+        self.xml_tree = None
 
     def init_xml_tree(self, xml_root):
         version_tag = XML_base.create_tag('Easy-Karabiner', __version__)
@@ -52,23 +52,26 @@ class Generator(XML_base):
         return subitem_tag
 
     def to_xml(self):
-        definitions = self.parse_definitions(self.definitions)
-        blocks = self.parse_remaps(self.remaps)
+        if self.xml_tree is None:
+            self.xml_tree = XML_base.create_tag('root')
+            definitions = self.parse_definitions(self.definitions)
+            blocks = self.parse_remaps(self.remaps)
 
-        # construct XML tree
-        item_tag = self.init_xml_tree(self.xml_tree)
-        for d in definitions:
-            item_tag.append(d.to_xml())
-        subitem_tag = self.init_subitem_tag(item_tag)
-        for block in blocks:
-            subitem_tag.append(block.to_xml())
+            # construct XML tree
+            item_tag = self.init_xml_tree(self.xml_tree)
+            for d in definitions:
+                item_tag.append(d.to_xml())
+            subitem_tag = self.init_subitem_tag(item_tag)
+            for block in blocks:
+                subitem_tag.append(block.to_xml())
 
         return self.xml_tree
 
     def parse_definitions(self, definitions):
         defs = []
 
-        for name, vals in definitions.items():
+        for name in sorted(definitions.keys()):
+            vals = definitions[name]
             if not self.is_list_or_tuple(vals):
                 vals = [vals]
 
