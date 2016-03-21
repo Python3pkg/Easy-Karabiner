@@ -204,21 +204,32 @@ def get_ground_truth_vals(clsname, vals):
         vals = list(map(get_apppath, vals))
     return vals
 
-def parse_definition(name, vals):
+def create_definition(clsname, defname, vals):
     definition = None
-    clsname, defname = split_clsname_defname(name)
-    vals = get_ground_truth_vals(clsname, vals)
 
     for cls in _CLASSES:
         if clsname == cls.__name__:
             definition = cls(defname, *vals)
             break
 
+    return definition
+
+def parse_definition(name, vals):
+    '''
+    Parse `{ name: vals }` pair and return relative definition. Example:
+
+        'deftype::defname' : ['val1', 'val2', ...]
+    '''
+    clsname, defname = split_clsname_defname(name)
+    # get the real values rather than abbrs or aliases
+    vals = get_ground_truth_vals(clsname, vals)
+    definition = create_definition(clsname, defname, vals)
+
     if definition is None:
         raise exception.UnsupportDefType(defname)
-
-    lookup.DefQuery.add_def(definition)
-    return definition
+    else:
+        lookup.DefQuery.add_def(definition)
+        return definition
 
 
 if __name__ == "__main__":

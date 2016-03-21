@@ -205,15 +205,21 @@ def get_ground_truth_vals(clsname, vals):
     vals = list(map(replace_vkopenurl_start, vals))
     return vals
 
-
-def parse_keymap(command, keys):
-    clsname = lookup.get_alias('KEYMAP_ALIAS', command, command.strip('_'))
-    keys = get_ground_truth_vals(clsname, keys)
-
+def create_keymap(clsname, keys):
     for cls in _CLASSES:
         if clsname == cls.__name__:
             return cls(*keys)
+
     return UniversalKeyToKey(command, *keys)
+
+def parse_keymap(command, keys):
+    '''
+    Parse `[(command), key1, key2, ...]` and return relative keymap
+    '''
+    clsname = lookup.get_alias('KEYMAP_ALIAS', command, command.strip('_'))
+    keys = get_ground_truth_vals(clsname, keys)
+    keymap = create_keymap(clsname, keys)
+    return keymap
 
 
 if __name__ == "__main__":

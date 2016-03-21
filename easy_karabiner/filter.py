@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
+from operator import add
 from functools import reduce
 from itertools import groupby
 from easy_karabiner import util
@@ -102,32 +103,46 @@ def split_type_and_val(val):
 
     return (type, val)
 
+def get_ground_truth_val(clsname, val):
+    if clsname == 'ReplacementFilter':
+        val = '{{%s}}' % val
+    elif clsname == 'DeviceProductFilter':
+        val = 'DeviceProduct::%s' % val
+    elif clsname == 'DeviceVendorFilter':
+        val = 'DeviceVendor::%s' % val
+    elif clsname == 'ModifierFilter':
+        val = 'ModifierFlag::%s' % val
+
+    return val
+
+def create_filter(clsname, val, type):
+    filter = None
+
+    for cls in _CLASSES:
+        if clsname == cls.__name__:
+            filter = cls(val, type=type)
+            break
+
+    return filter
+
 # @return [Filter]
 def parse_filter(vals):
+    '''
+    Parse `[val1, val2, ...]` format string list and return relative filters
+    '''
     type_val_pairs = map(split_type_and_val, vals)
 
     # create filters
     filters = []
     for type, val in type_val_pairs:
         clsname = DefQuery.query_filter(val) or 'Filter'
+        val = get_ground_truth_val(clsname, val)
+        filter = create_filter(clsname, val, type)
+        filters.append(filter)
 
-        if clsname == 'ReplacementFilter':
-            val = '{{%s}}' % val
-        elif clsname == 'DeviceProductFilter':
-            val = 'DeviceProduct::%s' % val
-        elif clsname == 'DeviceVendorFilter':
-            val = 'DeviceVendor::%s' % val
-        elif clsname == 'ModifierFilter':
-            val = 'ModifierFlag::%s' % val
-
-        for cls in _CLASSES:
-            if clsname == cls.__name__:
-                filter = cls(val, type=type)
-                filters.append(filter)
-                break
-
-    filters_lists = [list(v) for k, v in groupby(filters, lambda f: f.get_tag_name())]
-    filters = list(map(lambda fs: reduce(lambda x, y: x + y, fs), filters_lists))
+    grouped = groupby(filters, lambda f: f.get_tag_name())
+    # merge filters in the same group
+    filters = [reduce(add, group) for _, group in grouped]
     return filters
 
 
