@@ -75,14 +75,14 @@ def read_config_file(config_path):
     configs = {}
     with open(config_path, 'rb') as fp:
         if VERBOSE:
-            print("Execute %s" % config_path)
+            print('Execute "%s"' % config_path)
         exec(compile(fp.read(), config_path, 'exec'), {}, configs)
     return configs
 
 def write_generated_xml(outpath, content):
     with open(outpath, 'wb') as fp:
         if VERBOSE:
-            print("Write generated XML config to %s" % outpath)
+            print('Write XML to "%s"' % outpath)
         fp.write(content)
 
 def edit_config_file():
