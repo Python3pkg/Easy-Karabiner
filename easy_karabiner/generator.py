@@ -22,7 +22,7 @@ class Generator(XML_base):
     ...           <name>Enable</name>
     ...           <identifier>private.easy_karabiner</identifier>
     ...         </item>
-        ...       </item>
+    ...       </item>
     ...     </root>'''.format(version=__version__)
     >>> util.assert_xml_equal(g, s)
     """

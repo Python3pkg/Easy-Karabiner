@@ -4,13 +4,19 @@ from easy_karabiner.filter import *
 
 
 def test_basic_filter():
-    f = Filter('GOOGLE_CHROME')
+    f1 = Filter('GOOGLE_CHROME')
     s = ''' <only> GOOGLE_CHROME </only>'''
-    util.assert_xml_equal(f, s)
+    util.assert_xml_equal(f1, s)
 
-    f = ReplacementFilter('{{EMACS_IGNORE_APP}}', type='not')
+    f2 = ReplacementFilter('{{EMACS_IGNORE_APP}}', type='not')
     s = ''' <not> {{EMACS_IGNORE_APP}} </not>'''
-    util.assert_xml_equal(f, s)
+    util.assert_xml_equal(f2, s)
+
+    try:
+        f1 + f2
+        assert(False)
+    except:
+        pass
 
 def test_device_filter():
     f = DeviceFilter('DeviceVendor::APPLE_COMPUTER', 'DeviceProduct::ANY')

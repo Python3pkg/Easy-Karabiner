@@ -6,14 +6,6 @@ from easy_karabiner import exception
 
 class XML_base(object):
     @staticmethod
-    def is_cdata_text(elem):
-        return elem.text.startswith('<![CDATA[') and elem.text.endswith(']]>')
-
-    @staticmethod
-    def remove_cdata(elem):
-        return elem.text[len('<![CDATA['):-len(']]>')]
-
-    @staticmethod
     def create_cdata_text(text):
         return etree.CDATA(text)
 
@@ -37,8 +29,8 @@ class XML_base(object):
         return etree.parse(filepath).getroot()
 
     @staticmethod
-    def parse_string(xmlstr):
-        return etree.fromstring(xmlstr)
+    def parse_string(xml_str):
+        return etree.fromstring(xml_str)
 
     @staticmethod
     def pretty_text(elem, indent="  ", level=0):
@@ -66,12 +58,13 @@ class XML_base(object):
         raise exception.NeedOverrideError()
 
     def to_str(self, pretty_text=True, remove_first_line=False):
-        xmlstr = self.to_format_str(self.to_xml(), pretty_text=pretty_text)
+        xml_str = self.to_format_str(self.to_xml(), pretty_text=pretty_text)
+
         if remove_first_line:
-            lines = self.to_str().split('\n')[1:]
+            lines = xml_str.split('\n')[1:]
             return '\n'.join(lines)
         else:
-            return xmlstr
+            return xml_str
 
     def __str__(self):
         # remove version tag

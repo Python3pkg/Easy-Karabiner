@@ -24,6 +24,7 @@ DEFAULT_OUTPUT_PATH = '~/Library/Application Support/Karabiner/private.xml'
 DEFAULT_CONFIG_PATH = os.path.expanduser(DEFAULT_CONFIG_PATH)
 DEFAULT_OUTPUT_PATH = os.path.expanduser(DEFAULT_OUTPUT_PATH)
 
+VERBOSE = None
 
 @click.command()
 @click.help_option('--help', '-h')
@@ -33,6 +34,7 @@ DEFAULT_OUTPUT_PATH = os.path.expanduser(DEFAULT_OUTPUT_PATH)
 @click.option('--verbose', '-V', help='Print more text.', is_flag=True)
 @click.option('--string', '-s', help='Output as string.', is_flag=True)
 @click.option('--reload', '-r', help='Reload Karabiner.', is_flag=True)
+@click.option('--no-reload', help='Opposite of --reload', is_flag=True)
 @click.option('--edit', '-e', help='Edit default config file.', is_flag=True)
 def main(inpath, outpath, **options):
     """
@@ -66,7 +68,10 @@ def main(inpath, outpath, **options):
 
         write_generated_xml(outpath, xml_str)
 
-        if options.get('reload') or (outpath == DEFAULT_OUTPUT_PATH):
+        # auto reload Karabiner if user not clearly required not reloading
+        need_reload = options.get('reload') or (outpath == DEFAULT_OUTPUT_PATH)
+        # if `--no_reload` provided, then don't reload Karabiner anyway
+        if not options.get('no_reload') and need_reload:
             reload_karabiner()
 
         exit(0)
@@ -125,13 +130,18 @@ def is_generated_by_easy_karabiner(filepath):
     except lxml.etree.XMLSyntaxError:
         return False
 
-def backup_file(filepath):
+def backup_file(filepath, newpath=None):
     with open(filepath, 'rb') as fp:
-        checksum = sha1(fp.read()).hexdigest()[:7]
-        parts = os.path.basename(filepath).split('.')
-        parts.insert(-1, checksum)
-        newname = os.path.join(os.path.dirname(filepath), '.'.join(parts))
-        if VERBOSE:
-            print("Backup original XML config file")
-        # private.xml -> private.941f123.xml
-        os.rename(filepath, newname)
+        if newpath is None:
+            # private.xml -> private.941f123.xml
+            checksum = sha1(fp.read()).hexdigest()[:7]
+            parts = os.path.basename(filepath).split('.')
+            parts.insert(-1, checksum)
+            newname = '.'.join(parts)
+
+            if VERBOSE:
+                print("Backup original XML config file")
+            newpath = os.path.join(os.path.dirname(filepath), newname)
+
+        os.rename(filepath, newpath)
+        return newpath

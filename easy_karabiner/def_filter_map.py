@@ -8,6 +8,7 @@ _DEF_FILTER_MAP = {
     'deviceproductdef'       : 'DeviceProductFilter',
     'inputsourcedef'         : 'InputSourceFilter',
     'vkchangeinputsourcedef' : 'InputSourceFilter',
+    'modifierdef'            : 'ModifierFilter'
 }
 
 _DEFTAG_NAMETAG_MAP = {

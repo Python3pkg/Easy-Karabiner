@@ -36,6 +36,8 @@ MODIFIER_ALIAS = {
     "control" : "CONTROL_L",
     "ctrl_l"  : "CONTROL_L",
     "ctrl_r"  : "CONTROL_R",
+    "caps"    : "CAPSLOCK",
+    "fn"      : "FN",
 }
 
 KEY_ALIAS = {
@@ -44,7 +46,6 @@ KEY_ALIAS = {
     "del"        : "DELETE",
     "fdel"       : "FORWARD_DELETE",
     "esc"        : "ESCAPE",
-    "caps"       : "CAPSLOCK",
     "left"       : "CURSOR_LEFT",
     "right"      : "CURSOR_RIGHT",
     "down"       : "CURSOR_DOWN",
