@@ -12,19 +12,19 @@ from easy_karabiner.keymap import parse_keymap
 class Generator(XML_base):
     """
     >>> from easy_karabiner import util
-    >>> s1 = Generator().generate()
-    >>> s2 = '''
-    ...      <root>
-    ...        <Easy-Karabiner>{version}</Easy-Karabiner>
-    ...        <item>
-    ...          <name>Easy-Karabiner</name>
-    ...          <item>
-    ...            <name>Enable</name>
-    ...            <identifier>private.easy_karabiner</identifier>
-    ...          </item>
-    ...        </item>
-    ...      </root>'''.format(version=__version__)
-    >>> util.assert_xml_equal(s1, s2)
+    >>> g = Generator()
+    >>> s = '''
+    ...     <root>
+    ...       <Easy-Karabiner>{version}</Easy-Karabiner>
+    ...       <item>
+    ...         <name>Easy-Karabiner</name>
+    ...         <item>
+    ...           <name>Enable</name>
+    ...           <identifier>private.easy_karabiner</identifier>
+    ...         </item>
+        ...       </item>
+    ...     </root>'''.format(version=__version__)
+    >>> util.assert_xml_equal(g, s)
     """
 
     ITEM_IDENTIFIER = 'private.easy_karabiner'
@@ -32,15 +32,14 @@ class Generator(XML_base):
     def __init__(self, remaps=None, definitions=None):
         self.remaps = remaps or []
         self.definitions = definitions or {}
-        self.xml_tree = None
-
-    def init_xml_tree(self):
-        version_tag = XML_base.create_tag('Easy-Karabiner', __version__)
         self.xml_tree = XML_base.create_tag('root')
+
+    def init_xml_tree(self, xml_root):
+        version_tag = XML_base.create_tag('Easy-Karabiner', __version__)
         item_tag = XML_base.create_tag('item')
-        self.xml_tree.append(version_tag)
-        self.xml_tree.append(item_tag)
         item_tag.append(XML_base.create_tag('name', 'Easy-Karabiner'))
+        xml_root.append(version_tag)
+        xml_root.append(item_tag)
         return item_tag
 
     def init_subitem_tag(self, item_tag):
@@ -52,44 +51,55 @@ class Generator(XML_base):
         subitem_tag.append(identifier_tag)
         return subitem_tag
 
-    def parse_definitions(self):
-        definitions = []
+    def to_xml(self):
+        definitions = self.parse_definitions(self.definitions)
+        blocks = self.parse_remaps(self.remaps)
 
-        for name, vals in self.definitions.items():
-            if isinstance(vals, str):
+        # construct XML tree
+        item_tag = self.init_xml_tree(self.xml_tree)
+        for d in definitions:
+            item_tag.append(d.to_xml())
+        subitem_tag = self.init_subitem_tag(item_tag)
+        for block in blocks:
+            subitem_tag.append(block.to_xml())
+
+        return self.xml_tree
+
+    def parse_definitions(self, definitions):
+        defs = []
+
+        for name, vals in definitions.items():
+            if not self.is_list_or_tuple(vals):
                 vals = [vals]
-            definition = parse_definition(name, vals)
-            definitions.append(definition)
 
-        return definitions
+            defs.append(parse_definition(name, vals))
 
-    def parse_remaps(self):
-        tmp = OrderedDict()
-        filters_table = {}
+        return defs
 
-        for remap in self.remaps:
-            keymap, filters = self.parse_remap(remap)
-            filters = tuple(filters)
-            filters_table[filters] = filters
-            tmp.setdefault(filters, []).append(keymap)
+    def parse_remaps(self, remaps):
+        # used for grouping keymap by filters
+        filters_keymaps_tbl = OrderedDict()
+
+        for remap in remaps:
+            if self.is_list_or_tuple(remap) and len(remap) > 0:
+                keymap, filters = self.parse_remap(remap)
+                filters_keymaps_tbl.setdefault(filters, []).append(keymap)
+            else:
+                raise exception.ConfigError('Remap must be a list or tuple')
 
         blocks = []
-        for filters in tmp:
-            keymaps = tmp[filters]
-            filters = filters_table[filters]
-            block = Block(keymaps, filters)
-            blocks.append(block)
+        for filters in filters_keymaps_tbl:
+            keymaps = filters_keymaps_tbl[filters]
+            blocks.append(Block(keymaps, filters))
 
         return blocks
 
     # return (KeyToKey, [Filter])
     def parse_remap(self, remap):
-        if not self.is_list_or_tuple(remap) or len(remap) == 0:
-            raise exception.ConfigError('Remap must be a list or tuple')
-
+        # last element in remap is [Filter]?
         if self.is_list_or_tuple(remap[-1]):
-            keyargs = remap[:-1]
             try:
+                keyargs = remap[:-1]
                 filters = parse_filter(remap[-1])
             except UndefinedFilterException as e:
                 print(e)
@@ -98,15 +108,15 @@ class Generator(XML_base):
             keyargs = remap
             filters = []
 
-        # I need check if there exist a command item in here
-        # otherwise I cannot judge where is the start position of the `keys` args
+        # first element is remap type indicator?
         if self.is_command_format(keyargs[0]):
             command = self.get_command_value(keyargs.pop(0))
         else:
             command = 'KeyToKey'
 
         keymap = parse_keymap(command, keyargs)
-        return (keymap, filters)
+
+        return (keymap, tuple(filters))
 
     def is_list_or_tuple(self, obj):
         return isinstance(obj, (list, tuple))
@@ -117,25 +127,11 @@ class Generator(XML_base):
     def get_command_value(self, s):
         return s[1:-1]
 
-    def to_xml(self):
-        item_tag = self.init_xml_tree()
-
-        definitions = self.parse_definitions()
-        for d in definitions:
-            item_tag.append(d.to_xml())
-        blocks = self.parse_remaps()
-
-        subitem_tag = self.init_subitem_tag(item_tag)
-        for block in blocks:
-            subitem_tag.append(block.to_xml())
-
-        return self.xml_tree
-
 
 class Block(XML_base):
     def __init__(self, keymaps, filters=None):
         self.keymaps = keymaps
-        self.filters = filters or []
+        self.filters = filters or tuple()
 
     def to_xml(self):
         xml_tree = self.create_tag('block')
