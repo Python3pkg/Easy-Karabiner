@@ -7,14 +7,15 @@ from easy_karabiner.xml_base import XML_base
 
 
 class Hashable(object):
-    def _id(self):
+    @property
+    def id(self):
         raise exception.NeedOverrideError()
 
     def __hash__(self):
-        return hash(self._id())
+        return hash(self.id)
 
     def __eq__(self, other):
-        return self.__class__ == other.__class__ and self._id() == other._id()
+        return self.__class__ == other.__class__ and self.id == other.id
 
 
 def find_all_subclass_of(superclass, global_vars):

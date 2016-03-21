@@ -25,7 +25,8 @@ class BaseKeyToKey(XML_base, util.Hashable):
                                        keys_str=self.keys_str)
         return self.create_tag('autogen', text)
 
-    def _id(self):
+    @property
+    def id(self):
         return (self.get_type(), self.keys_str)
 
 class UniversalKeyToKey(BaseKeyToKey):

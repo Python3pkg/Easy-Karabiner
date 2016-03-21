@@ -38,7 +38,8 @@ class BaseFilter(XML_base, util.Hashable):
             errmsg = "Can't add %s with %s" % (tagname1, tagname2)
             raise TypeError(errmsg)
 
-    def _id(self):
+    @property
+    def id(self):
         return (self.get_tag_name(), tuple(self.get_vals()))
 
 
