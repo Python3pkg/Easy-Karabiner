@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
+from easy_karabiner import __version__
 from easy_karabiner import util
 from easy_karabiner import alias
-from easy_karabiner import __version__
+from easy_karabiner import exception
 from easy_karabiner.generator import *
 
 
@@ -58,6 +59,8 @@ def test_generator():
         </root>
         '''.format(version=__version__)
     util.assert_xml_equal(g, s)
+    # test for reentrant of `XML_base` methods
+    assert(str(g) == str(g))
 
     DEFINITIONS = {
         'KeyCode::VK_OPEN_URL_FINDER': '/Applications/Finder.app',
@@ -107,3 +110,20 @@ def test_generator():
         </root>
         '''.format(version=__version__)
     util.assert_xml_equal(g, s)
+
+def test_exception():
+    def assert_raise_exception(remaps=(), definitions=()):
+        try:
+            g = Generator(remaps=remaps, definitions=definitions)
+            assert(str(g) and False)
+        except exception.ConfigError:
+            pass
+
+    DEFINITIONS = { 'Invalid::Definition': 'Will Raise Exception', }
+    assert_raise_exception(definitions=DEFINITIONS)
+
+    REMAPS = ['Remap must be list or tuple']
+    assert_raise_exception(remaps=REMAPS)
+
+    REMAPS = [['Undefined', ['Filter']]]
+    assert_raise_exception(remaps=REMAPS)
