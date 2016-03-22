@@ -28,6 +28,7 @@ class XML_base(object):
 
     @staticmethod
     def pretty_text(elem, indent="  ", level=0):
+        ''' NOTICE: This method would change the construct of XML tree '''
         i = "\n" + level * indent
 
         if len(elem) == 0:
@@ -55,6 +56,10 @@ class XML_base(object):
         return xml_string
 
     def to_xml(self):
+        '''NOTICE: This method must be a REENTRANT function, which means
+        it should NOT change status or modify any member of `self` object.
+        Because other methods may change the construct of the XML tree.
+        '''
         raise exception.NeedOverrideError()
 
     def to_str(self, pretty_text=True, remove_first_line=False):
