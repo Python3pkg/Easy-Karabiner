@@ -146,7 +146,8 @@ def parse_filter(vals):
         filter = create_filter(clsname, val, type)
         filters.append(filter)
 
-    grouped = groupby(filters, lambda f: f.get_tag_name())
+    get_key = lambda filter: filter.get_tag_name()
+    grouped = groupby(sorted(filters, key=get_key), get_key)
     # merge filters in the same group
     filters = [reduce(add, group) for _, group in grouped]
     return filters
