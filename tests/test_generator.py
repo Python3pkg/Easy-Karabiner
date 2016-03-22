@@ -10,12 +10,13 @@ def test_generator():
         'flip': 'FlipScrollWheel',
     }
     DEFINITIONS = {
+        'BILIBILI': 'com.typcn.Bilibili',
         'DeviceVendor::CHERRY': '0x046a',
         'DeviceProduct::3494' : '0x0011',
     }
     REMAPS = [
         ['cmd', 'alt'],
-        ['alt', 'cmd', ('CHERRY', '3494')],
+        ['alt', 'cmd', ('CHERRY', 'BILIBILI', '3494')],
         ['(flip)', 'flipscrollwheel_vertical', ['!APPLE_COMPUTER', '!ANY']],
     ]
     alias.update_alias('KEYMAP_ALIAS', KEYMAP_ALIAS)
@@ -25,6 +26,10 @@ def test_generator():
           <Easy-Karabiner>{version}</Easy-Karabiner>
           <item>
             <name>Easy-Karabiner</name>
+            <appdef>
+              <appname>BILIBILI</appname>
+              <equal>com.typcn.Bilibili</equal>
+            </appdef>
             <deviceproductdef>
               <productname>3494</productname>
               <productid>0x0011</productid>
@@ -41,6 +46,7 @@ def test_generator():
               </block>
               <block>
                 <device_only> DeviceVendor::CHERRY, DeviceProduct::3494 </device_only>
+                <only>BILIBILI</only>
                 <autogen> __KeyToKey__ KeyCode::OPTION_L, KeyCode::COMMAND_L </autogen>
               </block>
               <block>
