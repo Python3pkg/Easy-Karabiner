@@ -61,7 +61,7 @@ class Key(object):
         return key.lower().startswith('modifier')
 
     def regularize_first_key(self, keys):
-        parts = keys[0].split(':')
+        parts = keys[0].split('::', 1)
         keys[0] = 'KeyCode::' + parts[-1]
         return keys
 

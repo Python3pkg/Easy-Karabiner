@@ -156,15 +156,16 @@ class UIElementRole(BaseDef):
 _CLASSES = util.find_all_subclass_of(BaseDef, globals())
 
 def is_vkopenurl_format(name):
-    parts = name.split(':', 2)
-    return parts[0].lower() == 'open' or name.startswith('KeyCode::VK_OPEN_URL_')
+    header = name.split('::', 1)[0].lower()
+    return header == 'open' or name.startswith('KeyCode::VK_OPEN_URL_')
 
 def get_vkopenurl_defname(name):
     # VKOpenURL defname must start with 'KeyCode::VK_OPEN_URL_'
     if name.startswith('KeyCode::VK_OPEN_URL_'):
         defname = name
     else:
-        defname = 'KeyCode::VK_OPEN_URL_%s' % name.split(':', 2)[-1]
+        name = name.split('::', 1)[-1]
+        defname = 'KeyCode::VK_OPEN_URL_%s' % name
 
     return defname
 
@@ -175,7 +176,7 @@ def get_replacement_defname(name):
     return name[2:-2]
 
 def split_clsname_defname(name):
-    parts = name.split(':', 2)
+    parts = name.split('::', 1)
 
     # Open::defname
     # KeyCode::VK_OPEN_URL_defname
@@ -187,8 +188,9 @@ def split_clsname_defname(name):
         clsname = 'Replacement'
         defname = get_replacement_defname(name)
     # clsname::defname
-    elif len(parts) > 2:
-        clsname = alias.get_alias('DEF_ALIAS', parts[0], parts[0])
+    elif len(parts) > 1:
+        header = parts[0]
+        clsname = alias.get_alias('DEF_ALIAS', header, header)
         defname = parts[-1]
     # defname
     else:
