@@ -73,22 +73,22 @@ def has_execuable(cmdname):
     with open(os.devnull, "w") as f:
         return subprocess.call(['which', cmdname], stdout=f, stderr=f) == 0
 
-def get_apppath(appname, default=None):
-    if not hasattr(get_apppath, 'apps'):
+def get_app_path(app_name, default=None):
+    if not hasattr(get_app_path, 'apps'):
         if has_execuable('mdfind'):
             cmd = ['mdfind', 'kMDItemContentType==com.apple.application-bundle']
             proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
             output = proc.stdout.read().decode('utf-8')
 
-            apppaths = list(filter(lambda s: len(s.strip()) > 0, output.split('\n')))
-            appnames = list(map(os.path.basename, apppaths))
+            app_paths = list(filter(lambda s: len(s.strip()) > 0, output.split('\n')))
+            app_names = list(map(os.path.basename, app_paths))
 
-            get_apppath.apps = dict(zip(appnames, apppaths))
+            get_app_path.apps = dict(zip(app_names, app_paths))
         # just for test on Linux
         else:
-            get_apppath.apps = dict()
+            get_app_path.apps = dict()
 
-    return get_apppath.apps.get(appname, default)
+    return get_app_path.apps.get(app_name, default)
 
 
 def replace_startswith_to(s, startswith, newstart):

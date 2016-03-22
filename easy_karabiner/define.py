@@ -201,10 +201,10 @@ def split_clsname_defname(name):
 
 def get_ground_truth_vals(clsname, vals):
     if clsname == 'VKOpenURL':
-        def get_apppath(v):
-            return v if v.startswith('/') else util.get_apppath(v, v)
+        def get_app_path(v):
+            return v if v.startswith('/') else util.get_app_path(v, v)
 
-        vals = list(map(get_apppath, vals))
+        vals = list(map(get_app_path, vals))
     return vals
 
 def create_definition(clsname, defname, vals):
