@@ -12,8 +12,8 @@ setup(
     packages=find_packages(exclude=("tests",)),
     include_package_data=True,
     install_requires=[
-        'lxml',
-        'click',
+        'lxml >= 3.0.0, < 4.0.0',
+        'click >= 6.0.0, < 7.0.0',
     ],
     entry_points='''
         [console_scripts]

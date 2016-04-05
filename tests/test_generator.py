@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 from easy_karabiner import __version__
 from easy_karabiner import util
-from easy_karabiner import alias
-from easy_karabiner import exception
+from easy_karabiner import query
 from easy_karabiner.generator import *
 
 
 def test_generator():
+    query.DefinitionBucket.clear()
     KEYMAP_ALIAS = {
         'flip': 'FlipScrollWheel',
     }
@@ -15,13 +15,13 @@ def test_generator():
         'DeviceVendor::CHERRY': '0x046a',
         'DeviceProduct::3494' : '0x0011',
     }
-    REMAPS = [
+    MAPS = [
         ['cmd', 'alt'],
-        ['alt', 'cmd', ('CHERRY', 'BILIBILI', '3494')],
-        ['(flip)', 'flipscrollwheel_vertical', ['!APPLE_COMPUTER', '!ANY']],
+        ['alt', 'cmd', ['CHERRY', 'BILIBILI', '3494']],
+        ['_flip_', 'flipscrollwheel_vertical', ['!APPLE_COMPUTER', '!ANY']],
     ]
-    alias.update_alias('KEYMAP_ALIAS', KEYMAP_ALIAS)
-    g = Generator(remaps=REMAPS, definitions=DEFINITIONS)
+    query.update_aliases({'KEYMAP_ALIAS': KEYMAP_ALIAS})
+    g = Generator(maps=MAPS, definitions=DEFINITIONS)
     s = '''
         <root>
           <Easy-Karabiner>{version}</Easy-Karabiner>
@@ -59,27 +59,29 @@ def test_generator():
         </root>
         '''.format(version=__version__)
     util.assert_xml_equal(g, s)
-    # test for reentrant of `XML_base` methods
+    # test for reentrant of `BaseXML` methods
     assert(str(g) == str(g))
+    query.DefinitionBucket.clear()
+
 
     DEFINITIONS = {
-        'KeyCode::VK_OPEN_URL_FINDER': '/Applications/Finder.app',
+        'APP_FINDER': '/Applications/Finder.app',
         'Open::Calculator': '/Applications/Calculator.app',
     }
-    REMAPS = [
+    MAPS = [
         ['alt', 'cmd', ['fn']],
-        ['ctrl alt F', 'Open::FINDER', ['!fn']],
+        ['ctrl alt F', 'APP_FINDER', ['!ModifierFlag::NONE']],
         ['cmd', 'alt', ['fn']],
-        ['ctrl shift C', 'Open::Calculator', ['!fn']],
+        ['ctrl shift C', 'Open::Calculator', ['!none']],
     ]
-    g = Generator(remaps=REMAPS, definitions=DEFINITIONS)
+    g = Generator(maps=MAPS, definitions=DEFINITIONS)
     s = '''
         <root>
           <Easy-Karabiner>{version}</Easy-Karabiner>
           <item>
             <name>Easy-Karabiner</name>
             <vkopenurldef>
-              <name>KeyCode::VK_OPEN_URL_FINDER</name>
+              <name>KeyCode::VK_OPEN_URL_APP_FINDER</name>
               <url type="file">/Applications/Finder.app</url>
             </vkopenurldef>
             <vkopenurldef>
@@ -90,15 +92,15 @@ def test_generator():
               <name>Enable</name>
               <identifier>private.easy_karabiner</identifier>
               <block>
-                <modifier_only>ModifierFlag::fn</modifier_only>
+                <modifier_only>ModifierFlag::FN</modifier_only>
                 <autogen> __KeyToKey__ KeyCode::OPTION_L, KeyCode::COMMAND_L </autogen>
                 <autogen> __KeyToKey__ KeyCode::COMMAND_L, KeyCode::OPTION_L </autogen>
               </block>
               <block>
-                <modifier_not>ModifierFlag::fn</modifier_not>
+                <modifier_not>ModifierFlag::NONE</modifier_not>
                 <autogen> __KeyToKey__
                   KeyCode::F, ModifierFlag::CONTROL_L, ModifierFlag::OPTION_L, ModifierFlag::NONE,
-                  KeyCode::VK_OPEN_URL_FINDER
+                  KeyCode::VK_OPEN_URL_APP_FINDER
                 </autogen>
                 <autogen> __KeyToKey__
                   KeyCode::C, ModifierFlag::CONTROL_L, ModifierFlag::SHIFT_L, ModifierFlag::NONE,
@@ -110,20 +112,3 @@ def test_generator():
         </root>
         '''.format(version=__version__)
     util.assert_xml_equal(g, s)
-
-def test_exception():
-    def assert_raise_exception(remaps=(), definitions=()):
-        try:
-            g = Generator(remaps=remaps, definitions=definitions)
-            assert(str(g) and False)
-        except exception.ConfigError:
-            pass
-
-    DEFINITIONS = { 'Invalid::Definition': 'Will Raise Exception', }
-    assert_raise_exception(definitions=DEFINITIONS)
-
-    REMAPS = ['Remap must be list or tuple']
-    assert_raise_exception(remaps=REMAPS)
-
-    REMAPS = [['Undefined', ['Filter']]]
-    assert_raise_exception(remaps=REMAPS)

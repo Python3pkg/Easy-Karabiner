@@ -1,30 +1,26 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
-from easy_karabiner import alias
-from easy_karabiner import lookup
 
-class Key(object):
-    """Convert space seperated string to Karabiner's favorite format
 
-    >>> print(Key('shift_l Cmd'))
+class KeyCombo(object):
+    """Convert key list to Karabiner's favorite format
+
+    >>> print(KeyCombo(['ModifierFlag::SHIFT_L', 'ModifierFlag::COMMAND_L']))
     KeyCode::SHIFT_L, ModifierFlag::COMMAND_L
+
+    >>> print(KeyCombo(['ModifierFlag::SHIFT_L', 'ModifierFlag::COMMAND_L', 'KeyCode::K'], has_modifier_none=True))
+    KeyCode::K, ModifierFlag::SHIFT_L, ModifierFlag::COMMAND_L, ModifierFlag::NONE
     """
 
-    def __init__(self, keys='', has_modifier_none=False, keep_first_keycode=False):
+    def __init__(self, keys=None, has_modifier_none=False, keep_first_keycode=False):
         self.has_modifier_none = has_modifier_none
         self.keep_first_keycode = keep_first_keycode
-        self.keys = self.parse(keys)
+        self.keys = self.parse(keys or [])
 
     def parse(self, keys):
-        # remove multiple whitespaces and convert to raw value
-        keys = " ".join(keys.split()).split()
-        # if no alias find, then return the original value
-        keys = map(lambda k: alias.get_alias('KEY_ALIAS', k, k), keys)
-        # if no key header find, then return the original value
-        keys = map(self.add_key_header, keys)
         # we need adjust position of keys, because
-        # the first key can't be modifier key in most case
-        keys = self.rearrange_keys(list(keys))
+        # the first key cannot be modifier key in most case
+        keys = self.rearrange_keys(keys)
 
         if len(keys) > 0:
             if not self.keep_first_keycode and self.is_modifier_key(keys[0]):
@@ -34,13 +30,6 @@ class Key(object):
                 keys = self.add_modifier_none(keys)
 
         return keys
-
-    def add_key_header(self, key):
-        header = lookup.KeyCodeQuery.query(key.upper())
-        if header is None:
-            return key
-        else:
-            return "%s::%s" % (header, key.upper())
 
     def rearrange_keys(self, keys):
         tmp = []
@@ -57,17 +46,20 @@ class Key(object):
         tmp.extend(keys[last:])
         return tmp
 
-    def is_modifier_key(self, key):
+    @classmethod
+    def is_modifier_key(cls, key):
         return key.lower().startswith('modifier')
 
-    def regularize_first_key(self, keys):
+    @classmethod
+    def regularize_first_key(cls, keys):
         parts = keys[0].split('::', 1)
         keys[0] = 'KeyCode::' + parts[-1]
         return keys
 
-    # if there  need append 'ModifierFlag::NONE' if you want change from this key
+    # Append 'ModifierFlag::NONE' if you want to change from this key
     # For more information about 'ModifierFlag::NONE', see https://pqrs.org/osx/karabiner/xml.html.en
-    def add_modifier_none(self, keys):
+    @classmethod
+    def add_modifier_none(cls, keys):
         keys.append('ModifierFlag::NONE')
         return keys
 
@@ -75,7 +67,7 @@ class Key(object):
         return ', '.join(self.keys)
 
     def __add__(self, another):
-        res = Key()
+        res = KeyCombo()
         res.keys = self.keys + another.keys
         res.has_modifier_none = self.has_modifier_none or another.has_modifier_none
         res.keep_first_keycode = self.keep_first_keycode or another.keep_first_keycode

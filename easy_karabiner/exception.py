@@ -1,14 +1,59 @@
 # -*- coding: utf-8 -*-
+from __future__ import print_function
+from .fucking_string import ensure_utf8
+
 
 class NeedOverrideError(NotImplementedError):
     def __init__(self, errmsg='You need override this method'):
         super(NeedOverrideError, self).__init__(self, errmsg)
 
+
 class ConfigError(Exception):
     pass
 
-class UnsupportDefinitionType(ConfigError):
+
+class ConfigWarning(Exception):
     pass
 
-class UndefinedFilterException(ConfigError):
+
+class UnsupportDefinition(ConfigWarning):
     pass
+
+
+class UndefinedFilterException(ConfigWarning):
+    pass
+
+
+class UndefinedKeymapException(ConfigWarning):
+    pass
+
+
+class UndefinedKeyException(ConfigWarning):
+    pass
+
+
+class ExceptionRegister(object):
+    error_table = {}
+    raw_maps_table = {}
+
+    @classmethod
+    def put(cls, k, raw_map):
+        k = ensure_utf8(k)
+        if k not in cls.raw_maps_table:
+            cls.raw_maps_table[k] = raw_map
+
+    @classmethod
+    def record_by(cls, k, exception):
+        k = ensure_utf8(k)
+        raw_map = cls.raw_maps_table[k]
+        cls.record(raw_map, exception)
+
+    @classmethod
+    def record(cls, k, exception):
+        k = ensure_utf8(k)
+        if k not in cls.error_table:
+            cls.error_table[k] = exception
+
+    @classmethod
+    def get_all_records(cls):
+        return cls.error_table.items()

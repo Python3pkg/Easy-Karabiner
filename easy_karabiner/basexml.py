@@ -1,33 +1,43 @@
 # -*- coding: utf-8 -*-
+from __future__ import print_function
 import lxml.etree as etree
 import xml.dom.minidom as minidom
-from easy_karabiner import exception
+from . import exception
+from .fucking_string import ensure_utf8
 
 
-class XML_base(object):
-    @staticmethod
-    def parse(filepath):
+class BaseXML(object):
+    @classmethod
+    def parse(cls, filepath):
         return etree.parse(filepath).getroot()
 
-    @staticmethod
-    def parse_string(xml_str):
+    @classmethod
+    def parse_string(cls, xml_str):
         return etree.fromstring(xml_str)
 
-    def get_clsname(self):
-        return self.__class__.__name__
+    @classmethod
+    def get_class_name(cls):
+        return cls.__name__
 
-    @staticmethod
-    def create_cdata_text(text):
+    @classmethod
+    def create_cdata_text(cls, text):
         return etree.CDATA(text)
 
-    @staticmethod
-    def create_tag(name, text=None, **kwargs):
+    @classmethod
+    def assign_text_attribute(cls, etree_element, text):
+        if text is not None and not isinstance(text, etree.CDATA):
+            etree_element.text = ensure_utf8(text)
+        else:
+            etree_element.text = text
+
+    @classmethod
+    def create_tag(cls, name, text=None, **kwargs):
         et = etree.Element(name, **kwargs)
-        et.text = text
+        cls.assign_text_attribute(et, text)
         return et
 
-    @staticmethod
-    def pretty_text(elem, indent="  ", level=0):
+    @classmethod
+    def pretty_text(cls, elem, indent="  ", level=0):
         ''' NOTICE: This method would change the construct of XML tree '''
         i = "\n" + level * indent
 
@@ -42,15 +52,15 @@ class XML_base(object):
                     elem.text = (i + indent).join(lines) + i
         else:
             for subelem in elem:
-                XML_base.pretty_text(subelem, indent, level + 1)
+                BaseXML.pretty_text(subelem, indent, level + 1)
 
         return elem
 
-    @staticmethod
-    def to_format_str(xml_tree, pretty_text=True):
+    @classmethod
+    def to_format_str(cls, xml_tree, pretty_text=True):
         indent = "  "
         if pretty_text:
-            XML_base.pretty_text(xml_tree, indent=indent)
+            BaseXML.pretty_text(xml_tree, indent=indent)
         xml_string = etree.tostring(xml_tree)
         xml_string = minidom.parseString(xml_string).toprettyxml(indent=indent)
         return xml_string
@@ -66,7 +76,12 @@ class XML_base(object):
         xml_str = self.to_format_str(self.to_xml(), pretty_text=pretty_text)
 
         if remove_first_line:
-            lines = xml_str.split('\n')[1:]
+            lines = xml_str.split('\n')
+            if len(lines[-1].strip()) == 0:
+                # remove last blank line
+                lines = lines[1:-1]
+            else:
+                lines = lines[1:]
             return '\n'.join(lines)
         else:
             return xml_str
