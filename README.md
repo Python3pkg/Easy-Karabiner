@@ -1,6 +1,6 @@
 #Easy-Karabiner
-[![Travis Build Status](https://travis-ci.org/loggerhead/Easy-Karabiner.svg)](https://travis-ci.org/loggerhead/Easy-Karabiner)
-[![Code Health](https://landscape.io/github/loggerhead/Easy-Karabiner/master/landscape.svg)](https://landscape.io/github/loggerhead/Easy-Karabiner/master)
+[![Travis Build Status](https://travis-ci.org/loggerhead/Easy-Karabiner.svg?branch=master)](https://travis-ci.org/loggerhead/Easy-Karabiner)
+[![Code Health](https://landscape.io/github/loggerhead/Easy-Karabiner/master/landscape.svg?branch=master)](https://landscape.io/github/loggerhead/Easy-Karabiner/master)
 [![Coverage Status](https://coveralls.io/repos/github/loggerhead/Easy-Karabiner/badge.svg)](https://coveralls.io/github/loggerhead/Easy-Karabiner)
 [![PyPI version](https://img.shields.io/pypi/v/easy_karabiner.svg)](https://pypi.python.org/pypi/easy_karabiner)
 
