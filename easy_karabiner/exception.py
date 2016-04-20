@@ -20,6 +20,10 @@ class UnsupportDefinition(ConfigWarning):
     pass
 
 
+class UnsupportKeymapException(ConfigWarning):
+    pass
+
+
 class UndefinedFilterException(ConfigWarning):
     pass
 

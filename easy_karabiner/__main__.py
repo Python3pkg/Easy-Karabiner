@@ -169,6 +169,10 @@ def show_config_warnings():
             msg = 'Undefined key:'
         elif exception_class == exception.UnsupportDefinition:
             msg = 'Invalid definition:'
+        elif exception_class == exception.UnsupportKeymapException:
+            msg = 'Invalid keymap:'
+        else:
+            msg = exception_class.__name__
 
         print_warning('%s `%s` in `%s`' % (msg, e.args[0], raw_data))
 

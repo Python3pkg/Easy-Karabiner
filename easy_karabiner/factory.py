@@ -53,8 +53,11 @@ def create_keymaps(raw_keymaps):
     keymap_objs = []
 
     for raw_keymap in raw_keymaps:
-        keymap_obj = KeymapCreater.create(raw_keymap)
-        keymap_objs.append(keymap_obj)
+        try:
+            keymap_obj = KeymapCreater.create(raw_keymap)
+            keymap_objs.append(keymap_obj)
+        except exception.UnsupportKeymapException as e:
+            exception.ExceptionRegister.record_by(raw_keymap, e)
 
     return keymap_objs
 
@@ -175,10 +178,13 @@ class KeymapCreater(object):
 
             new_keycombos.append(new_keycombo)
 
-        if keymap_class:
-            return keymap_class(*new_keycombos)
-        else:
-            return keymap.UniversalKeyToKey(command, *new_keycombos)
+        try:
+            if keymap_class:
+                return keymap_class(*new_keycombos)
+            else:
+                return keymap.UniversalKeyToKey(command, *new_keycombos)
+        except TypeError:
+            raise exception.UnsupportKeymapException(raw_keymap)
 
     @classmethod
     def get_karabiner_format_key(cls, key):
