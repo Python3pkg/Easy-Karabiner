@@ -70,7 +70,6 @@ def main(inpath=DEFAULT_CONFIG_PATH, outpath=DEFAULT_OUTPUT_PATH, **options):
                         backup_file(outpath)
                 except IOError:
                     pass
-                print(outpath)
                 write_generated_xml(outpath, xml_str)
 
                 if outpath == DEFAULT_OUTPUT_PATH:
