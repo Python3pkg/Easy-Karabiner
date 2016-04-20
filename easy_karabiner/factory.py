@@ -152,7 +152,7 @@ class KeymapCreater(object):
         elif DefinitionDetector.is_vkopenurl(val):
             DefinitionCreater.define_open(val)
         else:
-            raise exception.UndefinedKeyException()
+            raise exception.UndefinedKeyException(val)
 
     @classmethod
     def create(cls, raw_keymap):

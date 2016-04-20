@@ -174,7 +174,8 @@ def show_config_warnings():
         else:
             msg = exception_class.__name__
 
-        print_warning('%s `%s` in `%s`' % (msg, e.args[0], raw_data))
+        exception_arg = e.args[0] if len(e.args) > 0 else e.args
+        print_warning('%s `%s` in `%s`' % (msg, exception_arg, raw_data))
 
 
 def print_message(msg, color=None, err=False):
