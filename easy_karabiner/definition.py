@@ -158,7 +158,18 @@ class Replacement(DefinitionBase):
         return ('replacementvalue', val)
 
     def get_tag_val_pairs(self, tag_vals):
-        return [self.get_tag_val_pair(', '.join(tag_vals))]
+        vals = []
+
+        for tag_val in tag_vals:
+            val = tag_val.strip()
+            if self.is_cdata_text(val):
+                val = self.create_cdata_text(self.remove_cdata_mark(val))
+            else:
+                val = tag_val
+
+            vals.append(val)
+
+        return [self.get_tag_val_pair(', '.join(vals))]
 
 
 class UIElementRole(NoNameTagDefinitionBase):
