@@ -8,6 +8,8 @@ __pycache__/
 venv*/
 env2/
 env3/
+.vscode/
+browse.VC.db
 
 # C extensions
 *.so
