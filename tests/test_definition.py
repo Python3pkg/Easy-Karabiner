@@ -125,9 +125,7 @@ def test_vkopenurldef():
     s = '''
         <vkopenurldef>
           <name>KeyCode::VK_OPEN_URL_date_pbcopy</name>
-          <url type="shell"> <![CDATA[
-            /bin/date | /usr/bin/pbcopy
-          ]]> </url>
+          <url type="shell"><![CDATA[/bin/date | /usr/bin/pbcopy]]></url>
         </vkopenurldef>'''
     util.assert_xml_equal(d, s)
 

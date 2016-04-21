@@ -62,8 +62,7 @@ def test_alias():
     </vkopenurldef>
     <vkopenurldef>
       <name>KeyCode::VK_OPEN_URL_aedd86e</name>
-      <url type="shell">
-    <![CDATA[osascript -e 'display notification "test1"']]>  </url>
+      <url type="shell"> <![CDATA[osascript -e 'display notification "test1"']]> </url>
     </vkopenurldef>
     <block>
       <autogen> __KeyToKey__
