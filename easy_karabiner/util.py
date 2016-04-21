@@ -78,13 +78,12 @@ def is_xml_tree_equal(tree1, tree2, ignore_tags=tuple()):
 
 def assert_xml_equal(xml_tree1, xml_tree2, ignore_tags=tuple()):
     if isinstance(xml_tree1, BaseXML):
-        xml_tree1 = xml_tree1.to_xml()
-    else:
-        xml_tree1 = BaseXML.parse_string(xml_tree1)
-
+        xml_tree1 = xml_tree1.__str__()
     if isinstance(xml_tree2, BaseXML):
-        xml_tree2 = xml_tree2.to_xml()
-    else:
-        xml_tree2 = BaseXML.parse_string(xml_tree2)
+        xml_tree2 = xml_tree2.__str__()
 
-    assert(is_xml_tree_equal(xml_tree1, xml_tree2, ignore_tags=ignore_tags))
+    nospaces1 = ''.join(xml_tree1.split())
+    nospaces2 = ''.join(xml_tree2.split())
+
+    if nospaces1 != nospaces2:
+        assert(is_xml_tree_equal(xml_tree1, xml_tree2, ignore_tags=ignore_tags))
