@@ -2,30 +2,48 @@
 from __future__ import print_function
 import lxml.etree as etree
 import xml.dom.minidom as minidom
+import xml.sax.saxutils as saxutils
 from . import exception
 from .fucking_string import ensure_utf8
 
 
 class BaseXML(object):
+    xml_parser = etree.XMLParser(strip_cdata=False)
+
+    @classmethod
+    def unescape(cls, s):
+        return saxutils.unescape(s, {
+                "&quot;": '"',
+                "&apos;": "'",
+            })
+
     @classmethod
     def parse(cls, filepath):
         return etree.parse(filepath).getroot()
 
     @classmethod
     def parse_string(cls, xml_str):
-        return etree.fromstring(xml_str)
+        return etree.fromstring(xml_str, cls.xml_parser)
 
     @classmethod
     def get_class_name(cls):
         return cls.__name__
 
     @classmethod
+    def is_cdata_text(cls, text):
+        return text.startswith('<![CDATA[') and text.endswith(']]>')
+
+    @classmethod
+    def remove_cdata_mark(cls, text):
+        return text[len('<![CDATA['):-len(']]>')]
+
+    @classmethod
     def create_cdata_text(cls, text):
-        return etree.CDATA(text)
+        return '<![CDATA[%s]]>' % text
 
     @classmethod
     def assign_text_attribute(cls, etree_element, text):
-        if text is not None and not isinstance(text, etree.CDATA):
+        if text is not None:
             etree_element.text = ensure_utf8(text)
         else:
             etree_element.text = text
@@ -63,6 +81,7 @@ class BaseXML(object):
             BaseXML.pretty_text(xml_tree, indent=indent)
         xml_string = etree.tostring(xml_tree)
         xml_string = minidom.parseString(xml_string).toprettyxml(indent=indent)
+        xml_string = cls.unescape(xml_string)
         return xml_string
 
     def to_xml(self):
@@ -82,9 +101,9 @@ class BaseXML(object):
                 lines = lines[1:-1]
             else:
                 lines = lines[1:]
-            return '\n'.join(lines)
-        else:
-            return xml_str
+            xml_str = '\n'.join(lines)
+
+        return xml_str
 
     def __str__(self):
         # remove version tag
