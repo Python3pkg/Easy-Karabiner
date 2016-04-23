@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 
+KARABINER_APP_PATH = '/Applications/Karabiner.app'
 DEFAULT_CONFIG_PATH = '~/.easy_karabiner.py'
 DEFAULT_OUTPUT_PATH = '~/Library/Application Support/Karabiner/private.xml'
 
@@ -32,7 +33,7 @@ def get_data_path(filename):
 
 
 def get_karabiner_app_path():
-    return '/Applications/Karabiner.app'
+    return KARABINER_APP_PATH
 
 
 def _get_path_relate_to_karabiner(relative_path):
