@@ -1,6 +1,27 @@
 # -*- coding: utf-8 -*-
 import os
 
+DEFAULT_CONFIG_PATH = '~/.easy_karabiner.py'
+DEFAULT_OUTPUT_PATH = '~/Library/Application Support/Karabiner/private.xml'
+
+command_options = {}
+
+
+def set(options):
+    command_options.update(options)
+
+
+def get(key):
+    return command_options.get(key)
+
+
+def get_default_config_path():
+    return os.path.expanduser(DEFAULT_CONFIG_PATH)
+
+
+def get_default_output_path():
+    return os.path.expanduser(DEFAULT_OUTPUT_PATH)
+
 
 def get_data_dir():
     return os.path.join(os.path.dirname(__file__), 'data')

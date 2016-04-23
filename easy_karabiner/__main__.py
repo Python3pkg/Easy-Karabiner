@@ -22,47 +22,39 @@ from .generator import Generator
 from .fucking_string import *
 
 
-DEFAULT_CONFIG_PATH = '~/.easy_karabiner.py'
-DEFAULT_OUTPUT_PATH = '~/Library/Application Support/Karabiner/private.xml'
-DEFAULT_CONFIG_PATH = os.path.expanduser(DEFAULT_CONFIG_PATH)
-DEFAULT_OUTPUT_PATH = os.path.expanduser(DEFAULT_OUTPUT_PATH)
-VERBOSE = None
-
-
 @click.command()
 @click.help_option('--help', '-h')
 @click.version_option(__version__, '--version', '-v', message='%(version)s')
-@click.argument('inpath', default=DEFAULT_CONFIG_PATH, type=click.Path())
-@click.argument('outpath', default=DEFAULT_OUTPUT_PATH, type=click.Path())
+@click.argument('inpath', default=config.get_default_config_path(), type=click.Path())
+@click.argument('outpath', default=config.get_default_output_path(), type=click.Path())
 @click.option('--verbose', '-V', help='Print more text.', is_flag=True)
 @click.option('--string', '-s', help='Output as string.', is_flag=True)
 @click.option('--reload', '-r', help='Reload Karabiner.', is_flag=True)
 @click.option('--edit', '-e', help='Edit default config file.', is_flag=True)
 @click.option('--list-peripherals', '-l', help='List name of all peripherals.', is_flag=True)
-def main(inpath=DEFAULT_CONFIG_PATH, outpath=DEFAULT_OUTPUT_PATH, **options):
+def main(inpath, outpath, **options):
     """
     \b
     $ easy_karabiner
     $ easy_karabiner input.py output.xml
     $ easy_karabiner input.py --string
     """
-    global VERBOSE
-    VERBOSE = options.get('verbose')
+    config.set(options)
 
-    if options.get('help') or options.get('version'):
+    if config.get('help') or config.get('version'):
         return
-    elif options.get('edit'):
+    elif config.get('edit'):
         edit_config_file()
-    elif options.get('list_peripherals'):
+    elif config.get('list_peripherals'):
         list_peripherals()
-    elif options.get('reload'):
+    elif config.get('reload'):
         reload_karabiner()
     else:
         try:
             configs = read_config_file(inpath)
             xml_str = gen_config(configs)
 
-            if options.get('string'):
+            if config.get('string'):
                 print_message(xml_str)
             else:
                 try:
@@ -72,7 +64,7 @@ def main(inpath=DEFAULT_CONFIG_PATH, outpath=DEFAULT_OUTPUT_PATH, **options):
                     pass
                 write_generated_xml(outpath, xml_str)
 
-                if outpath == DEFAULT_OUTPUT_PATH:
+                if outpath == config.get_default_output_path():
                     reload_karabiner()
 
             show_config_warnings()
@@ -90,19 +82,19 @@ def main(inpath=DEFAULT_CONFIG_PATH, outpath=DEFAULT_OUTPUT_PATH, **options):
 
 
 def read_config_file(config_path):
-    if VERBOSE:
+    if config.get('verbose'):
         print_info('Execute "%s"' % config_path)
     return util.read_python_file(config_path)
 
 
 def write_generated_xml(outpath, content):
-    if VERBOSE:
+    if config.get('verbose'):
         print_info('Write XML to "%s"' % outpath)
     write_utf8_to(content, outpath)
 
 
 def edit_config_file():
-    click.edit(filename=DEFAULT_CONFIG_PATH)
+    click.edit(filename=config.get_default_config_path())
 
 
 def reload_karabiner():
@@ -111,7 +103,7 @@ def reload_karabiner():
                         'display notification "%s" with title "Karabiner Reloaded"' % NOTIFICATION_MSG)
     KARABINER_CMD = config.get_karabiner_bin('karabiner')
 
-    if VERBOSE:
+    if config.get('verbose'):
         print_info("Reload Karabiner config")
     call([KARABINER_CMD, 'enable', 'private.easy_karabiner'])
     call([KARABINER_CMD, 'reloadxml'])
@@ -128,7 +120,7 @@ def gen_config(configs):
     maps = configs.get('MAPS')
     definitions = configs.get('DEFINITIONS')
     query.update_aliases(configs)
-    if VERBOSE:
+    if config.get('verbose'):
         print_info("Generate XML configuration")
     return Generator(maps, definitions).to_str()
 
@@ -150,7 +142,7 @@ def backup_file(filepath, new_path=None):
             parts.insert(-1, checksum)
             new_name = '.'.join(parts)
 
-            if VERBOSE:
+            if config.get('verbose'):
                 print_info("Backup original XML config file")
             new_path = os.path.join(os.path.dirname(filepath), new_name)
 
