@@ -16,6 +16,10 @@
       <equal>com.google.Chrome</equal>
     </appdef>
     <appdef>
+      <appname>Kindle</appname>
+      <equal>com.amazon.Kindle</equal>
+    </appdef>
+    <appdef>
       <appname>PyCharm_CE</appname>
       <equal>com.jetbrains.pycharm</equal>
     </appdef>
@@ -45,8 +49,7 @@
     </replacementdef>
     <vkopenurldef>
       <name>KeyCode::VK_OPEN_URL_814dbb8</name>
-      <url type="shell">
-<![CDATA[osascript /usr/local/bin/copy_finder_path]]>      </url>
+      <url type="shell"><![CDATA[osascript /usr/local/bin/copy_finder_path]]></url>
     </vkopenurldef>
     <vkopenurldef>
       <name>KeyCode::VK_OPEN_URL_Activity_Monitor</name>
@@ -413,6 +416,16 @@
         <autogen> __KeyToKey__
           KeyCode::F, ModifierFlag::CONTROL_L, ModifierFlag::COMMAND_L, ModifierFlag::NONE,
           KeyCode::RETURN, ModifierFlag::COMMAND_R
+        </autogen>
+      </block>
+      <block>
+        <only>
+          Skim,
+          Kindle
+        </only>
+        <autogen> __KeyToKey__
+          KeyCode::F, ModifierFlag::CONTROL_L, ModifierFlag::COMMAND_L, ModifierFlag::NONE,
+          KeyCode::F, ModifierFlag::COMMAND_R, ModifierFlag::SHIFT_R, KeyCode::MINUS, ModifierFlag::COMMAND_R, ModifierFlag::SHIFT_R
         </autogen>
       </block>
       <block>

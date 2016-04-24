@@ -1,0 +1,111 @@
+<?xml version="1.0" ?>
+<root>
+  <Easy-Karabiner>0.5.0</Easy-Karabiner>
+  <item>
+    <name>Easy-Karabiner</name>
+    <appdef>
+      <appname>BILIBILI</appname>
+      <equal>com.typcn.Bilibili</equal>
+    </appdef>
+    <appdef>
+      <appname>Finder</appname>
+      <equal>com.apple.finder</equal>
+    </appdef>
+    <appdef>
+      <appname>Xee³_app</appname>
+      <equal>cx.c3.Xee3</equal>
+    </appdef>
+    <deviceproductdef>
+      <productname>CHERRY_3494_PRODUCT</productname>
+      <productid>0x0011</productid>
+    </deviceproductdef>
+    <deviceproductdef>
+      <productname>built_in_keyboard_and_trackpad_PRODUCT</productname>
+      <productid>0x0259</productid>
+    </deviceproductdef>
+    <devicevendordef>
+      <vendorname>CHERRY_3494_VENDOR</vendorname>
+      <vendorid>0x046a</vendorid>
+    </devicevendordef>
+    <devicevendordef>
+      <vendorname>built_in_keyboard_and_trackpad_VENDOR</vendorname>
+      <vendorid>0x05ac</vendorid>
+    </devicevendordef>
+    <replacementdef>
+      <replacementname>可以是中文</replacementname>
+      <replacementvalue>比如, hello, Xee³</replacementvalue>
+    </replacementdef>
+    <uielementroledef>自定义UI组件</uielementroledef>
+    <vkopenurldef>
+      <name>KeyCode::VK_OPEN_URL_760efb2</name>
+      <url type="shell"><![CDATA[osascript -e 'display notification "test2"']]></url>
+    </vkopenurldef>
+    <vkopenurldef>
+      <name>KeyCode::VK_OPEN_URL_Finder</name>
+      <url type="file">/System/Library/CoreServices/Finder.app</url>
+    </vkopenurldef>
+    <vkopenurldef>
+      <name>KeyCode::VK_OPEN_URL_Xee³_app</name>
+      <url type="file">/Applications/Xee³.app</url>
+    </vkopenurldef>
+    <vkopenurldef>
+      <name>KeyCode::VK_OPEN_URL_aedd86e</name>
+      <url type="shell"><![CDATA[osascript -e 'display notification "test1"']]></url>
+    </vkopenurldef>
+    <item>
+      <name>Enable</name>
+      <identifier>private.easy_karabiner</identifier>
+      <block>
+        <autogen> __KeyToKey__
+          KeyCode::COMMAND_L,
+          KeyCode::OPTION_L
+        </autogen>
+        <autogen> __DoublePressModifier__
+          KeyCode::SHIFT_L,
+          @begin
+          KeyCode::SHIFT_L
+          @end
+          @begin
+          KeyCode::VK_OPEN_URL_aedd86e
+          @end
+        </autogen>
+        <autogen> __KeyToKey__
+          PointingButton::LEFT, ModifierFlag::OPTION_L, ModifierFlag::NONE,
+          PointingButton::LEFT, KeyCode::VK_OPEN_URL_760efb2
+        </autogen>
+      </block>
+      <block>
+        <uielementrole_only>自定义UI组件</uielementrole_only>
+        <autogen> __KeyToKey__
+          KeyCode::E, ModifierFlag::OPTION_L, ModifierFlag::NONE,
+          KeyCode::VK_OPEN_URL_Finder
+        </autogen>
+      </block>
+      <block>
+        <modifier_only>ModifierFlag::COMMAND_L</modifier_only>
+        <only>Finder</only>
+        <autogen> __KeyToKey__
+          KeyCode::X, ModifierFlag::OPTION_L, ModifierFlag::NONE,
+          KeyCode::VK_OPEN_URL_Xee³_app
+        </autogen>
+      </block>
+      <block>
+        <device_only>
+          DeviceVendor::built_in_keyboard_and_trackpad_VENDOR,
+          DeviceProduct::built_in_keyboard_and_trackpad_PRODUCT
+        </device_only>
+        <only>Xee³_app</only>
+        <autogen> __FlipScrollWheel__
+          Option::FLIPSCROLLWHEEL_VERTICAL
+        </autogen>
+      </block>
+      <block>
+        <only>VIRTUALMACHINE</only>
+        <autogen> __KeyToKey__
+          KeyCode::F, ModifierFlag::CONTROL_L, ModifierFlag::COMMAND_L, ModifierFlag::NONE,
+          KeyCode::F, ModifierFlag::COMMAND_L
+        </autogen>
+      </block>
+    </item>
+  </item>
+</root>
