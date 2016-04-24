@@ -62,10 +62,10 @@ def main(inpath, outpath, **options):
                         backup_file(outpath)
                 except IOError:
                     pass
-                write_generated_xml(outpath, xml_str)
-
-                if outpath == config.get_default_output_path():
-                    reload_karabiner()
+                finally:
+                    write_generated_xml(outpath, xml_str)
+                    if outpath == config.get_default_output_path():
+                        reload_karabiner()
 
             show_config_warnings()
         except exception.ConfigError as e:
@@ -156,18 +156,22 @@ def show_config_warnings():
         exception_class = type(e)
 
         if exception_class == exception.UndefinedFilterException:
-            msg = 'Undefined filter:'
+            msg = 'Undefined filter'
         elif exception_class == exception.UndefinedKeyException:
-            msg = 'Undefined key:'
+            msg = 'Undefined key'
         elif exception_class == exception.UnsupportDefinition:
-            msg = 'Invalid definition:'
+            msg = 'Invalid definition'
         elif exception_class == exception.UnsupportKeymapException:
-            msg = 'Invalid keymap:'
+            msg = 'Invalid keymap'
         else:
             msg = exception_class.__name__
 
-        exception_arg = e.args[0] if len(e.args) > 0 else e.args
-        print_warning('%s `%s` in `%s`' % (msg, exception_arg, raw_data))
+        if len(e.args) == 0:
+            print_warning('%s: %s' % (msg, raw_data))
+        elif len(e.args) == 1:
+            print_warning('%s: `%s` in %s' % (msg, e.args[0], raw_data))
+        else:
+            print_warning('%s: %s in %s' % (msg, e.args, raw_data))
 
 
 def print_message(msg, color=None, err=False):
@@ -204,4 +208,7 @@ if __name__ == '__main__':
     try:
         main.callback(inpath, outpath, verbose=True)
     except SystemExit as e:
-        print(e)
+        if e == 0:
+            print_message(e)
+        else:
+            print_error(e)
