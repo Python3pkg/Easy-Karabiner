@@ -6,7 +6,8 @@ from .basexml import BaseXML
 
 
 class Generator(BaseXML):
-    """
+    """Construct Karabiner favorite XML tree
+
     >>> g = Generator()
     >>> s = '''
     ...     <root>
@@ -18,7 +19,8 @@ class Generator(BaseXML):
     ...           <identifier>private.easy_karabiner</identifier>
     ...         </item>
     ...       </item>
-    ...     </root>'''.format(version=__version__)
+    ...     </root>
+    ...     '''.format(version=__version__)
     >>> util.assert_xml_equal(g, s)
     """
 
@@ -29,6 +31,13 @@ class Generator(BaseXML):
         self.definitions = definitions or {}
 
     def init_xml_tree(self, xml_root):
+        """
+            <Easy-Karabiner>{version}</Easy-Karabiner>
+            <item>
+                <name>Easy-Karabiner</name>
+                <!-- REMAIN NODES HERE -->
+            </item>
+        """
         version_tag = BaseXML.create_tag('Easy-Karabiner', __version__)
         item_tag = BaseXML.create_tag('item')
         item_tag.append(BaseXML.create_tag('name', 'Easy-Karabiner'))
@@ -37,6 +46,16 @@ class Generator(BaseXML):
         return item_tag
 
     def init_subitem_tag(self, item_tag):
+        """
+        <item>
+            <name>Easy-Karabiner</name>
+            <item>
+                <name>Enable</name>
+                <identifier>private.easy_karabiner</identifier>
+                <!-- REMAIN NODES HERE -->
+            </item>
+        </item>
+        """
         subitem_tag = BaseXML.create_tag('item')
         name_tag = BaseXML.create_tag('name', 'Enable')
         identifier_tag = BaseXML.create_tag('identifier', self.ITEM_IDENTIFIER)
@@ -46,11 +65,11 @@ class Generator(BaseXML):
         return subitem_tag
 
     def to_xml(self):
-        xml_tree = BaseXML.create_tag('root')
-
         blocks, definitions = parse.parse(self.maps, self.definitions)
 
         # construct XML tree
+        xml_tree = BaseXML.create_tag('root')
+
         item_tag = self.init_xml_tree(xml_tree)
         for definition in definitions:
             item_tag.append(definition.to_xml())
@@ -69,4 +88,3 @@ if __name__ == '__main__':
         '__version__': __version__,
         'util': util,
     })
-

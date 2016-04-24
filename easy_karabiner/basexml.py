@@ -39,6 +39,7 @@ class BaseXML(object):
 
     @classmethod
     def create_cdata_text(cls, text):
+        # do NOT use `etree.CDATA`
         return '<![CDATA[%s]]>' % text
 
     @classmethod
@@ -56,7 +57,7 @@ class BaseXML(object):
 
     @classmethod
     def pretty_text(cls, elem, indent="  ", level=0):
-        ''' NOTICE: This method would change the construct of XML tree '''
+        """WARNING: This method would change the construct of XML tree"""
         i = "\n" + level * indent
 
         if len(elem) == 0:
@@ -85,10 +86,10 @@ class BaseXML(object):
         return xml_string
 
     def to_xml(self):
-        '''NOTICE: This method must be a REENTRANT function, which means
+        """NOTICE: This method must be a REENTRANT function, which means
         it should NOT change status or modify any member of `self` object.
         Because other methods may change the construct of the XML tree.
-        '''
+        """
         raise exception.NeedOverrideError()
 
     def to_str(self, pretty_text=True, remove_first_line=False):
@@ -106,5 +107,5 @@ class BaseXML(object):
         return xml_str
 
     def __str__(self):
-        # remove version tag
+        # `remove_first_line=True` is used to remove version tag in the first line
         return self.to_str(remove_first_line=True)

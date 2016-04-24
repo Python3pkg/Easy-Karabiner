@@ -175,7 +175,7 @@ def show_config_warnings():
 
 
 def print_message(msg, color=None, err=False):
-    '''Seems `click.echo` has fixed the problem of UnicodeDecodeError when redirecting (See
+    """Seems `click.echo` has fixed the problem of UnicodeDecodeError when redirecting (See
     https://stackoverflow.com/questions/4545661/unicodedecodeerror-when-redirecting-to-file
     for detail). As a result, the below code used to solve the problem is conflict with `click.echo`.
     To avoid the problem, you should always use `print` with below code or `click.echo` in `__main__.py`
@@ -184,8 +184,7 @@ def print_message(msg, color=None, err=False):
             sys.stdout = codecs.getwriter("utf-8")(sys.stdout)
         else:
             sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
-
-    '''
+    """
     click.secho(msg, fg=color, err=err)
 
 
@@ -199,16 +198,3 @@ def print_warning(msg):
 
 def print_info(msg):
     print_message(msg, color='green')
-
-
-if __name__ == '__main__':
-    inpath = 'samples/test.py'
-    outpath = 'samples/test.xml'
-
-    try:
-        main.callback(inpath, outpath, verbose=True)
-    except SystemExit as e:
-        if e == 0:
-            print_message(e)
-        else:
-            print_error(e)

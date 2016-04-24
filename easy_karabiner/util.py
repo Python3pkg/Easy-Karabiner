@@ -18,7 +18,7 @@ def get_checksum(s):
 
 
 def escape_string(s):
-    '''keep char unchanged if char is number or letter or unicode'''
+    """Keep char unchanged if char is number or letter or unicode"""
     chs = []
     for ch in s:
         ch = ch if ord(ch) > 128 or ch.isalnum() else ' '

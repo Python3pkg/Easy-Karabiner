@@ -4,7 +4,16 @@ from .basexml import BaseXML
 
 
 class FilterBase(BaseXML):
+    """A object represent filter XML node in Karabiner.
+    For example, the following XML is a typical filter.
+
+        <only>SKIM</only>
+    """
     def __init__(self, *vals, **kwargs):
+        """
+        :param vals: List[str]
+        :param kwargs: Dict
+        """
         self.type = kwargs.get('type', 'only')
         self.vals = vals
         self.kwargs = kwargs
@@ -45,12 +54,12 @@ class FilterBase(BaseXML):
 
 
 class Filter(FilterBase):
-    '''
+    """
     >>> print(Filter('SKIM'))
     <only>SKIM</only>
     >>> print(Filter('SKIM', type='not'))
     <not>SKIM</not>
-    '''
+    """
 
     def get_tag_name(self):
         return self.type

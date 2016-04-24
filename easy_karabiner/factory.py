@@ -9,6 +9,7 @@ from . import def_tag_map
 
 
 def define_filters(raw_filters):
+    """Found undefined `Filter` in `raw_filters`, and create a `Definition` by it."""
     for raw_filter in raw_filters:
         if raw_filter.startswith('!'):
             val = raw_filter[1:]
@@ -20,6 +21,7 @@ def define_filters(raw_filters):
 
 
 def define_keymaps(raw_keymaps):
+    """Found undefined `Key` in `raw_keymaps`, and create a `Definition` by it."""
     # raw_keymap: (str, (str), ...)
     for raw_keymap in raw_keymaps:
         try:
@@ -34,6 +36,9 @@ def define_keymaps(raw_keymaps):
 
 
 def create_filters(raw_filters):
+    """Create `Filter` object from `raw_filters`,
+    `Filter` objects with the same class has been merged to one `Filter` object.
+    """
     def filter_sort_key(f):
         return f.get_tag_name()
 
@@ -50,6 +55,7 @@ def create_filters(raw_filters):
 
 
 def create_keymaps(raw_keymaps):
+    """Create `Keymap` object from `raw_keymaps`."""
     keymap_objs = []
 
     for raw_keymap in raw_keymaps:
@@ -66,7 +72,7 @@ def create_definitions(definitions):
     definition_objs = []
 
     for name in sorted(definitions.keys()):
-        # make sure vals is list
+        # make sure `vals` is iterable
         if util.is_list_or_tuple(definitions[name]):
             vals = definitions[name]
         else:
@@ -86,10 +92,12 @@ class FilterCreater(object):
     @classmethod
     def define(cls, val):
         device_ids = osxkit.get_peripheral_info(val)
+        # if `val` is a peripheral name
         if device_ids:
             DefinitionCreater.define_device(val, device_ids)
         else:
             app_info = osxkit.get_app_info(val)
+            # if `val` is a application name
             if app_info:
                 bundle_id = app_info[1]
                 DefinitionCreater.define_app(val, bundle_id)
@@ -98,6 +106,7 @@ class FilterCreater(object):
 
     @classmethod
     def create(cls, raw_val):
+        """Create a list of `Filter` object from `raw_val` string."""
         if raw_val.startswith('!'):
             val = raw_val[1:]
             type = 'not'
@@ -106,7 +115,7 @@ class FilterCreater(object):
             type = 'only'
 
         class_names = query.query_filter_class_names(val, scope='all')
-        # if `val` has defined
+        # if `val` has been defined
         if class_names:
             filter_classes = [filter.__dict__.get(c) for c in class_names]
             definition_objs = query.DefinitionBucket.get('filter', val)
@@ -146,9 +155,11 @@ class KeymapCreater(object):
     def define_key(cls, val):
         app_info = osxkit.get_app_info(val)
 
+        # if `val` is a application name
         if app_info:
             app_path = app_info[0]
             DefinitionCreater.define_open(app_path, index=val)
+        # if `val` is `VKOpenURL` format
         elif DefinitionDetector.is_vkopenurl(val):
             DefinitionCreater.define_open(val)
         else:
@@ -156,12 +167,16 @@ class KeymapCreater(object):
 
     @classmethod
     def create(cls, raw_keymap):
+        """Create a `Keymap` object from `raw_keymap`."""
+        # found the `Keymap` constructor by the command marker
         command = raw_keymap[0]
         command = query.get_keymap_alias(command) or command
         keymap_class = keymap.__dict__.get(command)
 
         new_keycombos = []
 
+        # Translate key string to `Header::Value` format if it has been defined,
+        # otherwise, keep it unchanged.
         for raw_keycombo in raw_keymap[1:]:
             new_keycombo = []
 
@@ -181,6 +196,7 @@ class KeymapCreater(object):
         try:
             if keymap_class:
                 return keymap_class(*new_keycombos)
+            # if can't found the `Keymap` constructor
             else:
                 return keymap.UniversalKeyToKey(command, *new_keycombos)
         except TypeError:
@@ -202,6 +218,7 @@ class KeymapCreater(object):
 class DefinitionCreater(object):
     @classmethod
     def create(cls, raw_name, vals):
+        """Create a list of `Definition` object by found out the relevant constructor intelligently."""
         name_parts = raw_name.split('::', 1)
         # { name : [val] }
         # if no explicit `DefinitionType`, then look at `vals` to figure it out
@@ -303,12 +320,12 @@ class DefinitionDetector(object):
 
     @classmethod
     def is_app(cls, val):
-        '''appdef has format like:
+        """`appdef` has format like:
 
              equal:  com.example.application
              prefix: com.example.
              suffix: .example.application
-        '''
+        """
         words = val.split('.')
         if len(words) < 3:
             return False

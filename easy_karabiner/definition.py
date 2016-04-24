@@ -6,6 +6,14 @@ from .basexml import BaseXML
 
 
 class DefinitionBase(BaseXML):
+    """A object represent definition XML node in Karabiner.
+    For example, the following XML is a typical definition.
+
+        <appdef>
+          <appname>BILIBILI</appname>
+          <equal>com.typcn.Bilibili</equal>
+        </appdef>
+    """
     def __init__(self, name, *tag_vals, **kwargs):
         self.name = name
         self.tag_vals = tag_vals
@@ -30,6 +38,9 @@ class DefinitionBase(BaseXML):
 
     @classmethod
     def split_name_and_attrs(cls, tag_name):
+        """Because some tag names contain attributes,
+        so we need separate it into two parts.
+        """
         # transform `key="value"` to `(key, value)`
         def to_pair(s):
             removed_quote = ''.join(ch for ch in s if ch not in ('"', "'"))
@@ -77,10 +88,11 @@ class App(DefinitionBase):
     """
     >>> d = App('BILIBILI', 'com.typcn.Bilibili')
     >>> s = '''
-    ...    <appdef>
-    ...      <appname>BILIBILI</appname>
-    ...      <equal>com.typcn.Bilibili</equal>
-    ...    </appdef>'''
+    ...     <appdef>
+    ...       <appname>BILIBILI</appname>
+    ...       <equal>com.typcn.Bilibili</equal>
+    ...     </appdef>
+    ...     '''
     >>> util.assert_xml_equal(d, s)
     """
 

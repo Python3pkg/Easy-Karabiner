@@ -7,6 +7,14 @@ from .fucking_string import u
 
 
 class KeyToKeyBase(BaseXML):
+    """A object represent `autogen` XML node in Karabiner.
+    For example, the following XML is a typical `autogen`.
+
+        <autogen> __KeyToKey__
+            KeyCode::E, ModifierFlag::OPTION_L, ModifierFlag::NONE,
+            KeyCode::E, ModifierFlag::COMMAND_L
+        </autogen>
+    """
     MULTI_KEYS_FMT = u('@begin\n{key}\n@end')
     AUTOGEN_FMT = u(' {type}\n{keys_str}\n')
 
@@ -14,6 +22,11 @@ class KeyToKeyBase(BaseXML):
         self.keys_str = self.parse(*keycombos, **kwargs)
 
     def parse(self, *keycombos, **kwargs):
+        """
+        :param keycombos: List[List[str]]
+        :param kwargs: Dict
+        :return: str
+        """
         raise exception.NeedOverrideError()
 
     def get_type(self):
@@ -80,18 +93,17 @@ class _MultiKeys(UniversalKeyToKey):
 
 
 class KeyToKey(KeyToKeyBase):
-    '''
+    """
     >>> keymap = KeyToKey(['ModifierFlag::OPTION_L', 'KeyCode::E'],
     ...                   ['ModifierFlag::COMMAND_L', 'KeyCode::E'])
-    >>> s = """
+    >>> s = '''
     ...     <autogen> __KeyToKey__
     ...         KeyCode::E, ModifierFlag::OPTION_L, ModifierFlag::NONE,
     ...         KeyCode::E, ModifierFlag::COMMAND_L
     ...     </autogen>
-    ...     """
+    ...     '''
     >>> util.assert_xml_equal(keymap, s)
-    '''
-
+    """
     KEYS_FMT = u('{from_key},\n{to_key}')
 
     def parse(self, from_key, to_key, has_modifier_none=True):

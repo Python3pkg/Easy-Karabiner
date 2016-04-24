@@ -18,8 +18,11 @@ class KeyCombo(object):
         self.keys = self.parse(keys or [])
 
     def parse(self, keys):
-        # we need adjust position of keys, because
-        # the first key cannot be modifier key in most case
+        """
+        :param keys: List[str]
+        :return: List[str]
+        """
+        # we need adjust position of keys, because the first key cannot be modifier key in most case
         keys = self.rearrange_keys(keys)
 
         if len(keys) > 0:

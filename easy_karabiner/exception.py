@@ -37,6 +37,9 @@ class UndefinedKeyException(ConfigWarning):
 
 
 class ExceptionRegister(object):
+    """This class is used to record the occurrence of any exceptions,
+    so we can provide a user friendly error message.
+    """
     error_table = {}
     raw_maps_table = {}
 

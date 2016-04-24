@@ -26,13 +26,12 @@ def get_name_without_suffix(path):
 
 
 def get_all_app_info():
-    '''
-    Return dict contains applications information. Item in the dict has format like:
+    """Return dict contains applications information. Item in the dict has format like:
 
         'basename / display_name' : (absolute_path, bundle_identifier)
 
     NOTICE: `basename` or `display_name` already removed '.app' suffix
-    '''
+    """
     # list absolute path of all applications
     LIST_APP_PATH_CMD = ('mdfind', '-0', 'kMDItemContentType==com.apple.application-bundle')
     # get Bundle-Identifier and Display-Name of applications by absolute path
@@ -115,11 +114,10 @@ def get_display_name(key, brand, product_id):
 
 
 def get_all_peripheral_info():
-    '''
-    Return dict contains devices information. Item in the dict has format like:
+    """Return dict contains devices information. Item in the dict has format like:
 
         'display_name' : (vendor_id, product_id)
-    '''
+    """
     # list information about USB and Bluetooth devices
     CMD = ('system_profiler', '-detailLevel', 'mini', '-timeout', '1',
            'SPUSBDataType', 'SPBluetoothDataType')

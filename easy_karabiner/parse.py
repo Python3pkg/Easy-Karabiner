@@ -13,6 +13,7 @@ from .fucking_string import ensure_utf8
 
 
 def parse(maps, definitions):
+    """Parse and convert user Easy-Karabiner config to XML objects."""
     definitions = ensure_definitions_utf8(definitions)
     maps = ensure_maps_utf8(maps)
 
@@ -25,6 +26,7 @@ def parse(maps, definitions):
 
 
 def ensure_definitions_utf8(definitions):
+    """Encode any str contained in `defintions` to UTF-8 unicode."""
     after_encode = {}
 
     for name, val_or_vals in definitions.items():
@@ -40,6 +42,7 @@ def ensure_definitions_utf8(definitions):
 
 
 def ensure_maps_utf8(maps):
+    """Encode any str contained in `maps` to UTF-8 unicode."""
     after_encode = []
 
     for raw_map in maps:
@@ -59,6 +62,9 @@ def ensure_maps_utf8(maps):
 
 
 def organize_maps(maps):
+    """Convert `maps` to a `OrderedDict` with the consistent type.
+    The items in `filters_keymaps_table` is ordered by the first present of `filters`.
+    """
     filters_keymaps_table = OrderedDict()
 
     for raw_map in maps:
@@ -80,7 +86,8 @@ def organize_maps(maps):
 
 
 def separate_keymap_filters(raw_map):
-    # if last element is a filter
+    """Convert `raw_map` to a `tuple` with consistent type."""
+    # if last element in `raw_map` is a filter
     if util.is_list_or_tuple(raw_map[-1]):
         raw_filters = tuple(raw_map[-1])
         raw_map = raw_map[:-1]
@@ -90,7 +97,7 @@ def separate_keymap_filters(raw_map):
     if len(raw_map) == 0 or len(raw_map[0]) == 0:
         raise exception.ConfigWarning("Cannot found keymap")
     else:
-        # if first part is command marker
+        # if first part in `raw_map` is command marker
         if len(raw_map[0]) > 2 and raw_map[0].startswith('_') and raw_map[0].endswith('_'):
             command = raw_map[0]
             raw_keycombos = raw_map[1:]
@@ -135,6 +142,17 @@ def create_blocks(filters_keymaps_table):
 
 
 class Block(BaseXML):
+    """Block is a kind of XML node similar to `item` in Karabiner.
+    For example, the following XML is a typical `block`.
+
+        <block>
+            <only>VIRTUALMACHINE</only>
+            <autogen> __KeyToKey__
+                KeyCode::F, ModifierFlag::CONTROL_L, ModifierFlag::COMMAND_L, ModifierFlag::NONE,
+                KeyCode::F, ModifierFlag::COMMAND_L
+            </autogen>
+        </block>
+    """
     def __init__(self, keymaps, filters=None):
         self.keymaps = keymaps
         self.filters = filters or tuple()

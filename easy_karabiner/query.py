@@ -38,6 +38,7 @@ def is_predefined_modifier(key):
 
 
 def query_filter_class_names(value, scope='all'):
+    """Get `Filter` class name by `value` in `scope`."""
     definitions = DefinitionBucket.get('filter', value)
     def_tag_name = DefinitionTypeQuery.query(value)
     filter_class_names = []
@@ -80,6 +81,10 @@ def update_aliases(aliases_table):
 
 
 class BaseTypeQuery(object):
+    """This class is used to get corresponding type of `value` by searching in XML files.
+    Because there is a possibility that multiple types associated with the same value,
+    for avoid this problem, we specify the order of types and return the first occurrence as the query result.
+    """
     DATA_DIR = config.get_karabiner_resources_dir()
 
     def __init__(self):
@@ -182,6 +187,10 @@ class DefinitionTypeQuery(BaseTypeQuery):
 
 
 class DefinitionBucket(object):
+    """This class is used to store global `Definition` objects,
+    so we can create a `Definition` object from anywhere,
+    and found it by the original value used to define.
+    """
     def __init__(self):
         self.buckets = {
             'filter': {},
