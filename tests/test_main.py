@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from easy_karabiner.__main__ import *
+from easy_karabiner.main import *
 
 
 def test_main():
