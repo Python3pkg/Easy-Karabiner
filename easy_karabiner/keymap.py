@@ -60,18 +60,28 @@ class _KeyToMultiKeys(KeyToKeyBase):
                  '{additional_key}\n'
                  '@end')
 
-    def parse(self, from_key, additional_key, to_key=None, has_modifier_none=True):
-        if to_key:
-            to_key = KeyCombo(to_key)
-        else:
-            to_key = KeyCombo(from_key)
-
+    def parse(self, from_key, to_key, additional_key, has_modifier_none=True):
         from_key = KeyCombo(from_key, has_modifier_none)
+        to_key = KeyCombo(to_key)
         additional_key = KeyCombo(additional_key)
 
         return self.KEYS_FMT.format(from_key=from_key.to_str(),
                                     to_key=to_key.to_str(),
                                     additional_key=additional_key.to_str())
+
+
+class _KeyToAdditionalKey(_KeyToMultiKeys):
+    def parse(self, from_key, to_key=None, additional_key=None, has_modifier_none=True):
+        if to_key is None and additional_key is None:
+            raise exception.UnsupportKeymapException(from_key)
+        elif to_key and additional_key is None:
+            additional_key = to_key
+            to_key = from_key
+
+        return super(_KeyToAdditionalKey, self).parse(from_key,
+                                                      to_key,
+                                                      additional_key,
+                                                      has_modifier_none)
 
 
 class _OneKeyEvent(KeyToKeyBase):
@@ -143,23 +153,24 @@ class SimultaneousKeyPresses(KeyToKeyBase):
                                     to_key=to_key.to_str())
 
 
-class DoublePressModifier(_KeyToMultiKeys):
+class DoublePressModifier(_KeyToAdditionalKey):
     pass
 
 
-class HoldingKeyToKey(_KeyToMultiKeys):
+class HoldingKeyToKey(_KeyToAdditionalKey):
     pass
 
 
-class KeyOverlaidModifier(_KeyToMultiKeys):
+class KeyOverlaidModifier(_KeyToAdditionalKey):
     pass
 
 
 class KeyDownUpToKey(_KeyToMultiKeys):
-    def parse(self, from_key, immediately_key, interrupted_key):
+    def parse(self, from_key, immediately_key, interrupted_key=None, has_modifier_none=True):
         return super(KeyDownUpToKey, self).parse(from_key,
-                                                 interrupted_key,
-                                                 immediately_key)
+                                                 immediately_key,
+                                                 interrupted_key or from_key,
+                                                 has_modifier_none)
 
 
 class BlockUntilKeyUp(_OneKeyEvent):

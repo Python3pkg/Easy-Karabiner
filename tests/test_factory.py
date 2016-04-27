@@ -97,8 +97,8 @@ def test_create_keymap():
     raw_keymap = [
         'DoublePressModifier',
         ['fn'],
-        ['F12'],
         ['F11'],
+        ['F12'],
     ]
     k = KeymapCreater.create(raw_keymap)
     s = '''
@@ -134,8 +134,8 @@ def test_create_keymap():
     raw_keymap = [
         'KeyOverlaidModifier',
         ['caps'],
-        ['esc'],
         ['ctrl'],
+        ['esc'],
     ]
     k = KeymapCreater.create(raw_keymap)
     s = '''
@@ -331,7 +331,7 @@ def test_create_keymaps():
     raw_keymaps = [
         ['KeyToKey', ['Cmd'], ['Alt']],
         ['double', ['fn'], ['f12']],
-        ['holding', ['ctrl'], ['cmd', 'alt', 'ctrl'], ['esc']],
+        ['holding', ['ctrl'], ['esc'], ['cmd', 'alt', 'ctrl']],
     ]
     outputs = [
         '''
