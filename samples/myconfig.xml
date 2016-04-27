@@ -45,7 +45,7 @@
     </devicevendordef>
     <replacementdef>
       <replacementname>emacs_ignore_app</replacementname>
-      <replacementvalue>ECLIPSE, EMACS, TERMINAL, REMOTEDESKTOPCONNECTION, VI, X11, VIRTUALMACHINE, TERMINAL</replacementvalue>
+      <replacementvalue>ECLIPSE, EMACS, TERMINAL, REMOTEDESKTOPCONNECTION, VI, X11, VIRTUALMACHINE, TERMINAL, Sublime_Text</replacementvalue>
     </replacementdef>
     <vkopenurldef>
       <name>KeyCode::VK_OPEN_URL_814dbb8</name>

@@ -12,6 +12,10 @@
       <equal>com.apple.finder</equal>
     </appdef>
     <appdef>
+      <appname>Xee³</appname>
+      <equal>cx.c3.Xee3</equal>
+    </appdef>
+    <appdef>
       <appname>Xee³_app</appname>
       <equal>cx.c3.Xee3</equal>
     </appdef>
