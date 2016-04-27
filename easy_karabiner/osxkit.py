@@ -145,14 +145,15 @@ def get_all_peripheral_info():
     # only keep (Vendor ID, Product ID) properties
     for k in sorted(devices.keys()):
         device = devices.pop(k)
-        product_id = device['Product ID']
-        vendor_parts = device['Vendor ID'].split(' ', 1)
-        vendor_id = vendor_parts[0]
-        brand = device.get('Manufacturer', vendor_parts[-1].strip()[1:-1])
-        # construct display name from properties
-        name = ensure_utf8(get_display_name(k, brand, product_id))
+        if 'Product ID' in device and 'Vendor ID' in device:
+            product_id = device['Product ID']
+            vendor_parts = device['Vendor ID'].split(' ', 1)
+            vendor_id = vendor_parts[0]
+            brand = device.get('Manufacturer', vendor_parts[-1].strip()[1:-1])
+            # construct display name from properties
+            name = ensure_utf8(get_display_name(k, brand, product_id))
 
-        devices[name] = (vendor_id, product_id)
+            devices[name] = (vendor_id, product_id)
 
     return devices
 
