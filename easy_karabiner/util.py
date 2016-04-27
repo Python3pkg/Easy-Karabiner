@@ -84,6 +84,8 @@ def assert_xml_equal(xml_tree1, xml_tree2, ignore_tags=tuple()):
 
     nospaces1 = ''.join(xml_tree1.split())
     nospaces2 = ''.join(xml_tree2.split())
+    xml_tree1 = BaseXML.parse_string(xml_tree1)
+    xml_tree2 = BaseXML.parse_string(xml_tree2)
 
     if nospaces1 != nospaces2:
         assert(is_xml_tree_equal(xml_tree1, xml_tree2, ignore_tags=ignore_tags))
