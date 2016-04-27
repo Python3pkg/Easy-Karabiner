@@ -2,9 +2,7 @@ DEFINITIONS = {
     'cherry_3494': ['0x046a', '0x0011'],
     'emacs_ignore_app': ['ECLIPSE', 'EMACS', 'TERMINAL',
                          'REMOTEDESKTOPCONNECTION', 'VI', 'X11',
-                         # TODO: what about sublime text?
-                         'VIRTUALMACHINE', 'TERMINAL', #'Sublime Text', 
-                         ],
+                         'VIRTUALMACHINE', 'TERMINAL', 'Sublime Text'],
 }
 
 MAPS = [

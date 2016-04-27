@@ -3,7 +3,7 @@ DEFINITIONS = {
     # app
     'BILIBILI': 'com.typcn.Bilibili',
     # replacement
-    '可以是中文': ['比如', 'hello', 'Xee³'],
+    '可以是中文': ('比如', 'hello', 'Xee³'),
     # device
     'CHERRY_3494': ['0x046a', '0x0011'],
     'UIElementRole::自定义UI组件': '用作 filter',

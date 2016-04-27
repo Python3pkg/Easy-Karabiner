@@ -5,5 +5,5 @@ DEFINITIONS = {
 
 MAPS = [
     ['alt', 'cmd', ('CHERRY', '3494')],
-    ['cmd', 'alt', ('CHERRY', '3494')],
+    ['cmd', 'alt', ['CHERRY', '3494']],
 ]

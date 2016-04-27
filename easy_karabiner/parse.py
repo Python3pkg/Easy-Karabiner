@@ -3,19 +3,19 @@ from __future__ import print_function
 from collections import OrderedDict
 from operator import add
 from functools import reduce
+
 from . import util
 from . import query
 from . import osxkit
 from . import factory
 from . import exception
 from .basexml import BaseXML
-from .fucking_string import ensure_utf8
 
 
 def parse(maps, definitions):
     """Parse and convert user Easy-Karabiner config to XML objects."""
-    definitions = ensure_definitions_utf8(definitions)
-    maps = ensure_maps_utf8(maps)
+    definitions = util.encode_with_utf8(definitions)
+    maps = util.encode_with_utf8(maps)
 
     factory.create_definitions(definitions)
     filters_keymaps_table = organize_maps(maps)
@@ -23,42 +23,6 @@ def parse(maps, definitions):
 
     definition_objs = query.DefinitionBucket.get_all_definitions()
     return block_objs, definition_objs
-
-
-def ensure_definitions_utf8(definitions):
-    """Encode any str contained in `defintions` to UTF-8 unicode."""
-    after_encode = {}
-
-    for name, val_or_vals in definitions.items():
-        if util.is_list_or_tuple(val_or_vals):
-            val_or_vals = [ensure_utf8(v) for v in val_or_vals]
-        else:
-            val_or_vals = ensure_utf8(val_or_vals)
-
-        name = ensure_utf8(name)
-        after_encode[name] = val_or_vals
-
-    return after_encode
-
-
-def ensure_maps_utf8(maps):
-    """Encode any str contained in `maps` to UTF-8 unicode."""
-    after_encode = []
-
-    for raw_map in maps:
-        encoded_map = []
-
-        for val_or_vals in raw_map:
-            if util.is_list_or_tuple(val_or_vals):
-                val_or_vals = [ensure_utf8(val) for val in val_or_vals]
-            else:
-                val_or_vals = ensure_utf8(val_or_vals)
-
-            encoded_map.append(val_or_vals)
-
-        after_encode.append(encoded_map)
-
-    return after_encode
 
 
 def organize_maps(maps):
@@ -102,7 +66,7 @@ def separate_keymap_filters(raw_map):
             command = raw_map[0]
             raw_keycombos = raw_map[1:]
         else:
-            command = '_KeyToKey_'
+            command = '__KeyToKey__'
             raw_keycombos = raw_map
 
         # ((key1, key2, ...), (key1, key2, ...))
@@ -113,7 +77,7 @@ def separate_keymap_filters(raw_map):
             else:
                 keycombos.append(tuple(util.split_ignore_quote(keycombo_str)))
 
-        raw_keymap = (command.strip('_'),) + tuple(keycombos)
+        raw_keymap = (command,) + tuple(keycombos)
         return raw_keymap, raw_filters
 
 

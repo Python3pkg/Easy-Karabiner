@@ -20,9 +20,15 @@ else:
             fp.write(s)
 
 
+def is_string_type(s):
+    return isinstance(s, (basestring, unicode, str))
+
+
 def ensure_utf8(s):
+    # convert from any object to `unicode`
     if not isinstance(s, basestring):
         s = unicode(s)
+
     if isinstance(s, unicode):
         s = s.encode('utf-8')
     return unicode(s, encoding='utf-8')

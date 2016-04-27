@@ -31,6 +31,8 @@ MODIFIER_ALIAS = {
     "ctrl_r" : "CONTROL_R",
     "caps"   : "CAPSLOCK",
     "fn"     : "FN",
+
+    "launcher_mode_v2": "ModifierFlag::LAUNCHER_MODE_V2",
 }
 
 KEY_ALIAS = {
@@ -76,4 +78,6 @@ KEY_ALIAS = {
     "scroll_down" : "ScrollWheel::DOWN",
     "scroll_left" : "ScrollWheel::left",
     "scroll_right": "ScrollWheel::right",
+
+    "config_sync_keydownup_notsave_launcher_mode_v2": "KeyCode::VK_CONFIG_SYNC_KEYDOWNUP_notsave_launcher_mode_v2",
 }

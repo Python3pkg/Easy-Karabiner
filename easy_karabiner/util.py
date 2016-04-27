@@ -3,7 +3,7 @@ from __future__ import print_function
 import shlex
 from hashlib import sha1
 from .basexml import BaseXML
-from .fucking_string import ensure_utf8
+from .fucking_string import ensure_utf8, is_string_type
 
 
 def read_python_file(pypath):
@@ -26,6 +26,21 @@ def escape_string(s):
 
     # remove multiple whitespaces and replace whitespace with '_'
     return '_'.join(''.join(chs).split())
+
+
+def encode_with_utf8(o):
+    """Encode object `o` with UTF-8 recursively"""
+    if is_string_type(o):
+        return ensure_utf8(o)
+
+    if is_list_or_tuple(o):
+        return type(o)([encode_with_utf8(item) for item in o])
+    elif isinstance(o, dict):
+        for k in o.keys():
+            o[encode_with_utf8(k)] = encode_with_utf8(o.pop(k))
+        return o
+    else:
+        raise TypeError('Cannot encode %s with UTF-8' % o.__repr__())
 
 
 def is_hex(s):

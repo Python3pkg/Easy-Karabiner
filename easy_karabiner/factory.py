@@ -3,9 +3,12 @@ from __future__ import print_function
 import operator
 from functools import reduce
 from itertools import groupby
+
 from . import util, query, exception, osxkit
 from . import definition, filter, keymap
 from . import def_tag_map
+from .basexml import BaseXML
+from .fucking_string import is_string_type
 
 
 def define_filters(raw_filters):
@@ -94,13 +97,13 @@ class FilterCreater(object):
         device_ids = osxkit.get_peripheral_info(val)
         # if `val` is a peripheral name
         if device_ids:
-            DefinitionCreater.define_device(val, device_ids)
+            return DefinitionCreater.define_device(val, device_ids)
         else:
             app_info = osxkit.get_app_info(val)
             # if `val` is a application name
             if app_info:
                 bundle_id = app_info[1]
-                DefinitionCreater.define_app(val, bundle_id)
+                return DefinitionCreater.define_app(val, bundle_id)
             else:
                 raise exception.UndefinedFilterException(val)
 
@@ -158,10 +161,10 @@ class KeymapCreater(object):
         # if `val` is a application name
         if app_info:
             app_path = app_info[0]
-            DefinitionCreater.define_open(app_path, index=val)
+            return DefinitionCreater.define_open(app_path, index=val)
         # if `val` is `VKOpenURL` format
         elif DefinitionDetector.is_vkopenurl(val):
-            DefinitionCreater.define_open(val)
+            return DefinitionCreater.define_open(val)
         else:
             raise exception.UndefinedKeyException(val)
 
@@ -169,7 +172,7 @@ class KeymapCreater(object):
     def create(cls, raw_keymap):
         """Create a `Keymap` object from `raw_keymap`."""
         # found the `Keymap` constructor by the command marker
-        command = raw_keymap[0]
+        command = raw_keymap[0].strip('_')
         command = query.get_keymap_alias(command) or command
         keymap_class = keymap.__dict__.get(command)
 
@@ -232,17 +235,20 @@ class DefinitionCreater(object):
                     return cls.define('UIElementRole', raw_name, raw_name, vals)
                 elif DefinitionDetector.is_app(val):
                     return cls.define('App', raw_name, raw_name, vals)
+                elif DefinitionDetector.is_replacement(val):
+                    return cls.define_replacement(raw_name, vals)
                 else:
                     raise exception.UnsupportDefinition(raw_name)
             # { name : [val] }
             elif len(vals) > 1:
-                # { name : [DeviceVendorID, DeviceProductID] }
-                if DefinitionDetector.is_device(vals):
-                    return cls.define_device(raw_name, vals)
-                elif DefinitionDetector.is_all_app(vals):
-                    return cls.define('App', raw_name, raw_name, vals)
-                else:
-                    return cls.define('Replacement', raw_name, raw_name, vals)
+                if all(is_string_type(val) for val in vals):
+                    # { name : [DeviceVendorID, DeviceProductID] }
+                    if DefinitionDetector.is_device(vals):
+                        return cls.define_device(raw_name, vals)
+                    elif DefinitionDetector.is_all_app(vals):
+                        return cls.define('App', raw_name, raw_name, vals)
+
+                return cls.define_replacement(raw_name, vals)
         # { DefHeader::DefName : [val] }
         else:
             def_header, def_name = name_parts
@@ -267,6 +273,34 @@ class DefinitionCreater(object):
             return [definition_obj]
         else:
             return []
+
+    @classmethod
+    def define_replacement(cls, raw_name, vals):
+        # if `vals` is `Keymap` format, define and create it
+        if all(DefinitionDetector.is_keymap(val) for val in vals):
+            from .parse import parse
+
+            block_objs, _ = parse(vals, {})
+
+            keymap_strs = ''
+            for block in block_objs:
+                keymap_strs += '\n'.join(str(o) for o in block.keymaps)
+
+            after_defined = [BaseXML.create_cdata_text(keymap_strs)]
+        else:
+            after_defined = []
+
+            for val in vals:
+                # if `val` is application name, define it and replace with define name
+                app_info = osxkit.get_app_info(val)
+                if app_info:
+                    bundle_id = app_info[1]
+                    DefinitionCreater.define_app(val, bundle_id)
+                    after_defined.append(cls.escape_def_name(val, 'App'))
+                else:
+                    after_defined.append(val)
+
+        return cls.define('Replacement', raw_name, raw_name, after_defined)
 
     @classmethod
     def define_device(cls, raw_name, vals):
@@ -339,6 +373,19 @@ class DefinitionDetector(object):
     @classmethod
     def is_all_app(cls, vals):
         return all(cls.is_app(val) for val in vals)
+
+    @classmethod
+    def is_replacement(cls, val):
+        if BaseXML.is_cdata_text(val):
+            return True
+        elif cls.is_keymap(val):
+            return True
+        else:
+            return False
+
+    @classmethod
+    def is_keymap(cls, val):
+        return util.is_list_or_tuple(val)
 
     @classmethod
     def get_definition_caregory(cls, def_class):
