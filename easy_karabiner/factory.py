@@ -4,8 +4,13 @@ import operator
 from functools import reduce
 from itertools import groupby
 
-from . import util, query, exception, osxkit
-from . import definition, filter, keymap
+from . import util
+from . import query
+from . import osxkit
+from . import filter
+from . import keymap
+from . import definition
+from . import exception
 from . import def_tag_map
 from .basexml import BaseXML
 from .fucking_string import is_string_type
