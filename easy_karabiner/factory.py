@@ -70,7 +70,7 @@ def create_keymaps(raw_keymaps):
         try:
             keymap_obj = KeymapCreater.create(raw_keymap)
             keymap_objs.append(keymap_obj)
-        except exception.UnsupportKeymapException as e:
+        except exception.InvalidKeymapException as e:
             exception.ExceptionRegister.record_by(raw_keymap, e)
 
     return keymap_objs
@@ -89,7 +89,7 @@ def create_definitions(definitions):
         try:
             tmp = DefinitionCreater.create(name, vals)
             definition_objs.extend(tmp)
-        except exception.UnsupportDefinition as e:
+        except exception.InvalidDefinition as e:
             k = {name: definitions[name]}
             exception.ExceptionRegister.record(k, e)
 
@@ -208,7 +208,7 @@ class KeymapCreater(object):
             else:
                 return keymap.UniversalKeyToKey(command, *new_keycombos)
         except TypeError:
-            raise exception.UnsupportKeymapException(raw_keymap)
+            raise exception.InvalidKeymapException(raw_keymap)
 
     @classmethod
     def get_karabiner_format_key(cls, key):
@@ -243,7 +243,7 @@ class DefinitionCreater(object):
                 elif DefinitionDetector.is_replacement(val):
                     return cls.define_replacement(raw_name, vals)
                 else:
-                    raise exception.UnsupportDefinition(raw_name)
+                    raise exception.InvalidDefinition(raw_name)
             # { name : [val] }
             elif len(vals) > 1:
                 if all(is_string_type(val) for val in vals):
@@ -262,7 +262,7 @@ class DefinitionCreater(object):
             if definition_objs:
                 return definition_objs
             else:
-                raise exception.UnsupportDefinition(raw_name)
+                raise exception.InvalidDefinition(raw_name)
 
     @classmethod
     def define(cls, class_name, raw_name, def_name, vals, escape_def_name=True):

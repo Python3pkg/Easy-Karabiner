@@ -167,9 +167,9 @@ def show_config_warnings():
             msg = 'Undefined filter'
         elif exception_class == exception.UndefinedKeyException:
             msg = 'Undefined key'
-        elif exception_class == exception.UnsupportDefinition:
+        elif exception_class == exception.InvalidDefinition:
             msg = 'Invalid definition'
-        elif exception_class == exception.UnsupportKeymapException:
+        elif exception_class == exception.InvalidKeymapException:
             msg = 'Invalid keymap'
         else:
             msg = exception_class.__name__

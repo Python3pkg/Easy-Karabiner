@@ -73,7 +73,7 @@ class _KeyToMultiKeys(KeyToKeyBase):
 class _KeyToAdditionalKey(_KeyToMultiKeys):
     def parse(self, from_key, to_key=None, additional_key=None, has_modifier_none=True):
         if to_key is None and additional_key is None:
-            raise exception.UnsupportKeymapException(from_key)
+            raise exception.InvalidKeymapException(from_key)
         elif to_key and additional_key is None:
             additional_key = to_key
             to_key = from_key

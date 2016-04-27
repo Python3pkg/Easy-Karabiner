@@ -16,19 +16,15 @@ class ConfigWarning(Exception):
     pass
 
 
-class UnsupportDefinition(ConfigWarning):
+class InvalidDefinition(ConfigWarning):
     pass
 
 
-class UnsupportKeymapException(ConfigWarning):
+class InvalidKeymapException(ConfigWarning):
     pass
 
 
 class UndefinedFilterException(ConfigWarning):
-    pass
-
-
-class UndefinedKeymapException(ConfigWarning):
     pass
 
 
