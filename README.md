@@ -48,91 +48,121 @@ Or if you don't care about it and/or want to try it right now, [examples](https:
 ##Basics
 Karabiner is a context-aware key-remapping software, and Easy-Karabiner has simplified it's context and key-remapping to the combination of three components:
 
-* Remap
+* Map
 * Definition
 * Filter
 
 Let me show you a simple example.
 
 ```python
-# You must define all `Definition` in a dict named `DEFINITIONS`
-# Otherwise Easy-Karabiner cannot find your `Definition`
-DEFINITIONS = {
-    # Define 'BILIBILI' as the name of 'com.typcn.Bilibili'
-    # This is a application definition, and they have the form like
-    #     'NAME': 'Identifier_Value'
-    'BILIBILI': 'com.typcn.Bilibili',
-    # You can find the 'Identifier_Value' by the follow steps:
-    #   1. Open Karabiner preferences, find "Misc & Uninstall -> Launch EventViewer -> App"
-    #   2. click the windows of the application you want to define
-    #   3. copy the value in the "Application Bundle Identifier" column
-}
-
-REMAPS = [
-    # Remap 'Left Ctrl'+'Tab' to 'Right Command'+'Right Option'+'Right' 
-    # only when the active application is 'BILIBILI'
-    #
-    # So when you press 'Left Ctrl'+'Tab', the logic is:
-    #
-    #   if current_application == 'BILIBILI':
-    #     return 'Right Command'+'Right Option'+'Right' 
-    #   else:
-    #     return 'Left Ctrl'+'Tab' 
-    ['ctrl tab'      , 'cmd_r alt_r right', ['BILIBILI']],
-    # This kind of `Remap` has the form like
-    #     ['From_Key', 'Map_to_Key', ['Filter1', 'Filter2', ...]]
-    ['ctrl shift tab', 'cmd_r alt_r left' , ['BILIBILI']],
+MAPS = [
+    # Remap 1 press of 'Left Command'+'K' to 30 press of 'Up' 
+    # only when the active application is 'Google Chrome'
+	['cmd K', 'up '   * 30, ['Google Chrome']],
+    ['cmd J', 'down ' * 30, ['Google Chrome']],
+	# Swap 'Left Alt' to 'Left Command' only 
+    # when the input keyborad is 'Cherry G80-3494'
+    ['alt', 'cmd', ['CHERRY_GmbH_0011']],
+    # You can get the peripheral name from `easy_karabiner -l` 
+    ['cmd', 'alt', ['CHERRY_GmbH_0011']],
+    # Press 'Left Alt'+'C' to open 'Google Chrome'
+	['alt C', 'Google Chrome'],
 ]
 ```
 
-##Remap
-`Remap` is consist of four parts: `Remap_Type`, `From_Key`, `Map_to_Keys`, `Filters`. Only `From_Key` is required, others are optional.
+In most simple situation, you don't need to define any thing, just write a `MAPS` by your intuition.
+
+##Map
+
+`Map` is consist of three parts: `Map_Command`, `KeyCombo`, `Filter`, none of these parts are necessary. 
 
 ```python
-['(Remap_Type)', 'From_Key', 'Map_to_Key1', 'Map_to_Key2', ..., ['Filter1', 'Filter2', ...]]
+['_Map_Command_', 'KeyCombo1', 'KeyCombo2', ..., ['Filter1', 'Filter2', ...]]
 ```
 
-The number of `Map_to_Key` could changed in different `Remap_Type`, but in most situations, there are only one or two `Map_to_Key`; and if you ignored `Remap_Type`, then only one `Map_to_Key` is allowed.
+The number of `KeyCombo` could be changed if  `Map_Command` changed, but in most situations, there are only one or two `KeyCombo`; and if you ignored `Map_Command`, then only two `KeyCombo` is allowed.
 
-###Remap_Tyep
-`Remap_Tyep` is used to tell Karabiner what kind of key-remapping it is. For example
+###Map_Command
+`Map_Command` is used to tell Karabiner what kind of key-remapping it is. For example
 
 ```python
 # Remapping double pressed 'fn' to 'F12'
 # it keeps unchanged when single pressed 
-['(double)', 'fn', 'F12'],
-# Remapping double pressed 'brightness_up' to 'Open::COPY_FINDER_PATH' 
-# and also remapping it to 'F2' 
-['(double)', 'brightness_up', 'Open::COPY_FINDER_PATH', 'F2']
+['_double_', 'fn', 'F12'],
 # Remapping 'esc' to 'cmd_r ctrl_r alt_r shift_r' when holding it
 # it keeps unchanged when single pressed or other situations
-['(holding)', 'esc', 'cmd_r ctrl_r alt_r shift_r']
+['_holding_', 'esc', 'cmd_r ctrl_r alt_r shift_r']
 ```
 
-###Key
-`From_Key` and `Map_to_Key` has the same format, they are composed by space-separated key strings. Easy-Karabiner predefined some aliases for reducing tedious typing. You can found the predefined aliases [here](https://github.com/loggerhead/Easy-Karabiner/blob/master/easy_karabiner/alias.py).
+Easy-Karabiner provide some aliases to help you remeber Karabiner `Map_Command`, include
 
-###Filters
-`Filters` is used to tell Karabiner when/where the key-remapping working or not working. For example
+| Alias            | Original              |
+| ---------------- | --------------------- |
+| `double`         | `DoublePressModifier` |
+| `holding`        | `HoldingKeyToKey`     |
+| `press_modifier` | `KeyOverlaidModifier` |
+
+You can also use the original Karabiner `Map_Command`, For example
+
+```python
+# Reverse scroll direction if not Apple trackpad
+['__FlipScrollWheel__', 'flipscrollwheel_vertical', ['!APPLE_COMPUTER', '!ANY']]
+```
+
+###KeyCombo
+
+`KeyCombo` has the same format, they are composed by space-separated `Key`, and used to represent a combo of normal keys or actions. Easy-Karabiner predefined some aliases for reducing tedious typing. You can found the predefined aliases [here](https://github.com/loggerhead/Easy-Karabiner/blob/master/easy_karabiner/alias.py). 
+
+Here is some example about `KeyCombo`
+
+```python
+# A single key
+'alt'
+# A shortcut 
+'alt C'
+
+# A special key-combo which represent one action--open application
+'Google Chrome'
+
+# A special key-combo which represent one action--exectue script 	
+# script must start with '#! ' to tell Easy-Karabiner it's a script
+'#! osascript /usr/local/bin/copy_finder_path'
+
+# A special key-combo which represent two actions:
+#   1. Click left mouse button
+#   2. Execute script
+# NOTICE: if a action contain space, you should use quote to tell
+#         Easy-Karabiner that is a entirety.
+'mouse_left "#! osascript /usr/local/bin/copy_finder_path"'
+```
+
+Because Easy-Karabiner verify a `Key` by check predefined XML file, but there exists some predefined `Key` not exists in any data file, so Easy-Karabiner will not prevent you to use a unknown `Key` but give you a warning. 
+
+###Filter
+`Filter` is used to tell Karabiner when/where the key-remapping working or not working. For example
 
 ```python
 # Remapping works only when current application is NOT 
-# 'SKIM' or any applications defined in '{{EMACS_IGNORE_APP}}'
-['ctrl P', 'up', ['!{{EMACS_IGNORE_APP}}', '!SKIM']]
+# 'Skim' or any applications defined in 'EMACS_IGNORE_APP' predefined replacement
+['ctrl P', 'up', ['!EMACS_IGNORE_APP', '!Skim']]
 # '!' before a filter means NOT, otherwise means ONLY
-# Remapping works only when 'SKIM' or 'KINDLE'
-['ctrl cmd F', 'cmd_r shift_r F cmd_r shift_r -', ['SKIM', 'KINDLE']]
+# NOTICE: How you define a thing, then how you use it in Easy-Karabiner.
+#		  So, you don't need add '{{' and '}}' around a replacement.
+
+# Remapping works only when 'Skim' or 'Kindle'
+# NOTICE: You don't need to define a filter if it is application filter,
+#		  Easy-Karabiner will do this job for you.
+['ctrl cmd F', 'cmd_r shift_r F cmd_r shift_r -', ['Skim', 'Kindle']]
 ```
 
-To distinguish `Map_to_Keys` and `Filters`, you must use brackets or parentheses to tell Easy-Karabiner whether last part of a `Remap` is `Filters` or not.
+To distinguish `KeyCombo` and `Filter`, you must use brackets to tell Easy-Karabiner whether last part of a `Map` is a list of `Filter` or not. 
 
 ##Definition
-`Definition` is used to define `Filters` or specific `Key`, so you can use it in `Remap`. It has several forms
+`Definition` is used to define `Filter` or `Key`, so you can use it in `Map`. Because Easy-Karabiner auto-defined most things for you, so you don't need it in most situation. `Definition` has several forms
 
 ```python
 DEFINITIONS = {
-    # Define a filter or something else with name and value
-    # `NAME` is a symbol to represent the ground-truth value which used in `REMAPS`
+    # `NAME` is a symbol to represent the ground-truth value which used in `MAPS`
     'NAME': 'VALUE',
     # A `NAME` can represents multiple values
     'NAME': ['VALUE1', 'VALUE2', ...],
@@ -142,37 +172,35 @@ DEFINITIONS = {
 }
 ```
 
-NOTICE: only name part is used in `Filters`, so don't define two `Definition` with the same name.
+The key of `Definition` is how you define it, how you use it; So you don't need to around a defined replacement with `{{` and `}}`.
 
-For your convenience, there are some predefined `Definition` that you can direct used in `Filters`; and you can check it [here](https://github.com/loggerhead/Easy-Karabiner/tree/master/easy_karabiner/data/def).
+For your convenience, Easy-Karabiner would use predefined `Definition`, so you don't need to define everything and just use it in `Filter`.
 
 ###Replacement
-A `NAME` enclosed with curly braces is a definition of `Replacement` filter.
+`Replacement` is a special `Definition` which will replaced by values when used. It has the form below
 
 ```python
-'{{NAME}}': ['VALUE1', 'VALUE2', ...]
+'NAME': ['VALUE1', 'VALUE2', ...]
 ```
 
-`Replacement` filter will replaced by values defined in brackets.
-
-###VKOpenURL
-A `NAME` start with `Open::` is a definition of `VKOpenURL`, you can use it to open url, run application, or execute shell script.
+If Easy-Karabiner cannot guess `DEF_TYPE` from `VALUE`, then a `Definition` with above form will be defined as a `Replacement`. Easy-Karabiner will try to define any undefined values in `Replacement` to keep consistency with other parts, for example
 
 ```python
-'Open::NAME': 'VALUE'
-# Define a special key to represent opening an application
-'Open::FINDER': 'Finder.app'
-'Open::FINDER': '/Applications/Finder.app'
-# open url
-'Open::BAIDU': 'https://baidu.com'
-# execute shell script
-'Open::COPY_DATE': '#! /bin/date | /usr/bin/pbcopy'
-# must start with `#! ` (there is a space!)
-'Open::COPY_DATE': '''#! 
-                      /bin/date | /usr/bin/pbcopy'''
-```
+# Two keymap will be defined
+'LAUNCHER_MODE_V2_EXTRA': [
+    ['__KeyDownUpToKey__', 'C', 'Maps'],
+    ['__KeyDownUpToKey__', 'V', 'FaceTime'],
+]
 
-NOTICE: `VKOpenURL` is used as a `Key` in `Remap` instead of `Filter`.
+# 'Sublime Text' and 'Visual Studio Code' will be defined
+'emacs_ignore_app': [
+    'ECLIPSE', 'EMACS', 'TERMINAL',
+    'REMOTEDESKTOPCONNECTION', 'VI', 'X11',
+    'VIRTUALMACHINE', 'TERMINAL', 'Sublime Text',
+    'Visual Studio Code',
+]
+```
 
 #LICENSE
+
 MIT
