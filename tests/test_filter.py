@@ -18,6 +18,7 @@ def test_basic_filter():
     except:
         pass
 
+
 def test_device_filter():
     f = DeviceFilter('DeviceVendor::APPLE_COMPUTER', 'DeviceProduct::ANY')
     s = '''
@@ -37,15 +38,18 @@ def test_device_filter():
         </device_not>'''
     util.assert_xml_equal(f, s)
 
+
 def test_windowname_filter():
     f = WindowNameFilter('Gmail')
     s = ''' <windowname_only> Gmail </windowname_only> '''
     util.assert_xml_equal(f, s)
 
+
 def test_uielementrole_filter():
     f = UIElementRoleFilter('AXTextField', 'AXTextArea')
     s = ''' <uielementrole_only> AXTextField, AXTextArea </uielementrole_only> '''
     util.assert_xml_equal(f, s)
+
 
 def test_inputsource_filter():
     f = InputSourceFilter('UKRAINIAN')
@@ -57,18 +61,11 @@ def test_inputsource_filter():
     util.assert_xml_equal(f, s)
 
 
-def test_parse_filter():
-    f = parse_filter(['LOGITECH', 'LOGITECH_USB_RECEIVER'])
-    s = '''
-        <device_only>
-          DeviceVendor::LOGITECH,
-          DeviceProduct::LOGITECH_USB_RECEIVER
-        </device_only>'''
-    util.assert_xml_equal(f[0], s)
+def test_modifier_filter():
+    f = ModifierFilter('ModifierFlag::COMMAND_L')
+    s = ''' <modifier_only> ModifierFlag::COMMAND_L </modifier_only> '''
+    util.assert_xml_equal(f, s)
 
-    f = parse_filter(['!{{EMACS_MODE_IGNORE_APPS}}', '!FINDER', '!SKIM'])
-    s = '''
-        <not>
-          {{EMACS_MODE_IGNORE_APPS}}, FINDER, SKIM
-        </not>'''
-    util.assert_xml_equal(f[0], s)
+    f = ModifierFilter('ModifierFlag::CONTROL_R', type='not')
+    s = ''' <modifier_not> ModifierFlag::CONTROL_R </modifier_not> '''
+    util.assert_xml_equal(f, s)

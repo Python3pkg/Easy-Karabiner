@@ -1,9 +1,15 @@
 # Byte-compiled / optimized / DLL files
 cleanup.sh
 __pycache__/
+*.ipynb
 *.py[cod]
 *$py.class
-venv/
+.idea
+venv*/
+env2/
+env3/
+.vscode/
+browse.VC.db
 
 # C extensions
 *.so

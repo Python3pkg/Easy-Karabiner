@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from easy_karabiner import util
-from easy_karabiner.define import *
+from easy_karabiner.definition import *
 
 
 def test_appdef():
@@ -22,6 +22,7 @@ def test_appdef():
         </appdef>'''
     util.assert_xml_equal(d, s)
 
+
 def test_windownamedef():
     d = WindowName('Google_Search', ' - Google Search$', 'Search$')
     s = '''
@@ -31,6 +32,7 @@ def test_windownamedef():
           <regex>Search$</regex>
         </windownamedef>'''
     util.assert_xml_equal(d, s)
+
 
 def test_devicedef():
     d = DeviceVendor('HEWLETT_PACKARD', '0x03f0')
@@ -48,6 +50,7 @@ def test_devicedef():
           <productid>0x0224</productid>
         </deviceproductdef>'''
     util.assert_xml_equal(d, s)
+
 
 def test_inputsourcedef():
     d = InputSource('AZERTY',
@@ -91,6 +94,7 @@ def test_inputsourcedef():
         </vkchangeinputsourcedef>'''
     util.assert_xml_equal(d, s)
 
+
 def test_vkopenurldef():
     d = VKOpenURL('KeyCode::VK_OPEN_URL_karabiner', 'https://pqrs.org/osx/karabiner/')
     s = '''
@@ -121,11 +125,10 @@ def test_vkopenurldef():
     s = '''
         <vkopenurldef>
           <name>KeyCode::VK_OPEN_URL_date_pbcopy</name>
-          <url type="shell"> <![CDATA[
-            /bin/date | /usr/bin/pbcopy
-          ]]> </url>
+          <url type="shell"><![CDATA[/bin/date | /usr/bin/pbcopy]]></url>
         </vkopenurldef>'''
     util.assert_xml_equal(d, s)
+
 
 def test_replacementdef():
     d = Replacement('EMACS_IGNORE_APP',
@@ -143,58 +146,8 @@ def test_replacementdef():
         </replacementdef>'''
     util.assert_xml_equal(d, s)
 
+
 def test_uielementrole():
     d = UIElementRole('AXTextField')
     s = '''<uielementroledef> AXTextField </uielementroledef>'''
     util.assert_xml_equal(d, s)
-
-
-def test_parse_definition():
-    d = parse_definition('KINDLE', ['com.amazon.Kindle'])
-    s = '''
-        <appdef>
-          <appname>KINDLE</appname>
-          <equal>com.amazon.Kindle</equal>
-        </appdef>'''
-    util.assert_xml_equal(d, s)
-
-    d = parse_definition('{{ EMACS_IGNORE_APP }}', [
-            'ECLIPSE', 'EMACS', 'TERMINAL',
-            'REMOTEDESKTOPCONNECTION', 'VI', 'X11',
-            'VIRTUALMACHINE', 'TERMINAL', 'SUBLIMETEXT',
-        ])
-    s = '''
-        <replacementdef>
-          <replacementname>EMACS_IGNORE_APP</replacementname>
-          <replacementvalue>
-            ECLIPSE, EMACS, TERMINAL,
-            REMOTEDESKTOPCONNECTION, VI, X11,
-            VIRTUALMACHINE, TERMINAL, SUBLIMETEXT
-          </replacementvalue>
-        </replacementdef>'''
-    util.assert_xml_equal(d, s)
-
-    d = parse_definition('DeviceVendor::CHERRY', ['0x046a'])
-    s = '''
-        <devicevendordef>
-          <vendorname>CHERRY</vendorname>
-          <vendorid>0x046a</vendorid>
-        </devicevendordef>'''
-    util.assert_xml_equal(d, s)
-
-    d = parse_definition('Open::FINDER', ['/Applications/Finder.app'])
-    s = '''
-        <vkopenurldef>
-          <name>KeyCode::VK_OPEN_URL_FINDER</name>
-          <url type="file">/Applications/Finder.app</url>
-        </vkopenurldef>'''
-    util.assert_xml_equal(d, s)
-
-    if util.has_execuable('mdfind'):
-      d = parse_definition('Open::FINDER', ['Finder.app'])
-      s = '''
-          <vkopenurldef>
-            <name>KeyCode::VK_OPEN_URL_FINDER</name>
-            <url type="file">/System/Library/CoreServices/Finder.app</url>
-          </vkopenurldef>'''
-      util.assert_xml_equal(d, s)

@@ -1,27 +1,20 @@
 # -*- coding: utf-8 -*-
-import os
-from click.testing import CliRunner
-from easy_karabiner import util
-from easy_karabiner import __version__
-from easy_karabiner.__main__ import *
+from easy_karabiner.main import *
 
 
 def test_main():
-    inpath = 'samples/basic.py'
-    outpath = 'samples/basic.xml'
+    def cmd(*args, **kwargs):
+        try:
+            main.callback(*args, **kwargs)
+            return 0
+        except SystemExit as e:
+            return e.code
 
-    configs = read_config_file(inpath)
-    assert(len(configs['REMAPS']) > 0)
+    inpath = 'samples/test.py'
+    outpath = 'samples/test.xml'
 
-    xml_str = gen_config(configs)
-    with open(outpath, 'r') as fp:
-        util.assert_xml_equal(fp.read(), xml_str, ignore_tags=['Easy-Karabiner'])
-
-    write_generated_xml(outpath, xml_str)
-    newpath = backup_file(outpath)
-    os.rename(newpath, outpath)
-
-    args = [inpath, outpath, '--verbose', '--string', '--no-reload']
-    runner = CliRunner()
-    result = runner.invoke(main, args)
-    assert(result.exit_code == 0)
+    assert(cmd(inpath, outpath, verbose=True, string=True) == 0)
+    assert(cmd(inpath, outpath, help=True) == 0)
+    assert(cmd(inpath, outpath, reload=True) == 0)
+    assert(cmd(inpath, outpath, version=True) == 0)
+    assert(cmd(inpath, outpath, list_peripherals=True) == 0)

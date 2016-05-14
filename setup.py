@@ -12,12 +12,12 @@ setup(
     packages=find_packages(exclude=("tests",)),
     include_package_data=True,
     install_requires=[
-        'lxml',
-        'click',
+        'lxml >= 3.0.0, < 4.0.0',
+        'click >= 6.0.0, < 7.0.0',
     ],
     entry_points='''
         [console_scripts]
-        easy_karabiner=easy_karabiner.__main__:main
+        easy_karabiner=easy_karabiner.main:main
     ''',
     license='MIT',
     classifiers=[

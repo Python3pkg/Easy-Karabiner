@@ -1,61 +1,84 @@
 <?xml version="1.0" ?>
 <root>
-  <Easy-Karabiner>0.4.0</Easy-Karabiner>
+  <Easy-Karabiner>0.5.0</Easy-Karabiner>
   <item>
     <name>Easy-Karabiner</name>
     <appdef>
-      <appname>BILIBILI</appname>
+      <appname>Bilibili</appname>
       <equal>com.typcn.Bilibili</equal>
     </appdef>
+    <appdef>
+      <appname>Finder</appname>
+      <equal>com.apple.finder</equal>
+    </appdef>
+    <appdef>
+      <appname>Google_Chrome</appname>
+      <equal>com.google.Chrome</equal>
+    </appdef>
+    <appdef>
+      <appname>Kindle</appname>
+      <equal>com.amazon.Kindle</equal>
+    </appdef>
+    <appdef>
+      <appname>PyCharm_CE</appname>
+      <equal>com.jetbrains.pycharm</equal>
+    </appdef>
+    <appdef>
+      <appname>Skim</appname>
+      <equal>net.sourceforge.skim-app.skim</equal>
+    </appdef>
+    <appdef>
+      <appname>Sublime_Text</appname>
+      <equal>com.sublimetext.3</equal>
+    </appdef>
+    <appdef>
+      <appname>Xee³</appname>
+      <equal>cx.c3.Xee3</equal>
+    </appdef>
     <deviceproductdef>
-      <productname>3494</productname>
+      <productname>cherry_3494_PRODUCT</productname>
       <productid>0x0011</productid>
     </deviceproductdef>
     <devicevendordef>
-      <vendorname>CHERRY</vendorname>
+      <vendorname>cherry_3494_VENDOR</vendorname>
       <vendorid>0x046a</vendorid>
     </devicevendordef>
-    <appdef>
-      <appname>KINDLE</appname>
-      <equal>com.amazon.Kindle</equal>
-    </appdef>
+    <replacementdef>
+      <replacementname>emacs_ignore_app</replacementname>
+      <replacementvalue>ECLIPSE, EMACS, TERMINAL, REMOTEDESKTOPCONNECTION, VI, X11, VIRTUALMACHINE, TERMINAL, Sublime_Text</replacementvalue>
+    </replacementdef>
     <vkopenurldef>
-      <name>KeyCode::VK_OPEN_URL_CHROME</name>
-      <url type="file">/Applications/Google Chrome.app</url>
+      <name>KeyCode::VK_OPEN_URL_814dbb8</name>
+      <url type="shell"><![CDATA[osascript /usr/local/bin/copy_finder_path]]></url>
     </vkopenurldef>
     <vkopenurldef>
-      <name>KeyCode::VK_OPEN_URL_COPY_FINDER_PATH</name>
-      <url type="shell">
-<![CDATA[osascript /usr/local/bin/copy_finder_path]]>      </url>
-    </vkopenurldef>
-    <vkopenurldef>
-      <name>KeyCode::VK_OPEN_URL_FINDER</name>
-      <url type="file">/System/Library/CoreServices/Finder.app</url>
-    </vkopenurldef>
-    <vkopenurldef>
-      <name>KeyCode::VK_OPEN_URL_ITERM</name>
-      <url type="file">/Applications/iTerm.app</url>
-    </vkopenurldef>
-    <vkopenurldef>
-      <name>KeyCode::VK_OPEN_URL_MONITOR</name>
+      <name>KeyCode::VK_OPEN_URL_Activity_Monitor</name>
       <url type="file">/Applications/Utilities/Activity Monitor.app</url>
     </vkopenurldef>
     <vkopenurldef>
-      <name>KeyCode::VK_OPEN_URL_PREFERENCES</name>
+      <name>KeyCode::VK_OPEN_URL_Finder</name>
+      <url type="file">/System/Library/CoreServices/Finder.app</url>
+    </vkopenurldef>
+    <vkopenurldef>
+      <name>KeyCode::VK_OPEN_URL_Google_Chrome</name>
+      <url type="file">/Applications/Google Chrome.app</url>
+    </vkopenurldef>
+    <vkopenurldef>
+      <name>KeyCode::VK_OPEN_URL_PyCharm_CE</name>
+      <url type="file">/Applications/PyCharm CE.app</url>
+    </vkopenurldef>
+    <vkopenurldef>
+      <name>KeyCode::VK_OPEN_URL_Sublime_Text</name>
+      <url type="file">/Applications/Sublime Text.app</url>
+    </vkopenurldef>
+    <vkopenurldef>
+      <name>KeyCode::VK_OPEN_URL_System_Preferences</name>
       <url type="file">/Applications/System Preferences.app</url>
     </vkopenurldef>
     <vkopenurldef>
-      <name>KeyCode::VK_OPEN_URL_SUBLIME</name>
-      <url type="file">/Applications/Sublime Text.app</url>
+      <name>KeyCode::VK_OPEN_URL_iTerm</name>
+      <url type="file">/Applications/iTerm.app</url>
     </vkopenurldef>
-    <appdef>
-      <appname>XEE</appname>
-      <equal>cx.c3.Xee3</equal>
-    </appdef>
-    <replacementdef>
-      <replacementname>EMACS_IGNORE_APP</replacementname>
-      <replacementvalue>ECLIPSE, EMACS, TERMINAL, REMOTEDESKTOPCONNECTION, VI, X11, VIRTUALMACHINE, TERMINAL, SUBLIMETEXT</replacementvalue>
-    </replacementdef>
     <item>
       <name>Enable</name>
       <identifier>private.easy_karabiner</identifier>
@@ -98,63 +121,39 @@
         </autogen>
         <autogen> __KeyToKey__
           PointingButton::LEFT, ModifierFlag::OPTION_L, ModifierFlag::NONE,
-          KeyCode::VK_OPEN_URL_COPY_FINDER_PATH
-        </autogen>
-        <autogen> __KeyToKey__
-          ConsumerKeyCode::BRIGHTNESS_DOWN,
-          KeyCode::F1
-        </autogen>
-        <autogen> __KeyToKey__
-          ConsumerKeyCode::BRIGHTNESS_UP,
-          KeyCode::F2
-        </autogen>
-        <autogen> __KeyToKey__
-          KeyCode::DASHBOARD,
-          KeyCode::F3
-        </autogen>
-        <autogen> __KeyToKey__
-          KeyCode::MISSION_CONTROL,
-          KeyCode::F3
-        </autogen>
-        <autogen> __KeyToKey__
-          KeyCode::LAUNCHPAD,
-          KeyCode::F4
-        </autogen>
-        <autogen> __KeyToKey__
-          ConsumerKeyCode::KEYBOARDLIGHT_LOW,
-          ConsumerKeyCode::BRIGHTNESS_DOWN
-        </autogen>
-        <autogen> __KeyToKey__
-          ConsumerKeyCode::KEYBOARDLIGHT_HIGH,
-          ConsumerKeyCode::BRIGHTNESS_UP
+          PointingButton::LEFT, KeyCode::VK_OPEN_URL_814dbb8
         </autogen>
         <autogen> __KeyToKey__
           KeyCode::A, ModifierFlag::OPTION_L, ModifierFlag::NONE,
-          KeyCode::VK_OPEN_URL_ITERM
+          KeyCode::VK_OPEN_URL_iTerm
         </autogen>
         <autogen> __KeyToKey__
           KeyCode::E, ModifierFlag::OPTION_L, ModifierFlag::NONE,
-          KeyCode::VK_OPEN_URL_FINDER
+          KeyCode::VK_OPEN_URL_Finder
         </autogen>
         <autogen> __KeyToKey__
           KeyCode::C, ModifierFlag::OPTION_L, ModifierFlag::NONE,
-          KeyCode::VK_OPEN_URL_CHROME
+          KeyCode::VK_OPEN_URL_Google_Chrome
         </autogen>
         <autogen> __KeyToKey__
           KeyCode::S, ModifierFlag::OPTION_L, ModifierFlag::NONE,
-          KeyCode::VK_OPEN_URL_SUBLIME
+          KeyCode::VK_OPEN_URL_Sublime_Text
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::P, ModifierFlag::OPTION_L, ModifierFlag::NONE,
+          KeyCode::VK_OPEN_URL_PyCharm_CE
         </autogen>
         <autogen> __KeyToKey__
           KeyCode::DELETE, ModifierFlag::CONTROL_L, ModifierFlag::COMMAND_L, ModifierFlag::NONE,
-          KeyCode::VK_OPEN_URL_MONITOR
+          KeyCode::VK_OPEN_URL_Activity_Monitor
         </autogen>
         <autogen> __KeyToKey__
           KeyCode::COMMA, ModifierFlag::CONTROL_L, ModifierFlag::COMMAND_L, ModifierFlag::NONE,
-          KeyCode::VK_OPEN_URL_PREFERENCES
+          KeyCode::VK_OPEN_URL_System_Preferences
         </autogen>
       </block>
       <block>
-        <only>GOOGLE_CHROME</only>
+        <only>Google_Chrome</only>
         <autogen> __DoublePressModifier__
           KeyCode::FN,
           @begin
@@ -186,9 +185,32 @@
         </autogen>
       </block>
       <block>
+        <not>PyCharm_CE</not>
+        <autogen> __KeyToKey__
+          KeyCode::F5,
+          ConsumerKeyCode::BRIGHTNESS_DOWN
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::F6,
+          ConsumerKeyCode::BRIGHTNESS_UP
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::F10,
+          ConsumerKeyCode::VOLUME_MUTE
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::F11,
+          ConsumerKeyCode::VOLUME_DOWN
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::F12,
+          ConsumerKeyCode::VOLUME_UP
+        </autogen>
+      </block>
+      <block>
         <device_only>
-          DeviceVendor::CHERRY,
-          DeviceProduct::3494
+          DeviceVendor::cherry_3494_VENDOR,
+          DeviceProduct::cherry_3494_PRODUCT
         </device_only>
         <autogen> __KeyToKey__
           KeyCode::OPTION_L,
@@ -200,7 +222,7 @@
         </autogen>
       </block>
       <block>
-        <only>SKIM</only>
+        <only>Skim</only>
         <autogen> __KeyToKey__
           KeyCode::K, ModifierFlag::COMMAND_L, ModifierFlag::NONE,
           KeyCode::CURSOR_UP, KeyCode::CURSOR_UP, KeyCode::CURSOR_UP, KeyCode::CURSOR_UP, KeyCode::CURSOR_UP, KeyCode::CURSOR_UP
@@ -239,7 +261,7 @@
         </autogen>
       </block>
       <block>
-        <only>XEE</only>
+        <only>Xee³</only>
         <autogen> __KeyToKey__
           KeyCode::D, ModifierFlag::CONTROL_L, ModifierFlag::NONE,
           KeyCode::DELETE, ModifierFlag::COMMAND_R
@@ -286,7 +308,7 @@
         </autogen>
       </block>
       <block>
-        <only>FINDER</only>
+        <only>Finder</only>
         <autogen> __KeyToKey__
           KeyCode::COMMA, ModifierFlag::OPTION_L, ModifierFlag::SHIFT_L, ModifierFlag::NONE,
           KeyCode::CURSOR_UP, ModifierFlag::OPTION_R
@@ -297,7 +319,7 @@
         </autogen>
       </block>
       <block>
-        <only>SUBLIMETEXT</only>
+        <only>Sublime_Text</only>
         <autogen> __KeyToKey__
           KeyCode::COMMA, ModifierFlag::OPTION_L, ModifierFlag::SHIFT_L, ModifierFlag::NONE,
           KeyCode::CURSOR_UP, ModifierFlag::COMMAND_R
@@ -317,9 +339,9 @@
       </block>
       <block>
         <not>
-          {{EMACS_IGNORE_APP}},
-          SKIM,
-          XEE
+          {{emacs_ignore_app}},
+          Skim,
+          Xee³
         </not>
         <autogen> __KeyToKey__
           KeyCode::P, ModifierFlag::CONTROL_L, ModifierFlag::NONE,
@@ -336,10 +358,10 @@
       </block>
       <block>
         <not>
-          {{EMACS_IGNORE_APP}},
-          SKIM,
-          FINDER,
-          SUBLIMETEXT
+          {{emacs_ignore_app}},
+          Skim,
+          Finder,
+          Sublime_Text
         </not>
         <autogen> __KeyToKey__
           KeyCode::COMMA, ModifierFlag::OPTION_L, ModifierFlag::SHIFT_L, ModifierFlag::NONE,
@@ -351,7 +373,7 @@
         </autogen>
       </block>
       <block>
-        <not>{{EMACS_IGNORE_APP}}</not>
+        <not>{{emacs_ignore_app}}</not>
         <autogen> __KeyToKey__
           KeyCode::B, ModifierFlag::CONTROL_L, ModifierFlag::NONE,
           KeyCode::CURSOR_LEFT
@@ -398,8 +420,8 @@
       </block>
       <block>
         <only>
-          SKIM,
-          KINDLE
+          Skim,
+          Kindle
         </only>
         <autogen> __KeyToKey__
           KeyCode::F, ModifierFlag::CONTROL_L, ModifierFlag::COMMAND_L, ModifierFlag::NONE,
@@ -540,7 +562,7 @@
         </autogen>
       </block>
       <block>
-        <only>BILIBILI</only>
+        <only>Bilibili</only>
         <autogen> __KeyToKey__
           KeyCode::TAB, ModifierFlag::CONTROL_L, ModifierFlag::NONE,
           KeyCode::CURSOR_RIGHT, ModifierFlag::COMMAND_R, ModifierFlag::OPTION_R
