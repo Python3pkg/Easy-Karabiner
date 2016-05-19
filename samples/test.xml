@@ -35,6 +35,7 @@
       <vendorname>built_in_keyboard_and_trackpad_VENDOR</vendorname>
       <vendorid>0x05ac</vendorid>
     </devicevendordef>
+    <modifierdef>KEYLOCK</modifierdef>
     <replacementdef>
       <replacementname>可以是中文</replacementname>
       <replacementvalue>比如, hello, Xee³</replacementvalue>
@@ -108,6 +109,17 @@
         <autogen> __KeyToKey__
           KeyCode::F, ModifierFlag::CONTROL_L, ModifierFlag::COMMAND_L, ModifierFlag::NONE,
           KeyCode::F, ModifierFlag::COMMAND_L
+        </autogen>
+      </block>
+      <block>
+        <modifier_only>ModifierFlag::KEYLOCK</modifier_only>
+        <autogen> __KeyToKey__
+          KeyCode::OPTION_L,
+          KeyCode::NONE
+        </autogen>
+        <autogen> __KeyToKey__
+          KeyCode::COMMAND_L,
+          KeyCode::NONE
         </autogen>
       </block>
     </item>

@@ -7,6 +7,8 @@ DEFINITIONS = {
     # device
     'CHERRY_3494': ['0x046a', '0x0011'],
     'UIElementRole::自定义UI组件': '用作 filter',
+    # modifierdef
+    'Modifier::KEYLOCK': '',
 }
 
 MAPS = [
@@ -17,4 +19,6 @@ MAPS = [
     ['alt X', 'Xee³.app', ['Finder', 'cmd']],
     ['__FlipScrollWheel__', 'flipscrollwheel_vertical', ['Xee³.app', 'built_in_keyboard_and_trackpad']],
     ['ctrl cmd F', 'cmd F', ['VIRTUALMACHINE']],
+    ['alt', 'none', ['KEYLOCK']],
+    ['cmd', 'none', ['Modifier::KEYLOCK']],
 ]

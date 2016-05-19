@@ -154,7 +154,7 @@ class FilterCreater(object):
         elif class_name == 'DeviceProductFilter':
             name_val = 'DeviceProduct::%s' % name_val
         elif class_name == 'ModifierFilter':
-            name_val = KeymapCreater.get_karabiner_format_key(name_val)
+            name_val = KeymapCreater.get_karabiner_format_key(name_val, key_header='ModifierFlag')
         return name_val
 
 
@@ -211,16 +211,21 @@ class KeymapCreater(object):
             raise exception.InvalidKeymapException(raw_keymap)
 
     @classmethod
-    def get_karabiner_format_key(cls, key):
-        if len(key.split('::', 1)) < 2:
+    def get_karabiner_format_key(cls, key, key_header=None):
+        key_parts = key.split('::', 1)
+
+        if len(key_parts) < 2:
             key = query.get_key_alias(key.lower()) or key
 
             for k in [key, key.upper(), key.lower()]:
-                key_header = query.KeyHeaderQuery.query(k)
-                if key_header:
-                    return "%s::%s" % (key_header, k)
+                predefined_header = query.KeyHeaderQuery.query(k)
+                if predefined_header:
+                    return "%s::%s" % (predefined_header, k)
 
-        return key
+        if key_header:
+            return "%s::%s" % (key_header, key_parts[-1])
+        else:
+            return key
 
 
 class DefinitionCreater(object):
