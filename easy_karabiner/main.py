@@ -19,7 +19,7 @@ from . import exception
 from .osxkit import get_all_peripheral_info
 from .basexml import BaseXML
 from .generator import Generator
-from .fucking_string import *
+from .fucking_string import ensure_utf8, write_utf8_to, is_string_type
 
 
 @click.command()
@@ -193,6 +193,8 @@ def print_message(msg, color=None, err=False):
         else:
             sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
     """
+    if not is_string_type(msg):
+        msg = str(msg)
     click.secho(msg, fg=color, err=err)
 
 
