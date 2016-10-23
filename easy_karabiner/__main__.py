@@ -7,7 +7,7 @@ if __name__ == '__main__':
     args_num = len(sys.argv) - 1
 
     if args_num == 0:
-        inpath = os.path.join(os.path.dirname(__file__), '..', 'samples/test.py')
+        inpath = os.path.join(os.path.dirname(__file__), '..', 'examples/test.py')
     else:
         inpath = sys.argv[1]
 

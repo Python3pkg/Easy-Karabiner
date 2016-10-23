@@ -10,8 +10,8 @@ def test_main():
         except SystemExit as e:
             return e.code
 
-    inpath = 'samples/test.py'
-    outpath = 'samples/test.xml'
+    inpath = 'examples/test.py'
+    outpath = 'examples/test.xml'
 
     assert(cmd(inpath, outpath, verbose=True, string=True) == 0)
     assert(cmd(inpath, outpath, help=True) == 0)

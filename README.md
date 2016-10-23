@@ -41,9 +41,9 @@ easy_karabiner -s myconfig.py
 See `easy_karabiner --help` for detailed options.
 
 #How to write `~/.easy_karabiner.py`
-Easy-Karabiner attempts to simplified the most commonly used configurations of Karabiner as well as possible, but there still exists some things you should know first. 
+Easy-Karabiner attempts to simplified the most commonly used configurations of Karabiner as well as possible, but there still exists some things you should know first.
 
-Or if you don't care about it and/or want to try it right now, [examples](https://github.com/loggerhead/Easy-Karabiner/tree/master/samples) are a good start :-)
+Or if you don't care about it and/or want to try it right now, [examples](https://github.com/loggerhead/Easy-Karabiner/tree/master/examples) are a good start :-)
 
 ##Basics
 Karabiner is a context-aware key-remapping software, and Easy-Karabiner has simplified it's context and key-remapping to the combination of three components:
@@ -56,14 +56,14 @@ Let me show you a simple example.
 
 ```python
 MAPS = [
-    # Remap 1 press of 'Left Command'+'K' to 30 press of 'Up' 
+    # Remap 1 press of 'Left Command'+'K' to 30 press of 'Up'
     # only when the active application is 'Google Chrome'
 	['cmd K', 'up '   * 30, ['Google Chrome']],
     ['cmd J', 'down ' * 30, ['Google Chrome']],
-	# Swap 'Left Alt' to 'Left Command' only 
+	# Swap 'Left Alt' to 'Left Command' only
     # when the input keyborad is 'Cherry G80-3494'
     ['alt', 'cmd', ['CHERRY_GmbH_0011']],
-    # You can get the peripheral name from `easy_karabiner -l` 
+    # You can get the peripheral name from `easy_karabiner -l`
     ['cmd', 'alt', ['CHERRY_GmbH_0011']],
     # Press 'Left Alt'+'C' to open 'Google Chrome'
 	['alt C', 'Google Chrome'],
@@ -74,7 +74,7 @@ In most simple situation, you don't need to define any thing, just write a `MAPS
 
 ##Map
 
-`Map` is consist of three parts: `Map_Command`, `KeyCombo`, `Filter`, none of these parts are necessary. 
+`Map` is consist of three parts: `Map_Command`, `KeyCombo`, `Filter`, none of these parts are necessary.
 
 ```python
 ['_Map_Command_', 'KeyCombo1', 'KeyCombo2', ..., ['Filter1', 'Filter2', ...]]
@@ -87,7 +87,7 @@ The number of `KeyCombo` could be changed if  `Map_Command` changed, but in most
 
 ```python
 # Remapping double pressed 'fn' to 'F12'
-# it keeps unchanged when single pressed 
+# it keeps unchanged when single pressed
 ['_double_', 'fn', 'F12'],
 # Remapping 'esc' to 'cmd_r ctrl_r alt_r shift_r' when holding it
 # it keeps unchanged when single pressed or other situations
@@ -111,20 +111,20 @@ You can also use the original Karabiner `Map_Command`, For example
 
 ###KeyCombo
 
-`KeyCombo` has the same format, they are composed by space-separated `Key`, and used to represent a combo of normal keys or actions. Easy-Karabiner predefined some aliases for reducing tedious typing. You can found the predefined aliases [here](https://github.com/loggerhead/Easy-Karabiner/blob/master/easy_karabiner/alias.py). 
+`KeyCombo` has the same format, they are composed by space-separated `Key`, and used to represent a combo of normal keys or actions. Easy-Karabiner predefined some aliases for reducing tedious typing. You can found the predefined aliases [here](https://github.com/loggerhead/Easy-Karabiner/blob/master/easy_karabiner/alias.py).
 
 Here is some example about `KeyCombo`
 
 ```python
 # A single key
 'alt'
-# A shortcut 
+# A shortcut
 'alt C'
 
 # A special key-combo which represent one action--open application
 'Google Chrome'
 
-# A special key-combo which represent one action--exectue script 	
+# A special key-combo which represent one action--exectue script
 # script must start with '#! ' to tell Easy-Karabiner it's a script
 '#! osascript /usr/local/bin/copy_finder_path'
 
@@ -136,13 +136,13 @@ Here is some example about `KeyCombo`
 'mouse_left "#! osascript /usr/local/bin/copy_finder_path"'
 ```
 
-Because Easy-Karabiner verify a `Key` by check predefined XML file, but there exists some predefined `Key` not exists in any data file, so Easy-Karabiner will not prevent you to use a unknown `Key` but give you a warning. 
+Because Easy-Karabiner verify a `Key` by check predefined XML file, but there exists some predefined `Key` not exists in any data file, so Easy-Karabiner will not prevent you to use a unknown `Key` but give you a warning.
 
 ###Filter
 `Filter` is used to tell Karabiner when/where the key-remapping working or not working. For example
 
 ```python
-# Remapping works only when current application is NOT 
+# Remapping works only when current application is NOT
 # 'Skim' or any applications defined in 'EMACS_IGNORE_APP' predefined replacement
 ['ctrl P', 'up', ['!EMACS_IGNORE_APP', '!Skim']]
 # '!' before a filter means NOT, otherwise means ONLY
@@ -155,7 +155,7 @@ Because Easy-Karabiner verify a `Key` by check predefined XML file, but there ex
 ['ctrl cmd F', 'cmd_r shift_r F cmd_r shift_r -', ['Skim', 'Kindle']]
 ```
 
-To distinguish `KeyCombo` and `Filter`, you must use brackets to tell Easy-Karabiner whether last part of a `Map` is a list of `Filter` or not. 
+To distinguish `KeyCombo` and `Filter`, you must use brackets to tell Easy-Karabiner whether last part of a `Map` is a list of `Filter` or not.
 
 ##Definition
 `Definition` is used to define `Filter` or `Key`, so you can use it in `Map`. Because Easy-Karabiner auto-defined most things for you, so you don't need it in most situation. `Definition` has several forms
