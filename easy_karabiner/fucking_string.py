@@ -3,7 +3,7 @@ from __future__ import print_function
 import sys
 import codecs
 
-__all__ = ['ensure_utf8', 'u', 'write_utf8_to']
+__all__ = ['ensure_utf8', 'u', 'write_utf8_to', 'is_string_type']
 
 
 # if python 3.x

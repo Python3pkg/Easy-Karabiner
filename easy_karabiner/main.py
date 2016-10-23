@@ -20,6 +20,7 @@ from .osxkit import get_all_peripheral_info
 from .basexml import BaseXML
 from .generator import Generator
 from .fucking_string import ensure_utf8, write_utf8_to, is_string_type
+from .util import print_error, print_warning, print_info, print_message
 
 
 @click.command()
@@ -84,13 +85,13 @@ def main(inpath, outpath, **options):
 
 def read_config_file(config_path):
     if config.get('verbose'):
-        print_info('Execute "%s"' % config_path)
+        print_info('executing "%s"' % config_path)
     return util.read_python_file(config_path)
 
 
 def write_generated_xml(outpath, content):
     if config.get('verbose'):
-        print_info('Write XML to "%s"' % outpath)
+        print_info('writing XML to "%s"' % outpath)
     write_utf8_to(content, outpath)
 
 
@@ -112,7 +113,7 @@ def reload_karabiner():
     KARABINER_CMD = config.get_karabiner_bin('karabiner')
 
     if config.get('verbose'):
-        print_info("Reload Karabiner config")
+        print_info("reloading Karabiner config")
     call([KARABINER_CMD, 'enable', 'private.easy_karabiner'])
     call([KARABINER_CMD, 'reloadxml'])
     call(NOTIFICATION_CMD)
@@ -127,9 +128,11 @@ def list_peripherals():
 def gen_config(configs):
     maps = configs.get('MAPS')
     definitions = configs.get('DEFINITIONS')
+    if config.get('verbose'):
+        print_info('update aliases from user configuration')
     query.update_aliases(configs)
     if config.get('verbose'):
-        print_info("Generate XML configuration")
+        print_info("generating XML configuration")
     return Generator(maps, definitions).to_str()
 
 
@@ -151,7 +154,7 @@ def backup_file(filepath, new_path=None):
             new_name = '.'.join(parts)
 
             if config.get('verbose'):
-                print_info("Backup original XML config file")
+                print_info("backup original XML config file")
             new_path = os.path.join(os.path.dirname(filepath), new_name)
 
         os.rename(filepath, new_path)
@@ -180,31 +183,3 @@ def show_config_warnings():
             print_warning('%s: `%s` in %s' % (msg, e.args[0], raw_data))
         else:
             print_warning('%s: %s in %s' % (msg, e.args, raw_data))
-
-
-def print_message(msg, color=None, err=False):
-    """Seems `click.echo` has fixed the problem of UnicodeDecodeError when redirecting (See
-    https://stackoverflow.com/questions/4545661/unicodedecodeerror-when-redirecting-to-file
-    for detail). As a result, the below code used to solve the problem is conflict with `click.echo`.
-    To avoid the problem, you should always use `print` with below code or `click.echo` in `__main__.py`
-
-        if sys.version_info[0] == 2:
-            sys.stdout = codecs.getwriter("utf-8")(sys.stdout)
-        else:
-            sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
-    """
-    if not is_string_type(msg):
-        msg = str(msg)
-    click.secho(msg, fg=color, err=err)
-
-
-def print_error(msg):
-    print_message(msg, color='red', err=True)
-
-
-def print_warning(msg):
-    print_message(msg, color='yellow', err=True)
-
-
-def print_info(msg):
-    print_message(msg, color='green')

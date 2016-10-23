@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
 import shlex
+import click
 from hashlib import sha1
 from .basexml import BaseXML
 from .fucking_string import ensure_utf8, is_string_type
@@ -104,3 +105,31 @@ def assert_xml_equal(xml_tree1, xml_tree2, ignore_tags=tuple()):
 
     if nospaces1 != nospaces2:
         assert(is_xml_tree_equal(xml_tree1, xml_tree2, ignore_tags=ignore_tags))
+
+
+def print_message(msg, color=None, err=False):
+    """Seems `click.echo` has fixed the problem of UnicodeDecodeError when redirecting (See
+    https://stackoverflow.com/questions/4545661/unicodedecodeerror-when-redirecting-to-file
+    for detail). As a result, the below code used to solve the problem is conflict with `click.echo`.
+    To avoid the problem, you should always use `print` with below code or `click.echo` in `__main__.py`
+
+        if sys.version_info[0] == 2:
+            sys.stdout = codecs.getwriter("utf-8")(sys.stdout)
+        else:
+            sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
+    """
+    if not is_string_type(msg):
+        msg = str(msg)
+    click.secho(msg, fg=color, err=err)
+
+
+def print_error(msg):
+    print_message(msg, color='red', err=True)
+
+
+def print_warning(msg):
+    print_message(msg, color='yellow', err=True)
+
+
+def print_info(msg):
+    print_message(msg, color='green')

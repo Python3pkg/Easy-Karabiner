@@ -2,7 +2,9 @@
 from __future__ import print_function
 from . import __version__
 from . import parse
+from . import config
 from .basexml import BaseXML
+from .util import print_info
 
 
 class Generator(BaseXML):
@@ -65,8 +67,12 @@ class Generator(BaseXML):
         return subitem_tag
 
     def to_xml(self):
+        if config.get('verbose'):
+            print_info("parsing user configuration")
         blocks, definitions = parse.parse(self.maps, self.definitions)
 
+        if config.get('verbose'):
+            print_info("constructing XML file")
         # construct XML tree
         xml_tree = BaseXML.create_tag('root')
 

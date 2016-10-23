@@ -6,21 +6,33 @@ from functools import reduce
 
 from . import util
 from . import query
+from . import config
 from . import osxkit
 from . import factory
 from . import exception
 from .basexml import BaseXML
+from .util import print_info
 
 
 def parse(maps, definitions):
     """Parse and convert user Easy-Karabiner config to XML objects."""
+    if config.get('verbose'):
+        print_info("encoding configuration with UTF-8")
     definitions = util.encode_with_utf8(definitions)
     maps = util.encode_with_utf8(maps)
 
+    if config.get('verbose'):
+        print_info("creating definitions")
     factory.create_definitions(definitions)
+    if config.get('verbose'):
+        print_info("organizing keymaps")
     filters_keymaps_table = organize_maps(maps)
+    if config.get('verbose'):
+        print_info("creating XML block from keymaps")
     block_objs = create_blocks(filters_keymaps_table)
 
+    if config.get('verbose'):
+        print_info("taking out all relative definitions")
     definition_objs = query.DefinitionBucket.get_all_definitions()
     return block_objs, definition_objs
 
