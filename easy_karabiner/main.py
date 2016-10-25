@@ -74,10 +74,10 @@ def main(inpath, outpath, **options):
             print_error(e)
             sys.exit(1)
         except IOError as e:
-            print_error("%s not exist" % e.filename)
+            print_error("%s not exist" % e.filename, print_stack=True)
             sys.exit(1)
         except Exception as e:
-            print_error(e)
+            print_error(e, print_stack=True)
             sys.exit(1)
 
     sys.exit(0)

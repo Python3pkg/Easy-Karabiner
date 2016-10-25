@@ -3,6 +3,7 @@ from __future__ import print_function
 import shlex
 import click
 from hashlib import sha1
+from . import config
 from .basexml import BaseXML
 from .fucking_string import ensure_utf8, is_string_type
 
@@ -46,7 +47,7 @@ def encode_with_utf8(o):
 
 def is_hex(s):
     try:
-        _ = int(s, 16)
+        int(s, 16)
         return True
     except ValueError:
         return False
@@ -123,8 +124,11 @@ def print_message(msg, color=None, err=False):
     click.secho(msg, fg=color, err=err)
 
 
-def print_error(msg):
+def print_error(msg, print_stack=False):
     print_message(msg, color='red', err=True)
+    if config.get('verbose'):
+        import traceback
+        traceback.print_exc()
 
 
 def print_warning(msg):
