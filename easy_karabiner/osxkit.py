@@ -127,12 +127,16 @@ def get_all_peripheral_info():
     info_tree = lines2tree(lines)
 
     # Bluetooth Devices
-    item = [v for k, v in info_tree['Bluetooth'].items() if k.startswith('Devices')][0]
-    conditions = [
-        lambda k: k == 'Apple Internal Keyboard / Trackpad',
-        lambda k: item[k].get('Major Type') == 'Peripheral',
-    ]
-    devices = get_devices(item, conditions)
+    items = [v for k, v in info_tree['Bluetooth'].items() if k.startswith('Devices')]
+    if len(items) > 0:
+        item = items[0]
+        conditions = [
+            lambda k: k == 'Apple Internal Keyboard / Trackpad',
+            lambda k: item[k].get('Major Type') == 'Peripheral',
+        ]
+        devices = get_devices(item, conditions)
+    else:
+        devices = {}
 
     # USB Devices
     for item in info_tree['USB'].values():
