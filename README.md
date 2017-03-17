@@ -1,4 +1,5 @@
-#Easy-Karabiner
+# Easy-Karabiner
+
 [![Travis Build Status](https://travis-ci.org/loggerhead/Easy-Karabiner.svg?branch=master)](https://travis-ci.org/loggerhead/Easy-Karabiner)
 [![Code Health](https://landscape.io/github/loggerhead/Easy-Karabiner/master/landscape.svg?branch=master)](https://landscape.io/github/loggerhead/Easy-Karabiner/master)
 [![Coverage Status](https://coveralls.io/repos/github/loggerhead/Easy-Karabiner/badge.svg)](https://coveralls.io/github/loggerhead/Easy-Karabiner)
@@ -6,7 +7,8 @@
 
 [Karabiner](https://pqrs.org/osx/karabiner/index.html.en) is a great tool and I love it! But it's configuration is too complicated for newbies. For making life simpler, I have invented Easy-Karabiner, which is a tool to generate xml configuration for Karabiner from simple python script.
 
-#Installation
+# Installation
+
 ```bash
 pip install easy_karabiner
 ```
@@ -19,7 +21,8 @@ cd Easy-Karabiner
 python setup.py install
 ```
 
-#Usage
+# Usage
+
 Generate xml configuration from default path (`~/.easy_karabiner.py`), save it to `~/Library/Application Support/Karabiner/private.xml`, and reload Karabiner.
 
 ```bash
@@ -40,12 +43,14 @@ easy_karabiner -s myconfig.py
 
 See `easy_karabiner --help` for detailed options.
 
-#How to write `~/.easy_karabiner.py`
+# How to write `~/.easy_karabiner.py`
+
 Easy-Karabiner attempts to simplified the most commonly used configurations of Karabiner as well as possible, but there still exists some things you should know first.
 
 Or if you don't care about it and/or want to try it right now, [examples](https://github.com/loggerhead/Easy-Karabiner/tree/master/examples) are a good start :-)
 
-##Basics
+## Basics
+
 Karabiner is a context-aware key-remapping software, and Easy-Karabiner has simplified it's context and key-remapping to the combination of three components:
 
 * Map
@@ -72,7 +77,7 @@ MAPS = [
 
 In most simple situation, you don't need to define any thing, just write a `MAPS` by your intuition.
 
-##Map
+## Map
 
 `Map` is consist of three parts: `Map_Command`, `KeyCombo`, `Filter`, none of these parts are necessary.
 
@@ -82,7 +87,8 @@ In most simple situation, you don't need to define any thing, just write a `MAPS
 
 The number of `KeyCombo` could be changed if  `Map_Command` changed, but in most situations, there are only one or two `KeyCombo`; and if you ignored `Map_Command`, then only two `KeyCombo` is allowed.
 
-###Map_Command
+### Map_Command
+
 `Map_Command` is used to tell Karabiner what kind of key-remapping it is. For example
 
 ```python
@@ -109,7 +115,7 @@ You can also use the original Karabiner `Map_Command`, For example
 ['__FlipScrollWheel__', 'flipscrollwheel_vertical', ['!APPLE_COMPUTER', '!ANY']]
 ```
 
-###KeyCombo
+### KeyCombo
 
 `KeyCombo` has the same format, they are composed by space-separated `Key`, and used to represent a combo of normal keys or actions. Easy-Karabiner predefined some aliases for reducing tedious typing. You can found the predefined aliases [here](https://github.com/loggerhead/Easy-Karabiner/blob/master/easy_karabiner/alias.py).
 
@@ -138,7 +144,8 @@ Here is some example about `KeyCombo`
 
 Because Easy-Karabiner verify a `Key` by check predefined XML file, but there exists some predefined `Key` not exists in any data file, so Easy-Karabiner will not prevent you to use a unknown `Key` but give you a warning.
 
-###Filter
+### Filter
+
 `Filter` is used to tell Karabiner when/where the key-remapping working or not working. For example
 
 ```python
@@ -157,7 +164,8 @@ Because Easy-Karabiner verify a `Key` by check predefined XML file, but there ex
 
 To distinguish `KeyCombo` and `Filter`, you must use brackets to tell Easy-Karabiner whether last part of a `Map` is a list of `Filter` or not.
 
-##Definition
+## Definition
+
 `Definition` is used to define `Filter` or `Key`, so you can use it in `Map`. Because Easy-Karabiner auto-defined most things for you, so you don't need it in most situation. `Definition` has several forms
 
 ```python
@@ -176,7 +184,8 @@ The key of `Definition` is how you define it, how you use it; So you don't need 
 
 For your convenience, Easy-Karabiner would use predefined `Definition`, so you don't need to define everything and just use it in `Filter`.
 
-###Replacement
+### Replacement
+
 `Replacement` is a special `Definition` which will replaced by values when used. It has the form below
 
 ```python
@@ -201,6 +210,6 @@ If Easy-Karabiner cannot guess `DEF_TYPE` from `VALUE`, then a `Definition` with
 ]
 ```
 
-#LICENSE
+# LICENSE
 
 MIT
