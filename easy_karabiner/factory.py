@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*
-from __future__ import print_function
+
 import operator
 from functools import reduce
 from itertools import groupby

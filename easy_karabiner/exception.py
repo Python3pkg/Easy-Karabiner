@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import print_function
+
 from .fucking_string import ensure_utf8
 
 
@@ -59,4 +59,4 @@ class ExceptionRegister(object):
 
     @classmethod
     def get_all_records(cls):
-        return cls.error_table.items()
+        return list(cls.error_table.items())

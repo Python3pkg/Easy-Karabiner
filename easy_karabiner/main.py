@@ -5,7 +5,7 @@ Usage:
     easy_karabiner [-evrl] [SOURCE] [TARGET | --string]
     easy_karabiner [--help | --version]
 """
-from __future__ import print_function
+
 import os
 import sys
 import lxml
@@ -120,7 +120,7 @@ def reload_karabiner():
 
 
 def list_peripherals():
-    peripheral_names = [ensure_utf8(name) for name in get_all_peripheral_info().keys()]
+    peripheral_names = [ensure_utf8(name) for name in list(get_all_peripheral_info().keys())]
     for name in sorted(peripheral_names):
         print_message(name)
 

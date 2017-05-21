@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import print_function
+
 import lxml.etree as etree
 import xml.dom.minidom as minidom
 import xml.sax.saxutils as saxutils

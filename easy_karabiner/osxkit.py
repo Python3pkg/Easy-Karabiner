@@ -1,5 +1,5 @@
 # coding: utf-8
-from __future__ import print_function
+
 import os
 import subprocess
 from . import util
@@ -127,7 +127,7 @@ def get_all_peripheral_info():
     info_tree = lines2tree(lines)
 
     # Bluetooth Devices
-    items = [v for k, v in info_tree['Bluetooth'].items() if k.startswith('Devices')]
+    items = [v for k, v in list(info_tree['Bluetooth'].items()) if k.startswith('Devices')]
     if len(items) > 0:
         item = items[0]
         conditions = [
@@ -139,7 +139,7 @@ def get_all_peripheral_info():
         devices = {}
 
     # USB Devices
-    for item in info_tree['USB'].values():
+    for item in list(info_tree['USB'].values()):
         conditions = [
             lambda k: contains_any_keywords(k, 'Keyboard', 'Trackpad', 'Mouse'),
             lambda k: item[k].get('Built-In') != 'Yes',

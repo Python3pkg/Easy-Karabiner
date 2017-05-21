@@ -21,4 +21,4 @@ if __name__ == '__main__':
     try:
         main.callback(inpath, outpath, verbose=True, string=string)
     except SystemExit as e:
-        print(e.code)
+        print((e.code))

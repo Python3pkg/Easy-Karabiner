@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import print_function
+
 from . import util
 from . import config
 
@@ -7,7 +7,7 @@ from . import config
 def _apply_if_is_alias(vars, func):
     result = {}
 
-    for alias_name in vars.keys():
+    for alias_name in list(vars.keys()):
         alias = vars[alias_name]
         if hasattr(alias, '__iter__') \
                 and alias_name.endswith('ALIAS') \

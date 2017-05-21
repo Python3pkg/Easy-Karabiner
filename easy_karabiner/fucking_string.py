@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import print_function
+
 import sys
 import codecs
 
@@ -12,8 +12,8 @@ if sys.version_info[0] == 2:
         with codecs.open(outpath, 'w', encoding='utf8') as fp:
             fp.write(s)
 else:
-    basestring = str
-    unicode = str
+    str = str
+    str = str
 
     def write_utf8_to(s, outpath):
         with open(outpath, 'w') as fp:
@@ -21,17 +21,17 @@ else:
 
 
 def is_string_type(s):
-    return isinstance(s, (basestring, unicode, str))
+    return isinstance(s, str)
 
 
 def ensure_utf8(s):
     # convert from any object to `unicode`
-    if not isinstance(s, basestring):
-        s = unicode(s)
+    if not isinstance(s, str):
+        s = str(s)
 
-    if isinstance(s, unicode):
+    if isinstance(s, str):
         s = s.encode('utf-8')
-    return unicode(s, encoding='utf-8')
+    return str(s, encoding='utf-8')
 
 
 u = ensure_utf8

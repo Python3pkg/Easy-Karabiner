@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import print_function
+
 import os
 import glob
 from itertools import chain
@@ -205,7 +205,7 @@ class DefinitionBucket(object):
 
     @classmethod
     def get_all_definitions(cls):
-        list_of_defos = [d.values() for d in cls.get_instance().buckets.values()]
+        list_of_defos = [list(d.values()) for d in list(cls.get_instance().buckets.values())]
         defos = set(chain.from_iterable(chain.from_iterable(list_of_defos)))
         return sorted(defos, key=lambda f: (f.get_def_tag_name(), f.get_name()))
 

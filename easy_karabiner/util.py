@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import print_function
+
 import shlex
 import click
 from hashlib import sha1
@@ -38,7 +38,7 @@ def encode_with_utf8(o):
     if is_list_or_tuple(o):
         return type(o)([encode_with_utf8(item) for item in o])
     elif isinstance(o, dict):
-        for k in o.keys():
+        for k in list(o.keys()):
             o[encode_with_utf8(k)] = encode_with_utf8(o.pop(k))
         return o
     else:

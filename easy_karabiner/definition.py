@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import print_function
+
 from . import exception
 from . import def_tag_map
 from .basexml import BaseXML
